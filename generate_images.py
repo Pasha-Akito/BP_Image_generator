@@ -1,0 +1,67 @@
+import torch
+from transformer_model import TextToImageTransformer
+from tokeniser import Tokeniser
+import json
+import matplotlib.pyplot as plt
+from torchvision.utils import save_image
+import os
+from datetime import datetime
+from PIL import Image
+
+def generate_and_save_images(model, tokeniser, text, device, output_dir="outputs"):
+    model.eval()
+    tokens = tokeniser.encode(text)
+    
+    with torch.no_grad():
+        text_tensor = torch.tensor([tokens]).to(device)
+        left, right = model(text_tensor)
+    
+    # Save images directly from tensors
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    left_path = os.path.join(output_dir, f"left_{timestamp}.png")
+    right_path = os.path.join(output_dir, f"right_{timestamp}.png")
+    
+    # Save with proper normalization
+    save_image(left, left_path, normalize=True)
+    save_image(right, right_path, normalize=True)
+    
+    return left_path, right_path
+
+def main():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    
+    # Load model configuration
+    with open("config.json", "r") as f:
+        config = json.load(f)
+    
+    # Initialize model
+    model = TextToImageTransformer(**config).to(device)
+    model.load_state_dict(torch.load("model_weights.pth", map_location=device))
+    
+    # Load tokenizer
+    with open("tokeniser_vocab.json", "r") as f:
+        vocab = json.load(f)
+    tokeniser = Tokeniser()
+    tokeniser.vocab = vocab
+    
+    # Generate images
+    text = "\LEFT(\EXACTLY(1,\TRIANGLES))"
+    left_path, right_path = generate_and_save_images(
+        model, tokeniser, text, device
+    )    
+
+    fig, ax = plt.subplots(1, 2, figsize=(10, 5))
+
+    left_img = Image.open(left_path)
+    right_img = Image.open(right_path)
+    
+    ax[0].imshow(left_img)
+    ax[0].set_title("Left Image")
+    ax[1].imshow(right_img)
+    ax[1].set_title("Right Image")
+    plt.suptitle(f'Input: "{text}"')
+    plt.show()
+
+
+if __name__ == "__main__":
+    main()

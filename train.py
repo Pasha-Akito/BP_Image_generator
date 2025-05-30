@@ -49,12 +49,11 @@ def main():
             nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
             weight_learner.step()
 
-            # # Inside training batch loop:
             print("\n=== DEBUG ===")
             print("Real image stats - Left: min={:.3f} max={:.3f} mean={:.3f}".format(real_left_image.min(), real_left_image.max(), real_left_image.mean()))
             print("Pred image stats - Left: min={:.3f} max={:.3f} mean={:.3f}".format(predicted_left_image.min(), real_left_image.max(), predicted_left_image.mean()))
-            print("Real image stats - Left: min={:.3f} max={:.3f} mean={:.3f}".format(real_right_image.min(), real_right_image.max(), real_right_image.mean()))
-            print("Pred image stats - Left: min={:.3f} max={:.3f} mean={:.3f}".format(predicted_right_image.min(), real_right_image.max(), predicted_right_image.mean()))
+            print("Real image stats - Right: min={:.3f} max={:.3f} mean={:.3f}".format(real_right_image.min(), real_right_image.max(), real_right_image.mean()))
+            print("Pred image stats - Right: min={:.3f} max={:.3f} mean={:.3f}".format(predicted_right_image.min(), real_right_image.max(), predicted_right_image.mean()))
 
             real_left_path = os.path.join("training_debug", f"real_left_.png")
             predicted_left_path = os.path.join("training_debug", f"predicted_left_.png")

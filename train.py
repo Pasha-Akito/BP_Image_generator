@@ -11,7 +11,7 @@ from dataset_loader import SentenceToImageDataset
 from tokeniser import Tokeniser
 from transformer_model import TextToImageTransformer
 
-TOTAL_EPOCHS = 20
+TOTAL_EPOCHS = 100
 
 def main():
     tokeniser = Tokeniser()
@@ -77,9 +77,9 @@ def main():
     # Save model configuration
     config = {
         "vocab_size": len(tokeniser.vocab),
-        "embedding_dimensions": 256,
-        "total_attention_heads": 8,
-        "total_encoder_layers": 4,
+        "embedding_dimensions": 512,
+        "total_attention_heads": 16,
+        "total_encoder_layers": 8,
         "max_token_size": 64
     }
 

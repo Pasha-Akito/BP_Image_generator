@@ -28,7 +28,7 @@ def generate_and_save_images(model, tokeniser, text, device, output_dir="outputs
     return left_path, right_path
 
 def test_generator(generator, device):
-    test_noise = torch.randn(1, 256).to(device) 
+    test_noise = torch.randn(1, 512).to(device) 
     fake_image = generator(test_noise)
     
     print("Generator output shape:", fake_image.shape)

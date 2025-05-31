@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class TextToImageTransformer(nn.Module):
-    def __init__(self, vocab_size, embedding_dimensions=256, total_attention_heads=8, total_encoder_layers=4, max_token_size=64):
+    def __init__(self, vocab_size, embedding_dimensions=512, total_attention_heads=16, total_encoder_layers=8, max_token_size=64):
         super().__init__()
 
         # Embedding 

@@ -58,7 +58,7 @@ def main():
     tokeniser = Tokeniser()
     tokeniser.vocab = vocab
     
-    text = "\LEFT(\EXACTLY(1,\TRIANGLES))"
+    text = "\LEFT(\GREATERLA(\FIGURES,\SIZE))"
     left_path, right_path = generate_and_save_images(
         model, tokeniser, text, device
     )    

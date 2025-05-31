@@ -5,9 +5,6 @@ class TextToImageTransformer(nn.Module):
     def __init__(self, vocab_size, embedding_dimensions=256, total_attention_heads=8, total_encoder_layers=4, max_token_size=64):
         super().__init__()
 
-        # vocab_size is the total size of unique tokens in my training corpus
-        # Lets make images 64x64 and then can try 128x128 with padding
-
         # Embedding 
         self.embedding = nn.Embedding(vocab_size, embedding_dimensions) 
         self.position_embedding = nn.Embedding(max_token_size, embedding_dimensions) 
@@ -24,19 +21,22 @@ class TextToImageTransformer(nn.Module):
 
     def build_generator(self, embedding_dimensions):
         return nn.Sequential(
-            nn.Linear(embedding_dimensions, 512 * 4 * 4),
-            nn.Unflatten(1, (512, 4, 4)),
-            nn.ConvTranspose2d(512, 256, 4, 2, 1),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.ConvTranspose2d(256, 128, 4, 2, 1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.ConvTranspose2d(128, 64, 4, 2, 1),
-            nn.BatchNorm2d(64),
-            nn.ReLU(),
-            nn.ConvTranspose2d(64, 1, 4, 2, 1),
-            nn.Tanh()
+        nn.Linear(embedding_dimensions, 512 * 8 * 8),
+        nn.Unflatten(1, (512, 8, 8)),
+        nn.ConvTranspose2d(512, 256, 4, 2, 1),
+        nn.BatchNorm2d(256),
+        nn.ReLU(),
+        nn.ConvTranspose2d(256, 128, 4, 2, 1),
+        nn.BatchNorm2d(128),
+        nn.ReLU(),
+        nn.ConvTranspose2d(128, 64, 4, 2, 1),
+        nn.BatchNorm2d(64),
+        nn.ReLU(),
+        nn.ConvTranspose2d(64, 32, 4, 2, 1),
+        nn.BatchNorm2d(32),
+        nn.ReLU(),
+        nn.Conv2d(32, 1, kernel_size=3, stride=1, padding=1),
+        nn.Tanh()
         )
     
     def forward(self, text):        

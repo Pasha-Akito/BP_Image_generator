@@ -5,7 +5,7 @@ import pandas as pd
 from PIL import Image
 
 class SentenceToImageDataset(Dataset):
-    def __init__(self, csv_path, tokeniser, image_size=64):
+    def __init__(self, csv_path, tokeniser, image_size=128):
         self.dataset = pd.read_csv(csv_path)
         self.tokeniser = tokeniser
         self.image_size = image_size

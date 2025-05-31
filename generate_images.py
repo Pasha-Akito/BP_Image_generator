@@ -8,6 +8,8 @@ import os
 from datetime import datetime
 from PIL import Image
 
+TEST_GENERATOR = True
+
 def generate_and_save_images(model, tokeniser, text, device, output_dir="outputs"):
     model.eval()
     tokens = tokeniser.encode(text)
@@ -27,6 +29,20 @@ def generate_and_save_images(model, tokeniser, text, device, output_dir="outputs
     
     return left_path, right_path
 
+def test_generator(generator, device):
+    test_noise = torch.randn(1, 256).to(device) 
+    fake_image = generator(test_noise)
+    
+    print("Generator output shape:", fake_image.shape)
+    print("Min value:", fake_image.min().item())
+    print("Max value:", fake_image.max().item())
+    print("Mean value:", fake_image.mean().item())
+    
+    plt.imshow(fake_image[0,0].detach().cpu().numpy(), cmap='gray')
+    plt.title("Generator Test Output")
+    plt.show()
+
+
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
@@ -37,6 +53,9 @@ def main():
     # Initialize model
     model = TextToImageTransformer(**config).to(device)
     model.load_state_dict(torch.load("model_weights.pth", map_location=device))
+
+    if TEST_GENERATOR:
+        test_generator(model.left_generator, device)
     
     # Load tokenizer
     with open("tokeniser_vocab.json", "r") as f:

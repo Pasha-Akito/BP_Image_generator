@@ -18,12 +18,10 @@ def generate_and_save_images(model, tokeniser, text, device, output_dir="outputs
         text_tensor = torch.tensor([tokens]).to(device)
         left, right = model(text_tensor)
     
-    # Save images directly from tensors
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     left_path = os.path.join(output_dir, f"left_{timestamp}.png")
     right_path = os.path.join(output_dir, f"right_{timestamp}.png")
     
-    # Save with proper normalization
     save_image(left, left_path, normalize=True)
     save_image(right, right_path, normalize=True)
     
@@ -46,24 +44,20 @@ def test_generator(generator, device):
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    # Load model configuration
     with open("config.json", "r") as f:
         config = json.load(f)
     
-    # Initialize model
     model = TextToImageTransformer(**config).to(device)
     model.load_state_dict(torch.load("model_weights.pth", map_location=device))
 
     if TEST_GENERATOR:
         test_generator(model.left_generator, device)
     
-    # Load tokenizer
     with open("tokeniser_vocab.json", "r") as f:
         vocab = json.load(f)
     tokeniser = Tokeniser()
     tokeniser.vocab = vocab
     
-    # Generate images
     text = "\LEFT(\EXACTLY(1,\TRIANGLES))"
     left_path, right_path = generate_and_save_images(
         model, tokeniser, text, device

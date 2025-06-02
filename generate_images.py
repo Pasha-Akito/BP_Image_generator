@@ -9,6 +9,7 @@ from datetime import datetime
 from PIL import Image
 
 TEST_GENERATOR = True
+TEXT_TO_GENERATE = "\LEFT(\GREATERLA(\FIGURES,\SIZE))"
 
 def generate_and_save_images(model, tokeniser, text, device, output_dir="outputs"):
     model.eval()
@@ -57,11 +58,8 @@ def main():
         vocab = json.load(f)
     tokeniser = Tokeniser()
     tokeniser.vocab = vocab
-    
-    text = "\LEFT(\GREATERLA(\FIGURES,\SIZE))"
-    left_path, right_path = generate_and_save_images(
-        model, tokeniser, text, device
-    )    
+
+    left_path, right_path = generate_and_save_images(model, tokeniser, TEXT_TO_GENERATE, device)    
 
     fig, ax = plt.subplots(1, 2, figsize=(10, 5))
 
@@ -72,7 +70,7 @@ def main():
     ax[0].set_title("Left Image")
     ax[1].imshow(right_img)
     ax[1].set_title("Right Image")
-    plt.suptitle(f'Input: "{text}"')
+    plt.suptitle(f'Input: "{TEXT_TO_GENERATE}"')
     plt.show()
 
 

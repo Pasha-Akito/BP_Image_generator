@@ -9,7 +9,8 @@ from datetime import datetime
 from PIL import Image
 
 TEST_GENERATOR = True
-TEXT_TO_GENERATE = "\LEFT(\GREATERLA(\FIGURES,\SIZE))"
+# TEXT_TO_GENERATE = "\LEFT(\GREATERLA(\FIGURES,\SIZE))"
+TEXT_TO_GENERATE = "\RIGHT(\EXISTS(\SMALL(\FIGURES)))"
 
 def generate_and_save_images(model, tokeniser, text, device, output_dir="outputs"):
     model.eval()

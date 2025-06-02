@@ -10,7 +10,7 @@ class TextToImageTransformer(nn.Module):
         self.position_embedding = nn.Embedding(max_token_size, embedding_dimensions) 
 
         # Transformer Architecture using pytorch
-        single_encoder_layer = nn.TransformerEncoderLayer(d_model=embedding_dimensions, nhead=total_attention_heads)
+        single_encoder_layer = nn.TransformerEncoderLayer(d_model=embedding_dimensions, nhead=total_attention_heads, batch_first=True)
         self.transformer_encoder = nn.TransformerEncoder(single_encoder_layer, num_layers=total_encoder_layers) 
 
         # Split Embedding for dual image generators

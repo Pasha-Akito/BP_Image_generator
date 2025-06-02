@@ -11,7 +11,7 @@ from dataset_loader import SentenceToImageDataset
 from tokeniser import Tokeniser
 from transformer_model import TextToImageTransformer
 
-TOTAL_EPOCHS = 100
+TOTAL_EPOCHS = 20
 
 def main():
     tokeniser = Tokeniser()

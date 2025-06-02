@@ -35,7 +35,7 @@ def main():
         json.dump(tokeniser.vocab, output)
 
     dataset = SentenceToImageDataset("expanded_sentence_image_relationships.csv", tokeniser)
-    dataloader = DataLoader(dataset, batch_size=2, shuffle=True, num_workers=4)
+    dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=4)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = TextToImageTransformer(vocab_size=len(tokeniser.vocab)).to(device)

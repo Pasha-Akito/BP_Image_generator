@@ -1,8 +1,5 @@
 import pandas as pd
-import random
 import csv
-
-SET_RANDOM_SEED=True
 
 def extract_folder_name(bp_number):
     return f"p{bp_number:03d}" # Padding so numbers always have three digits following the folder convention 6 = p006, 60 = p060
@@ -30,6 +27,4 @@ def generate_data():
     expanded_sentence_image_relationships_df.to_csv("expanded_sentence_image_relationships.csv", index=False, quoting=csv.QUOTE_NONNUMERIC)
 
 if __name__ == "__main__":
-    if SET_RANDOM_SEED:
-        random.seed(42)
     generate_data()

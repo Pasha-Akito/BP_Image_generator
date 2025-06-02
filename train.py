@@ -71,8 +71,8 @@ def main():
 
         average_epoch_loss = total_epoch_loss / len(dataloader)
         print(f"Epoch {epoch + 1}/{TOTAL_EPOCHS} | Average Loss: {average_epoch_loss:.4f}")
-    
-    torch.save(model.state_dict(), "model_weights.pth")
+        torch.save(model.state_dict(), "model_weights.pth")
+        print("Model weights saved")
     
     # Save model configuration
     config = {

@@ -3,7 +3,7 @@ The version of python used to run the scripts is 3.9.13
 ## Data Generation
 `simple_sentence_image_relationships.csv` contains rows matching a symbolic language with the number of the bongard problem it references <br/>
 
-After adding rows, run `python generate_data.py` to generate `expanded_sentence_image_relationships.csv` <br/>
+After adding rows, run `python expand_data.py` to generate `expanded_sentence_image_relationships.csv` <br/>
 which expands the sentence in `simple_sentence_image_relationships.csv` to match all 36 possible pairs of images
 
 

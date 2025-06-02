@@ -12,6 +12,7 @@ from tokeniser import Tokeniser
 from transformer_model import TextToImageTransformer
 
 TOTAL_EPOCHS = 100
+TRAIN_DEBUG = False
 
 def main():
     tokeniser = Tokeniser()
@@ -60,11 +61,12 @@ def main():
             nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
             weight_learner.step()
 
-            print("\n=== DEBUG ===")
-            print("Real image stats - Left: min={:.3f} max={:.3f} mean={:.3f}".format(real_left_image.min(), real_left_image.max(), real_left_image.mean()))
-            print("Pred image stats - Left: min={:.3f} max={:.3f} mean={:.3f}".format(predicted_left_image.min(), real_left_image.max(), predicted_left_image.mean()))
-            print("Real image stats - Right: min={:.3f} max={:.3f} mean={:.3f}".format(real_right_image.min(), real_right_image.max(), real_right_image.mean()))
-            print("Pred image stats - Right: min={:.3f} max={:.3f} mean={:.3f}".format(predicted_right_image.min(), real_right_image.max(), predicted_right_image.mean()))
+            if TRAIN_DEBUG:
+                print("\n=== DEBUG ===")
+                print("Real image stats - Left: min={:.3f} max={:.3f} mean={:.3f}".format(real_left_image.min(), real_left_image.max(), real_left_image.mean()))
+                print("Pred image stats - Left: min={:.3f} max={:.3f} mean={:.3f}".format(predicted_left_image.min(), real_left_image.max(), predicted_left_image.mean()))
+                print("Real image stats - Right: min={:.3f} max={:.3f} mean={:.3f}".format(real_right_image.min(), real_right_image.max(), real_right_image.mean()))
+                print("Pred image stats - Right: min={:.3f} max={:.3f} mean={:.3f}".format(predicted_right_image.min(), real_right_image.max(), predicted_right_image.mean()))
 
             real_left_path = os.path.join("training_debug", f"real_left_.png")
             predicted_left_path = os.path.join("training_debug", f"predicted_left_.png")
@@ -74,10 +76,7 @@ def main():
             save_image(real_left_image[:2], real_left_path, normalize=True)
             save_image(predicted_left_image[:2], predicted_left_path, normalize=True)
             save_image(real_right_image[:2], real_right_path, normalize=True)
-            save_image(predicted_right_image[:2], predicted_right_path, normalize=True)
-            print("Saved sample images")
-            print("=================\n")
-            
+            save_image(predicted_right_image[:2], predicted_right_path, normalize=True)            
             total_epoch_loss += total_batch_loss.item()
 
         average_epoch_loss = total_epoch_loss / len(dataloader)

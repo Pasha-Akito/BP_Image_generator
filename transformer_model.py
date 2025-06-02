@@ -47,7 +47,9 @@ class TextToImageTransformer(nn.Module):
         combined_embeddings = token_embeddings + position_embeddings
 
         transformer_output = self.transformer_encoder(combined_embeddings)
-        context_vector = transformer_output.mean(dim=1)
+        attention_weights = torch.softmax(torch.sum(transformer_output, dim=-1), dim=1)
+        context_vector = torch.sum(transformer_output * attention_weights.unsqueeze(-1), dim=1)
+
 
         # Split and generate images
         split_context_vector = self.split_embedding(context_vector)

@@ -21,7 +21,10 @@ class TextToImageTransformer(nn.Module):
 
     def build_generator(self, embedding_dimensions):
         return nn.Sequential(
-        nn.Linear(embedding_dimensions, 512 * 8 * 8),
+        nn.Linear(embedding_dimensions, 1024), 
+        nn.ReLU(),
+        nn.Dropout(0.2), 
+        nn.Linear(1024, 512 * 8 * 8),
         nn.Unflatten(1, (512, 8, 8)),
         nn.ConvTranspose2d(512, 256, 4, 2, 1),
         nn.BatchNorm2d(256),

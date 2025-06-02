@@ -11,8 +11,20 @@ from dataset_loader import SentenceToImageDataset
 from tokeniser import Tokeniser
 from transformer_model import TextToImageTransformer
 
-TOTAL_EPOCHS = 100
+TOTAL_EPOCHS = 50
 TRAIN_DEBUG = False
+
+def calculate_loss(predicted_left, real_left, predicted_right, real_right):
+    l1_loss = nn.L1Loss()
+    l2_loss = nn.MSELoss()
+    
+    left_l1 = l1_loss(predicted_left, real_left)
+    left_l2 = l2_loss(predicted_left, real_left)
+    right_l1 = l1_loss(predicted_right, real_right)
+    right_l2 = l2_loss(predicted_right, real_right)
+    
+    total_loss = 0.7 * (left_l1 + right_l1) + 0.3 * (left_l2 + right_l2)
+    return total_loss
 
 def main():
     tokeniser = Tokeniser()
@@ -23,15 +35,15 @@ def main():
         json.dump(tokeniser.vocab, output)
 
     dataset = SentenceToImageDataset("expanded_sentence_image_relationships.csv", tokeniser)
-    dataloader = DataLoader(dataset, batch_size=64, shuffle=True, num_workers=4)
+    dataloader = DataLoader(dataset, batch_size=2, shuffle=True, num_workers=4)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = TextToImageTransformer(vocab_size=len(tokeniser.vocab)).to(device)
 
-    loss_method = nn.L1Loss()
-    weight_learner = optim.RMSprop(model.parameters(), lr=0.0001, alpha=0.9, eps=1e-8)
+    weight_learner = optim.Adam(model.parameters(), lr=0.0002, betas=(0.5, 0.999))
+    scheduler = optim.lr_scheduler.StepLR(weight_learner, step_size=20, gamma=0.8)
 
-        # Save model configuration
+    
     config = {
         "vocab_size": len(tokeniser.vocab),
         "embedding_dimensions": 512,
@@ -52,10 +64,8 @@ def main():
             real_right_image = data_batch["right_image"].to(device)
             
             predicted_left_image, predicted_right_image = model(tokenised_text)
-            left_loss = loss_method(predicted_left_image, real_left_image)
-            right_loss = loss_method(predicted_right_image, real_right_image)
-            total_batch_loss = left_loss + right_loss
-            
+            total_batch_loss = calculate_loss(predicted_left_image, real_left_image, predicted_right_image, real_right_image)
+
             weight_learner.zero_grad()
             total_batch_loss.backward()
             nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
@@ -73,14 +83,15 @@ def main():
             real_right_path = os.path.join("training_debug", f"real_right_.png")
             predicted_right_path = os.path.join("training_debug", f"predicted_right_.png")
 
-            save_image(real_left_image[:2], real_left_path, normalize=True)
-            save_image(predicted_left_image[:2], predicted_left_path, normalize=True)
-            save_image(real_right_image[:2], real_right_path, normalize=True)
-            save_image(predicted_right_image[:2], predicted_right_path, normalize=True)            
+            save_image(real_left_image[:4], real_left_path, normalize=True)
+            save_image(predicted_left_image[:4], predicted_left_path, normalize=True)
+            save_image(real_right_image[:4], real_right_path, normalize=True)
+            save_image(predicted_right_image[:4], predicted_right_path, normalize=True)            
             total_epoch_loss += total_batch_loss.item()
 
         average_epoch_loss = total_epoch_loss / len(dataloader)
         print(f"Epoch {epoch + 1}/{TOTAL_EPOCHS} | Average Loss: {average_epoch_loss:.4f}")
+        scheduler.step()
         torch.save(model.state_dict(), "model_weights.pth")
         print("Model weights saved")
     

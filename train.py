@@ -11,7 +11,7 @@ from dataset_loader import SentenceToImageDataset
 from tokeniser import Tokeniser
 from transformer_model import TextToImageTransformer
 
-TOTAL_EPOCHS = 20
+TOTAL_EPOCHS = 100
 
 def main():
     tokeniser = Tokeniser()
@@ -30,8 +30,19 @@ def main():
     loss_method = nn.L1Loss()
     weight_learner = optim.RMSprop(model.parameters(), lr=0.0001, alpha=0.9, eps=1e-8)
 
+        # Save model configuration
+    config = {
+        "vocab_size": len(tokeniser.vocab),
+        "embedding_dimensions": 512,
+        "total_attention_heads": 16,
+        "total_encoder_layers": 8,
+        "max_token_size": 64
+    }
+
+    with open("config.json", "w") as output:
+        json.dump(config, output)
+
     model.train()
-    
     for epoch in range(TOTAL_EPOCHS):
         total_epoch_loss = 0.0
         for data_batch in dataloader:
@@ -60,10 +71,10 @@ def main():
             real_right_path = os.path.join("training_debug", f"real_right_.png")
             predicted_right_path = os.path.join("training_debug", f"predicted_right_.png")
 
-            save_image(real_left_image[:4], real_left_path, normalize=True)
-            save_image(predicted_left_image[:4], predicted_left_path, normalize=True)
-            save_image(real_right_image[:4], real_right_path, normalize=True)
-            save_image(predicted_right_image[:4], predicted_right_path, normalize=True)
+            save_image(real_left_image[:2], real_left_path, normalize=True)
+            save_image(predicted_left_image[:2], predicted_left_path, normalize=True)
+            save_image(real_right_image[:2], real_right_path, normalize=True)
+            save_image(predicted_right_image[:2], predicted_right_path, normalize=True)
             print("Saved sample images")
             print("=================\n")
             
@@ -74,20 +85,5 @@ def main():
         torch.save(model.state_dict(), "model_weights.pth")
         print("Model weights saved")
     
-    # Save model configuration
-    config = {
-        "vocab_size": len(tokeniser.vocab),
-        "embedding_dimensions": 512,
-        "total_attention_heads": 16,
-        "total_encoder_layers": 8,
-        "max_token_size": 64
-    }
-
-    with open("config.json", "w") as output:
-        json.dump(config, output)
-
-    
-
-
 if __name__ == "__main__":
     main()

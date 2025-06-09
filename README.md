@@ -3,9 +3,13 @@ The version of python used to run the scripts is 3.9.13
 ## Data Generation
 `simple_sentence_image_relationships.csv` contains rows matching a symbolic language with the number of the bongard problem it references <br/>
 
+`simple_sentence_image_relationships.csv` contains a maximum of four rows per Bongard Problem, 1 unique symbolic translation per side, as well as the inverse translation of that side <br/>
+
 After adding rows, run `python expand_data.py` to generate `expanded_sentence_image_relationships.csv` <br/>
 which expands the sentence in `simple_sentence_image_relationships.csv` to match all 36 possible pairs of images
 
+## Properties File
+`properties.py` contains the symbolic language, can add and remove properties.
 
 ## Training the transformer model
 running `python train.py` will start training the model found in `transformer_model.py`, at the end of training <br/>

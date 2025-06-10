@@ -28,7 +28,8 @@ PROPERTY_VOCAB = {
     "CURVATURE": 43, # How curvy something is
     "VERTICAL": 45, # How much vertical height something is
     "HORIZONTAL": 46, # How much horizontal height something is
-    "AREA": 59, # The area of something    "ANGLES": 60, # Angles, HIGH angle means wide angle, LOW angle means low angle
+    "AREA": 59, # The area of something    
+    "ANGLES": 60, # Angles, HIGH angle means wide obtuse angle, LOW angle means sharp acute angle
     
     # Quantifiers
     "ONE": 37, "TWO": 38, "THREE": 39, "FOUR": 40,
@@ -37,6 +38,7 @@ PROPERTY_VOCAB = {
     "LEFT": 49, "RIGHT": 50, "UP": 51, "DOWN": 52,
     "MIDDLE": 53, "START": 54, "END": 55,
     "CLOCKWISE": 56, "COUNTERCLOCKWISE": 57,
+    "INSIDE": 65, "OUTSIDE": 66,
     "MOVING": 58 # Uses one of the above 
 
 }

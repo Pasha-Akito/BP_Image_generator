@@ -11,7 +11,9 @@ PROPERTY_VOCAB = {
     "DIFFNUM": 61, # almost opposite of equalnum, varying number of something
     "LESSSIMLA": 62, # Opposite of MORESIMLA
     "LESS": 63, # Opposite of MORE
-    "CROSSES": 64, # How much something crosses together
+    "CROSSES": 64, # something crossing something, or something crosses
+    "LESSERLLA": 67, # Opposite of GREATERLLA
+
 
     # Shapes
     "CIRCLES": 22, "FIGURES": 23, "RECTANGLES": 24, "TRIANGLES": 25, 
@@ -19,6 +21,7 @@ PROPERTY_VOCAB = {
     "QUADRILATERALS": 44, # figure with four sides
     "LINES": 48, #Lines are more specific figures which are not joined by the ends
 
+    # FIGURES AND OTHER SHAPES ARE ALWAYS TERMINAL
     
     # Attributes
     "AREA": 26, "CONVEXITY": 27, "ORIENTATION": 28, "XPOS": 29, "NCORNERS": 30,
@@ -39,6 +42,9 @@ PROPERTY_VOCAB = {
     "MIDDLE": 53, "START": 54, "END": 55,
     "CLOCKWISE": 56, "COUNTERCLOCKWISE": 57,
     "INSIDE": 65, "OUTSIDE": 66,
+    "INCREASING": 68, "DECREASING": 69,
+    "ON": 70, # Something is on something
     "MOVING": 58 # Uses one of the above 
+
 
 }

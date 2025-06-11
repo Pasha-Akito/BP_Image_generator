@@ -33,6 +33,7 @@ PROPERTY_VOCAB = {
     "HORIZONTAL": 46, # How much horizontal height something is
     "AREA": 59, # The area of something    
     "ANGLES": 60, # Angles, HIGH angle means wide obtuse angle, LOW angle means sharp acute angle
+    "SYMMETRY": 70, # The Symmetric properties of something, can be used with vertical, horizontal & exactly or exists
     
     # Quantifiers
     "ONE": 37, "TWO": 38, "THREE": 39, "FOUR": 40,

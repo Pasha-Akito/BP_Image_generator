@@ -19,8 +19,10 @@ def generate_data():
         bp_number = row.bp_number
         folder_name = extract_folder_name(bp_number)
 
-        if (bp_number > 999): # 1211 & 1232 only have three images each
+        if (bp_number > 999): 
             folder_name = f"p{bp_number}"
+        
+        if (bp_number == 1211 or bp_number == 1232): # 1211 & 1232 only have three images each
             image_pair_identifiers = get_image_pair_identifers_for_only_three_images()
 
         for left_identifer, right_identifier in image_pair_identifiers:

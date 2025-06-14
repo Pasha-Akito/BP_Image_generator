@@ -16,9 +16,8 @@ PROPERTY_VOCAB = {
 
 
     # Shapes
-    "CIRCLES": 22, "FIGURES": 23, "RECTANGLES": 24, "TRIANGLES": 25, 
+    "CIRCLES": 22, "FIGURES": 23, "QUADRILATERALS": 24, "TRIANGLES": 25, 
     # New Additions
-    "QUADRILATERALS": 44, # figure with four sides
     "LINES": 48, #Lines are more specific figures which are not joined by the ends
 
     # FIGURES AND OTHER SHAPES ARE ALWAYS TERMINAL
@@ -33,13 +32,13 @@ PROPERTY_VOCAB = {
     "HORIZONTAL": 46, # How much horizontal height something is
     "AREA": 59, # The area of something    
     "ANGLES": 60, # Angles, HIGH angle means wide obtuse angle, LOW angle means sharp acute angle
-    "SYMMETRY": 70, # The Symmetric properties of something, can be used with vertical, horizontal & exactly or exists
+    "SYMMETRY": 44, # The Symmetric properties of something, can be used with vertical, horizontal & exactly or exists
     
     # Quantifiers
     "ONE": 37, "TWO": 38, "THREE": 39, "FOUR": 40,
 
     # Directions (New addition)
-    "LEFT": 49, "RIGHT": 50, "UP": 51, "DOWN": 52,
+    "LEFTD": 49, "RIGHTD": 50, "UP": 51, "DOWN": 52, # Adding D to thr end of LEFT and RIGHT to denote they are used for directions
     "MIDDLE": 53, "START": 54, "END": 55,
     "CLOCKWISE": 56, "COUNTERCLOCKWISE": 57,
     "OUTSIDE": 66,

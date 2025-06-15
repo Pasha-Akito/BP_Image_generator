@@ -6,25 +6,14 @@ import torch
 import json
 from torchvision.utils import save_image
 import os
-
+import time
 from dataset_loader import SentenceToImageDataset
 from tokeniser import Tokeniser
 from transformer_model import TextToImageTransformer
+from loss_functions import CLIPLoss, PerceptualLoss
 
 TOTAL_EPOCHS = 50
-TRAIN_DEBUG = False
-
-def calculate_loss(predicted_left, real_left, predicted_right, real_right):
-    l1_loss = nn.L1Loss()
-    l2_loss = nn.MSELoss()
-    
-    left_l1 = l1_loss(predicted_left, real_left)
-    left_l2 = l2_loss(predicted_left, real_left)
-    right_l1 = l1_loss(predicted_right, real_right)
-    right_l2 = l2_loss(predicted_right, real_right)
-    
-    total_loss = 0.7 * (left_l1 + right_l1) + 0.3 * (left_l2 + right_l2)
-    return total_loss
+TRAIN_DEBUG = True
 
 def main():
     tokeniser = Tokeniser()
@@ -40,9 +29,13 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = TextToImageTransformer(vocab_size=len(tokeniser.vocab)).to(device)
 
-    weight_learner = optim.Adam(model.parameters(), lr=0.0002, betas=(0.5, 0.999))
-    scheduler = optim.lr_scheduler.StepLR(weight_learner, step_size=20, gamma=0.8)
+    optimizer = optim.Adam(model.parameters(), lr=0.0001) 
+    perceptual_loss = PerceptualLoss().to(device)
+    clip_loss = CLIPLoss(device).to(device)
 
+    l1_weighting = 0.1 # L1 loss weighting 
+    perceptual_loss_weighting = 1.0 # Perceptual loss weighting
+    clip_loss_weighting = 1.0 # Clip loss weighting
     
     config = {
         "vocab_size": len(tokeniser.vocab),
@@ -57,43 +50,62 @@ def main():
 
     model.train()
     for epoch in range(TOTAL_EPOCHS):
-        total_epoch_loss = 0.0
-        for data_batch in dataloader:
+        print(f"====----Epoch {epoch + 1}----====")
+        epoch_start_time = time.perf_counter()
+        total_batch_losses = []
+        for batch_index, data_batch in enumerate(dataloader):
+            batch_start_time = time.perf_counter()
             tokenised_text = data_batch["tokenised_text"].to(device)
             real_left_image = data_batch["left_image"].to(device)
             real_right_image = data_batch["right_image"].to(device)
-            
+
             predicted_left_image, predicted_right_image = model(tokenised_text)
-            total_batch_loss = calculate_loss(predicted_left_image, real_left_image, predicted_right_image, real_right_image)
+            l1 = nn.functional.l1_loss(predicted_left_image, real_left_image) + nn.functional.l1_loss(predicted_right_image, real_right_image)
+            p_loss = perceptual_loss(predicted_left_image, real_left_image) + perceptual_loss(predicted_right_image, real_right_image)
+            c_loss = clip_loss(predicted_left_image, real_left_image) + clip_loss(predicted_right_image, real_right_image)
+            total_batch_loss = l1_weighting * l1 + perceptual_loss_weighting * p_loss + clip_loss_weighting * c_loss
 
-            weight_learner.zero_grad()
+            optimizer.zero_grad()
             total_batch_loss.backward()
-            nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0)
-            weight_learner.step()
+            nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0) # then max_norm = 5
+            optimizer.step()
 
-            if TRAIN_DEBUG:
-                print("\n=== DEBUG ===")
-                print("Real image stats - Left: min={:.3f} max={:.3f} mean={:.3f}".format(real_left_image.min(), real_left_image.max(), real_left_image.mean()))
-                print("Pred image stats - Left: min={:.3f} max={:.3f} mean={:.3f}".format(predicted_left_image.min(), real_left_image.max(), predicted_left_image.mean()))
-                print("Real image stats - Right: min={:.3f} max={:.3f} mean={:.3f}".format(real_right_image.min(), real_right_image.max(), real_right_image.mean()))
-                print("Pred image stats - Right: min={:.3f} max={:.3f} mean={:.3f}".format(predicted_right_image.min(), real_right_image.max(), predicted_right_image.mean()))
+            if batch_index % 100 == 0:
+                print(f"Batch: {batch_index} | Total Batches: {len(dataloader)} | Time Taken for batch: {(time.perf_counter() - batch_start_time):.4f} seconds")
 
-            real_left_path = os.path.join("training_debug", f"real_left_.png")
-            predicted_left_path = os.path.join("training_debug", f"predicted_left_.png")
-            real_right_path = os.path.join("training_debug", f"real_right_.png")
-            predicted_right_path = os.path.join("training_debug", f"predicted_right_.png")
+            real_left_path = os.path.join("training_debug", f"real_left.png")
+            predicted_left_path = os.path.join("training_debug", f"predicted_left.png")
+            real_right_path = os.path.join("training_debug", f"real_right.png")
+            predicted_right_path = os.path.join("training_debug", f"predicted_right.png")
 
             save_image(real_left_image[:4], real_left_path, normalize=True)
             save_image(predicted_left_image[:4], predicted_left_path, normalize=True)
             save_image(real_right_image[:4], real_right_path, normalize=True)
             save_image(predicted_right_image[:4], predicted_right_path, normalize=True)            
-            total_epoch_loss += total_batch_loss.item()
+            total_batch_losses.append(total_batch_loss.detach())
 
-        average_epoch_loss = total_epoch_loss / len(dataloader)
-        print(f"Epoch {epoch + 1}/{TOTAL_EPOCHS} | Average Loss: {average_epoch_loss:.4f}")
-        scheduler.step()
+        average_epoch_loss = torch.stack(total_batch_losses).mean().item()
+        print(f"Epoch {epoch + 1}/{TOTAL_EPOCHS} | Average Loss: {average_epoch_loss:.4f} | Time Taken: {(time.perf_counter() - epoch_start_time):.4f} seconds")
+        # scheduler.step()
         torch.save(model.state_dict(), "model_weights.pth")
         print("Model weights saved")
     
 if __name__ == "__main__":
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(device)
     main()
+
+
+# Hyperparamters to try in order
+
+# nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0) 
+# weight_learner = optim.Adam(model.parameters(), lr=0.0002, betas=(0.5, 0.999))
+# scheduler = optim.lr_scheduler.StepLR(weight_learner, step_size=20, gamma=0.8)
+# scheduler.step()
+
+#Experiment	λ_l1	λ_p	    λ_c
+#Baseline	0.1	    1.0	    1.0	    Current setup
+#A          0.0     1.0     1.0     Without any L1
+#B	        0.3	    1.0	    0.5	    Reduce CLIP
+#C	        0.5	    1.0	    0.8	    Try more L1
+#D	        0.1	    2.0	    0.5	    Much more Perceptual

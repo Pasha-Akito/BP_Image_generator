@@ -44,7 +44,7 @@ class TextToImageTransformer(nn.Module):
     
     def forward(self, text):        
         # Creating embeddings 
-        position_indices = torch.arange(0, text.size(1)).to(text.device)
+        position_indices = torch.arange(0, text.size(1), device=text.device)
         position_embeddings = self.position_embedding(position_indices)
         token_embeddings = self.embedding(text)
         combined_embeddings = token_embeddings + position_embeddings
@@ -53,15 +53,9 @@ class TextToImageTransformer(nn.Module):
         attention_weights = torch.softmax(torch.sum(transformer_output, dim=-1), dim=1)
         context_vector = torch.sum(transformer_output * attention_weights.unsqueeze(-1), dim=1)
 
-
         # Split and generate images
         split_context_vector = self.split_embedding(context_vector)
         left_embedding, right_embedding = split_context_vector.chunk(2, dim=1)
         left_image = self.left_generator(left_embedding)
         right_image = self.right_generator(right_embedding)
         return left_image, right_image
-
-
-if __name__ == "__main__":
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(device)

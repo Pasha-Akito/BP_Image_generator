@@ -69,7 +69,7 @@ class CLIPLoss(nn.Module):
             param.requires_grad = False
 
     def forward(self, generated_images, text_descriptions):
-        resized = nn.functional.intepolate(generated_images, size=(224, 224), mode='bilinear', align_corners=False)
+        resized = nn.functional.interpolate(generated_images, size=(224, 224), mode='bilinear', align_corners=False)
         norm_images = normalize_images(resized, self.CLIP_MEAN, self.CLIP_STD)
         
         text_tokens = clip.tokenize(text_descriptions, truncate=True).to(generated_images.device)
@@ -80,11 +80,9 @@ class CLIPLoss(nn.Module):
         image_embeddings = image_embeddings / image_embeddings.norm(dim=-1, keepdim=True)
         text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
         
-        # Calculate cosine similarity
         clip_softmax_scaler = self.clip_model.logit_scale.exp()
         cosine_similarities = clip_softmax_scaler * image_embeddings @ text_embeddings.t()
         
-        # Symmetric contrastive loss
         targets = torch.arange(len(generated_images), device=generated_images.device)
         image_loss = nn.functional.cross_entropy(cosine_similarities, targets)
         text_loss = nn.functional.cross_entropy(cosine_similarities.t(), targets)

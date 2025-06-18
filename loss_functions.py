@@ -68,19 +68,24 @@ class CLIPLoss(nn.Module):
         for param in self.clip_model.parameters():
             param.requires_grad = False
 
-    def forward(self, predicted, real):
-        predicted = convert_to_grayscale(predicted)
-        real = convert_to_grayscale(real)
-        combined_batch = torch.cat([predicted, real], dim=0)
+    def forward(self, generated_images, text_descriptions):
+        resized = nn.functional.intepolate(generated_images, size=(224, 224), mode='bilinear', align_corners=False)
+        norm_images = normalize_images(resized, self.CLIP_MEAN, self.CLIP_STD)
         
-        # Resizing to fit CLIP
-        resized = nn.functional.interpolate(combined_batch, size=(224, 224), mode='bilinear', align_corners=False)
-        normalized_images = normalize_images(resized, self.CLIP_MEAN, self.CLIP_STD)
-
-        # Generate Embeddings
-        embeddings = self.clip_model.encode_image(normalized_images)
-        predicted_embeddings, real_embeddings = torch.split(embeddings, predicted.size(0), dim=0)
+        text_tokens = clip.tokenize(text_descriptions, truncate=True).to(generated_images.device)
         
-        # Calculate cosine similarity loss
-        cosine_similarity = nn.functional.cosine_similarity(predicted_embeddings, real_embeddings, dim=-1)
-        return (1 - cosine_similarity).mean()
+        image_embeddings = self.clip_model.encode_image(norm_images)
+        text_embeddings = self.clip_model.encode_text(text_tokens)
+        
+        image_embeddings = image_embeddings / image_embeddings.norm(dim=-1, keepdim=True)
+        text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
+        
+        # Calculate cosine similarity
+        clip_softmax_scaler = self.clip_model.logit_scale.exp()
+        cosine_similarities = clip_softmax_scaler * image_embeddings @ text_embeddings.t()
+        
+        # Symmetric contrastive loss
+        targets = torch.arange(len(generated_images), device=generated_images.device)
+        image_loss = nn.functional.cross_entropy(cosine_similarities, targets)
+        text_loss = nn.functional.cross_entropy(cosine_similarities.t(), targets)
+        return (image_loss + text_loss) / 2

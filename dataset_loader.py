@@ -23,7 +23,8 @@ class SentenceToImageDataset(Dataset):
         return {
             "tokenised_text": torch.tensor(token_indices, dtype=torch.long),
             "left_image": left_image,
-            "right_image": right_image
+            "right_image": right_image,
+            "raw_sentence": row["sentence"]
         }    
 
     def load_and_transform_image(self, image_path):

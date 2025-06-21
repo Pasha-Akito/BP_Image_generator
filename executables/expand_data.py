@@ -11,7 +11,7 @@ def get_image_pair_identifers_for_only_three_images():
     return [(left, right) for right in range(3, 6) for left in range(3)]
 
 def generate_data():
-    simple_sentence_image_relationships_df = pd.read_csv("simple_sentence_image_relationships.csv")
+    simple_sentence_image_relationships_df = pd.read_csv("../data/simple_sentence_image_relationships.csv")
     expanded_sentence_image_relationships = []
     image_pair_identifiers = get_image_pair_identifers()
     for row in simple_sentence_image_relationships_df.itertuples():
@@ -33,7 +33,7 @@ def generate_data():
             })
 
     expanded_sentence_image_relationships_df = pd.DataFrame(expanded_sentence_image_relationships)
-    expanded_sentence_image_relationships_df.to_csv("expanded_sentence_image_relationships.csv", index=False, quoting=csv.QUOTE_NONNUMERIC)
+    expanded_sentence_image_relationships_df.to_csv("../data/expanded_sentence_image_relationships.csv", index=False, quoting=csv.QUOTE_NONNUMERIC)
 
 if __name__ == "__main__":
     generate_data()

@@ -7,23 +7,23 @@ import json
 from torchvision.utils import save_image
 import os
 import time
-from dataset_loader import SentenceToImageDataset
-from tokeniser import Tokeniser
-from transformer_model import TextToImageTransformer
-from loss_functions import CLIPLoss, PerceptualLoss
+from data.dataset_loader import SentenceToImageDataset
+from data.tokeniser import Tokeniser
+from model.transformer_model import TextToImageTransformer
+from model.loss_functions import CLIPLoss, PerceptualLoss
 
 TOTAL_EPOCHS = 50
 TRAIN_DEBUG = True
 
 def main():
     tokeniser = Tokeniser()
-    train_df = pd.read_csv("expanded_sentence_image_relationships.csv")
+    train_df = pd.read_csv("../data/expanded_sentence_image_relationships.csv")
     tokeniser.build_vocabulary(train_df["sentence"])
 
-    with open("tokeniser_vocab.json", "w") as output:
+    with open("../data/tokeniser_vocab.json", "w") as output:
         json.dump(tokeniser.vocab, output)
 
-    dataset = SentenceToImageDataset("expanded_sentence_image_relationships.csv", tokeniser)
+    dataset = SentenceToImageDataset("../data/expanded_sentence_image_relationships.csv", tokeniser)
     dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=6, pin_memory=True, persistent_workers=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -68,46 +68,25 @@ def main():
 
             optimizer.zero_grad()
             total_batch_loss.backward()
-            nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0) # try with norm = 5.0 next
+            nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
             optimizer.step()
 
             if batch_index % 100 == 0:
                 print(f"Batch: {batch_index} | Total Batches: {len(dataloader)} | Time Taken for batch: {(time.perf_counter() - batch_start_time):.4f} seconds")
 
-            real_left_path = os.path.join("training_debug", f"real_left.png")
-            predicted_left_path = os.path.join("training_debug", f"predicted_left.png")
-            real_right_path = os.path.join("training_debug", f"real_right.png")
-            predicted_right_path = os.path.join("training_debug", f"predicted_right.png")
-
-            save_image(real_left_image[:4], real_left_path, normalize=True)
-            save_image(predicted_left_image[:4], predicted_left_path, normalize=True)
-            save_image(real_right_image[:4], real_right_path, normalize=True)
-            save_image(predicted_right_image[:4], predicted_right_path, normalize=True)            
+            save_image(real_left_image[:4], "../training_debug/real_left.png", normalize=True)
+            save_image(predicted_left_image[:4], "../training_debug/predicted_left.png", normalize=True)
+            save_image(real_right_image[:4], "../training_debug/real_right.png", normalize=True)
+            save_image(predicted_right_image[:4], "../training_debug/predicted_right.png", normalize=True)            
             total_batch_losses.append(total_batch_loss.detach())
 
         average_epoch_loss = torch.stack(total_batch_losses).mean().item()
         print(f"Epoch {epoch + 1}/{TOTAL_EPOCHS} | Average Loss: {average_epoch_loss:.4f} | Time Taken: {(time.perf_counter() - epoch_start_time):.4f} seconds")
         # scheduler.step()
-        torch.save(model.state_dict(), "model_weights.pth")
+        torch.save(model.state_dict(), "../model/model_weights.pth")
         print("Model weights saved")
     
 if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(device)
     main()
-
-
-# Hyperparamters to try in order
-
-#Experiment	λ_l1	λ_p	    λ_c
-#Baseline	0.1	    1.0	    1.0	    Current setup
-#1	        0.0	    1.0	    0.0	    No CLIP
-
-# clip makes images slightly clearer
-
-# nn.utils.clip_grad_norm_(model.parameters(), max_norm=5.0) 
-# weight_learner = optim.Adam(model.parameters(), lr=0.0002, betas=(0.5, 0.999))
-# scheduler = optim.lr_scheduler.StepLR(weight_learner, step_size=20, gamma=0.8)
-# scheduler.step()
-
-# Check that CLIP and VGG are actually doing something meaningful

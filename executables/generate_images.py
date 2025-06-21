@@ -1,6 +1,6 @@
 import torch
-from transformer_model import TextToImageTransformer
-from tokeniser import Tokeniser
+from model.transformer_model import TextToImageTransformer
+from data.tokeniser import Tokeniser
 import json
 import matplotlib.pyplot as plt
 from torchvision.utils import save_image
@@ -13,7 +13,7 @@ TEST_GENERATOR = True
 TEXT_TO_GENERATE = "LEFT(MORE(SOLID(FIGURES),OUTLINE(FIGURES)))"
 # TEXT_TO_GENERATE = "RIGHT(EXISTS(SMALL(FIGURES)))"
 
-def generate_and_save_images(model, tokeniser, text, device, output_dir="outputs"):
+def generate_and_save_images(model, tokeniser, text, device, output_dir="../outputs"):
     model.eval()
     tokens = tokeniser.encode(text)
     
@@ -47,16 +47,16 @@ def test_generator(generator, device):
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    with open("config.json", "r") as f:
+    with open("../model/config.json", "r") as f:
         config = json.load(f)
     
     model = TextToImageTransformer(**config).to(device)
-    model.load_state_dict(torch.load("model_weights.pth", map_location=device))
+    model.load_state_dict(torch.load("../model/model_weights.pth", map_location=device))
 
     if TEST_GENERATOR:
         test_generator(model.left_generator, device)
     
-    with open("tokeniser_vocab.json", "r") as f:
+    with open("../data/tokeniser_vocab.json", "r") as f:
         vocab = json.load(f)
     tokeniser = Tokeniser()
     tokeniser.vocab = vocab

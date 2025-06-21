@@ -69,6 +69,7 @@ class CLIPLoss(nn.Module):
             param.requires_grad = False
 
     def forward(self, generated_images, text_descriptions):
+        # https://github.com/openai/CLIP/blob/main/clip/model.py#L358
         resized = nn.functional.interpolate(generated_images, size=(224, 224), mode='bilinear', align_corners=False)
         norm_images = normalize_images(resized, self.CLIP_MEAN, self.CLIP_STD)
         

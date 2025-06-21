@@ -4,6 +4,17 @@ from torchvision import transforms
 import pandas as pd
 from PIL import Image
 
+def load_and_transform_image(image_size, image_path):
+    image_transformer = transforms.Compose([
+        transforms.Resize((image_size, image_size)),
+        transforms.Grayscale(num_output_channels=1),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.5], std=[0.5])
+    ])
+
+    image = Image.open(image_path).convert('L')
+    return image_transformer(image)
+
 class SentenceToImageDataset(Dataset):
     def __init__(self, csv_path, tokeniser, image_size=128):
         self.dataset = pd.read_csv(csv_path)
@@ -17,8 +28,8 @@ class SentenceToImageDataset(Dataset):
         row = self.dataset.iloc[index]
         
         token_indices = self.tokeniser.encode(row["sentence"])
-        left_image = self.load_and_transform_image(row["left_image"])
-        right_image = self.load_and_transform_image(row["right_image"])
+        left_image = load_and_transform_image(self.image_size, row["left_image"])
+        right_image = load_and_transform_image(self.image_size, row["right_image"])
     
         return {
             "tokenised_text": torch.tensor(token_indices, dtype=torch.long),
@@ -26,14 +37,3 @@ class SentenceToImageDataset(Dataset):
             "right_image": right_image,
             "raw_sentence": row["sentence"]
         }    
-
-    def load_and_transform_image(self, image_path):
-        image_transformer = transforms.Compose([
-            transforms.Resize((self.image_size, self.image_size)),
-            transforms.Grayscale(num_output_channels=1),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.5], std=[0.5])
-        ])
-
-        image = Image.open(image_path).convert('L')
-        return image_transformer(image)

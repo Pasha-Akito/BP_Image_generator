@@ -30,13 +30,3 @@ class Tokeniser:
             token_ids = token_ids[:max_token_length]
 
         return token_ids
-
-if __name__ == "__main__":
-    text = ["\RIGHT(\EXISTS(\FIGURES))"]
-
-    tokeniser = Tokeniser()
-    tokeniser.build_vocabulary(text)
-    token_ids = tokeniser.encode(text[0])
-
-    print(tokeniser.vocab)
-    print(token_ids)

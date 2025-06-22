@@ -60,22 +60,11 @@ class PerceptualLoss(nn.Module):
             
         return total_loss
 
-class ProjectionHead(nn.Module):
-    def __init__(self, input_dim=512, output_dim=512):
-        super().__init__()
-        self.fc = nn.Linear(input_dim, output_dim).half()
-        
-    def forward(self, x):
-        return nn.functional.normalize(self.fc(x), dim=-1)
-    
 class CLIPLoss(nn.Module):
     # CLIP normalisation parameters https://github.com/openai/CLIP/blob/main/clip/clip.py#L85
     def __init__(self, device):
         super().__init__()
         self.clip_model, _ = clip.load("ViT-B/32", device=device)
-
-        self.image_proj = ProjectionHead().to(device)
-        self.text_proj = ProjectionHead().to(device)
         
         self.clip_model.eval()
         for param in self.clip_model.parameters():
@@ -89,19 +78,16 @@ class CLIPLoss(nn.Module):
         
         text_tokens = clip.tokenize(text_descriptions, truncate=True).to(generated_images.device)
         
-        with torch.no_grad():
-            image_embeddings = self.clip_model.encode_image(norm_images)
-            text_embeddings = self.clip_model.encode_text(text_tokens)
-        
-        # Project embeddings
-        image_embeddings = self.image_proj(image_embeddings)
-        text_embeddings = self.text_proj(text_embeddings)
+        image_embeddings = self.clip_model.encode_image(norm_images)
+        text_embeddings = self.clip_model.encode_text(text_tokens)
         
         image_embeddings = image_embeddings / image_embeddings.norm(dim=-1, keepdim=True)
         text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
         
         scaler = self.clip_model.logit_scale.exp()
         cosine_similarities = scaler * (image_embeddings @ text_embeddings.t())
+
+        # cosine_similarities = image_embeddings @ text_embeddings.t() try without scaler
         
         targets = torch.arange(len(generated_images), device=generated_images.device)
         image_loss = nn.functional.cross_entropy(cosine_similarities, targets)

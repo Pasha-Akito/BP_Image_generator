@@ -1,12 +1,15 @@
 import torch
-from model.transformer_model import TextToImageTransformer
-from data.tokeniser import Tokeniser
 import json
 import matplotlib.pyplot as plt
 from torchvision.utils import save_image
 import os
 from datetime import datetime
 from PIL import Image
+import sys
+sys.path.append('../')
+
+from model.transformer_model import TextToImageTransformer
+from data.tokeniser import Tokeniser
 
 TEST_GENERATOR = True
 # TEXT_TO_GENERATE = "RIGHT(EXACTLY(2,FIGURES))"

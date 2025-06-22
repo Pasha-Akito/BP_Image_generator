@@ -29,27 +29,36 @@ def get_cosine_similarity(features1, features2, title):
     print(f"VGG | {title} | Cosine Similarity: {cosine_similarity}")
 
 def clip_similarity(clip_model, image, text, title):
+
+    trained_clip_state = torch.load("../model/clip_projection_weights.pth", map_location=next(clip_model.clip_model.parameters()).device)
+    clip_model.image_proj.load_state_dict(trained_clip_state['image_proj'])
+    clip_model.text_proj.load_state_dict(trained_clip_state['text_proj'])
+
     image = image.unsqueeze(0)
     resized = F.interpolate(image, size=(224, 224), mode='bilinear', align_corners=False)
     gray_scale = convert_to_grayscale(resized)
     norm_image = normalize_images(gray_scale, CLIP_MEAN, CLIP_STD)
     
     with torch.no_grad():
-        image_embeddings = clip_model.encode_image(norm_image)
-        image_embeddings = image_embeddings / image_embeddings.norm(dim=-1, keepdim=True)
-        
+        image_embeddings = clip_model.clip_model.encode_image(norm_image)
         text_tokens = clip.tokenize([text], truncate=True).to(next(clip_model.parameters()).device)
-        text_embeddings = clip_model.encode_text(text_tokens)
+        text_embeddings = clip_model.clip_model.encode_text(text_tokens)
+
+        image_embeddings = clip_model.image_proj(image_embeddings)
+        text_embeddings = clip_model.text_proj(text_embeddings)
+
+        image_embeddings = image_embeddings / image_embeddings.norm(dim=-1, keepdim=True)
         text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
 
-        scaler = clip_model.logit_scale.exp()
+        scaler = clip_model.clip_model.logit_scale.exp()
         cosine_similarity = (scaler * (image_embeddings @ text_embeddings.t())).item()
+
         print(f"CLIP | {title} | Cosine Similarity: {cosine_similarity}")
 
 if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     vgg = PerceptualLoss().to(device)
-    clip_model, _ = clip.load("ViT-B/32", device=device)
+    clip_model = CLIPLoss(device).to(device)
 
     bp37_left_image = load_and_transform_image(IMAGE_SIZE, "../bp_images/p037/0.png").to(device)
     bp37_right_image = load_and_transform_image(IMAGE_SIZE, "../bp_images/p037/11.png").to(device)
@@ -64,5 +73,3 @@ if __name__ == "__main__":
 
     clip_similarity(clip_model, bp37_left_image, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Left Image Wrong Text")
     clip_similarity(clip_model, bp37_right_image, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Right Image Wrong Text")
-
-

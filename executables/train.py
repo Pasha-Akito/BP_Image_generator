@@ -85,8 +85,8 @@ def main():
 
         average_epoch_loss = torch.stack(total_batch_losses).mean().item()
         print(f"Epoch {epoch + 1}/{TOTAL_EPOCHS} | Average Loss: {average_epoch_loss:.4f} | Time Taken: {(time.perf_counter() - epoch_start_time):.4f} seconds")
-        # scheduler.step()
         torch.save(model.state_dict(), "../model/model_weights.pth")
+        torch.save({'image_proj': clip_loss.image_proj.state_dict(), 'text_proj': clip_loss.image_proj.state_dict()}, "../model/clip_projection_weights.pth")
         print("Model weights saved")
     
 if __name__ == "__main__":

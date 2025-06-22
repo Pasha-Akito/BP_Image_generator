@@ -1,7 +1,12 @@
 import torch
 import torch.nn as nn
 from torchvision import models
+from PIL import Image
 import clip
+
+CLIP_MEAN = [0.48145466, 0.4578275, 0.40821073]
+CLIP_STD = [0.26862954, 0.26130258, 0.27577711]
+
 
 def normalize_images(images, mean, std):
     mean_tensor = torch.tensor(mean, device=images.device).view(1, 3, 1, 1)
@@ -57,9 +62,6 @@ class PerceptualLoss(nn.Module):
 
 class CLIPLoss(nn.Module):
     # CLIP normalisation parameters https://github.com/openai/CLIP/blob/main/clip/clip.py#L85
-    CLIP_MEAN = [0.48145466, 0.4578275, 0.40821073]
-    CLIP_STD = [0.26862954, 0.26130258, 0.27577711]
-
     def __init__(self, device):
         super().__init__()
         self.clip_model, _ = clip.load("ViT-B/32", device=device)
@@ -71,7 +73,8 @@ class CLIPLoss(nn.Module):
     def forward(self, generated_images, text_descriptions):
         # https://github.com/openai/CLIP/blob/main/clip/model.py#L358
         resized = nn.functional.interpolate(generated_images, size=(224, 224), mode='bilinear', align_corners=False)
-        norm_images = normalize_images(resized, self.CLIP_MEAN, self.CLIP_STD)
+        gray_scale_images = convert_to_grayscale(resized)
+        norm_images = normalize_images(gray_scale_images, CLIP_MEAN, CLIP_STD)
         
         text_tokens = clip.tokenize(text_descriptions, truncate=True).to(generated_images.device)
         
@@ -81,8 +84,10 @@ class CLIPLoss(nn.Module):
         image_embeddings = image_embeddings / image_embeddings.norm(dim=-1, keepdim=True)
         text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
         
-        clip_softmax_scaler = self.clip_model.logit_scale.exp()
-        cosine_similarities = clip_softmax_scaler * image_embeddings @ text_embeddings.t()
+        scaler = self.clip_model.logit_scale.exp()
+        cosine_similarities = scaler * (image_embeddings @ text_embeddings.t())
+
+        # cosine_similarities = image_embeddings @ text_embeddings.t() try without scaler
         
         targets = torch.arange(len(generated_images), device=generated_images.device)
         image_loss = nn.functional.cross_entropy(cosine_similarities, targets)

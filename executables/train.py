@@ -5,8 +5,11 @@ import torch.optim as optim
 import torch
 import json
 from torchvision.utils import save_image
-import os
 import time
+
+import sys
+sys.path.append('../')
+
 from data.dataset_loader import SentenceToImageDataset
 from data.tokeniser import Tokeniser
 from model.transformer_model import TextToImageTransformer

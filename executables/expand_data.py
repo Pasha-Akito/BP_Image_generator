@@ -28,8 +28,8 @@ def generate_data():
         for left_identifer, right_identifier in image_pair_identifiers:
             expanded_sentence_image_relationships.append({
                 "sentence": f"{sentence}",
-                "left_image": f"bp_images/{folder_name}/{left_identifer}.png",
-                "right_image": f"bp_images/{folder_name}/{right_identifier}.png"
+                "left_image": f"../bp_images/{folder_name}/{left_identifer}.png",
+                "right_image": f"../bp_images/{folder_name}/{right_identifier}.png"
             })
 
     expanded_sentence_image_relationships_df = pd.DataFrame(expanded_sentence_image_relationships)

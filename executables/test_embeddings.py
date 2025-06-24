@@ -9,6 +9,10 @@ from model.loss_functions import CLIPLoss, PerceptualLoss, normalize_images, con
 from data.dataset_loader import load_and_transform_image
 
 IMAGE_SIZE = 128
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+clip_model, _ = clip.load("ViT-B/32", device=device)
+vgg = PerceptualLoss().to(device)
+
 
 def get_image_features_from_vgg(vgg, image):
     image = convert_to_grayscale(image)
@@ -28,7 +32,8 @@ def get_cosine_similarity(features1, features2, title):
     cosine_similarity = F.cosine_similarity(features1, features2).item()
     print(f"VGG | {title} | Cosine Similarity: {cosine_similarity}")
 
-def clip_similarity(clip_model, image, text, title):
+def clip_similarity(image_path, text, title):
+    image = load_and_transform_image(IMAGE_SIZE, image_path).to(device)
     image = image.unsqueeze(0)
     resized = F.interpolate(image, size=(224, 224), mode='bilinear', align_corners=False)
     gray_scale = convert_to_grayscale(resized)
@@ -38,7 +43,7 @@ def clip_similarity(clip_model, image, text, title):
         image_embeddings = clip_model.encode_image(norm_image)
         image_embeddings = image_embeddings / image_embeddings.norm(dim=-1, keepdim=True)
         
-        text_tokens = clip.tokenize([text], truncate=True).to(next(clip_model.parameters()).device)
+        text_tokens = clip.tokenize([text], truncate=True).to(device)
         text_embeddings = clip_model.encode_text(text_tokens)
         text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
 
@@ -46,12 +51,14 @@ def clip_similarity(clip_model, image, text, title):
         cosine_similarity = ((image_embeddings @ text_embeddings.t())).item()
         print(f"CLIP | {title} | Cosine Similarity: {cosine_similarity}")
 
-def clip_similarity_two_images(clip_model, image, image_2, title):
+def clip_similarity_two_images(image_path, image_2_path, title):
+    image = load_and_transform_image(IMAGE_SIZE, image_path).to(device)
     image = image.unsqueeze(0)
     image = F.interpolate(image, size=(224, 224), mode='bilinear', align_corners=False)
     image = convert_to_grayscale(image)
     image = normalize_images(image, CLIP_MEAN, CLIP_STD)
 
+    image_2 = load_and_transform_image(IMAGE_SIZE, image_2_path).to(device)
     image_2 = image_2.unsqueeze(0)
     image_2 = F.interpolate(image_2, size=(224, 224), mode='bilinear', align_corners=False)
     image_2 = convert_to_grayscale(image_2)
@@ -68,33 +75,23 @@ def clip_similarity_two_images(clip_model, image, image_2, title):
         cosine_similarity = ((image_embeddings @ image_2_embeddings.t())).item()
         print(f"CLIP | {title} | Cosine Similarity: {cosine_similarity}")
         
-def get_vgg_cosine_similarity(vgg, image_path, image_2_path, title):
-    bp37_left_image = load_and_transform_image(IMAGE_SIZE, "../bp_images/p037/0.png").to(device)
-    bp37_left_image_2 = load_and_transform_image(IMAGE_SIZE, "../bp_images/p037/1.png").to(device)
+def get_vgg_cosine_similarity(image_path, image_2_path, title):
+    image = load_and_transform_image(IMAGE_SIZE, image_path).to(device)
+    image_2 = load_and_transform_image(IMAGE_SIZE, image_2_path).to(device)
+    image_features = get_image_features_from_vgg(vgg, image)
+    image_2_feautures = get_image_features_from_vgg(vgg, image_2)
+    get_cosine_similarity(image_features, image_2_feautures, title)
 
 
 if __name__ == "__main__":
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    vgg = PerceptualLoss().to(device)
-    clip_model, _ = clip.load("ViT-B/32", device=device)
+    bp37_left_image_path = "../bp_images/p037/0.png"
+    bp37_right_image_path = "../bp_images/p037/11.png" 
 
-    bp37_left_image = load_and_transform_image(IMAGE_SIZE, "../bp_images/p037/0.png").to(device)
-    bp37_left_image_2 = load_and_transform_image(IMAGE_SIZE, "../bp_images/p037/1.png").to(device)
-    bp37_right_image = load_and_transform_image(IMAGE_SIZE, "../bp_images/p037/11.png").to(device)
-
-    bp37_left_image_features = get_image_features_from_vgg(vgg, bp37_left_image)
-    bp37_right_image_features = get_image_features_from_vgg(vgg, bp37_right_image)
-
-    get_cosine_similarity(bp37_left_image_features, bp37_right_image_features, "BP37 Opposing Sides")
-
-    clip_similarity_two_images(clip_model, bp37_left_image, bp37_left_image_2, "BP37 Same Side Images")
-
-    get_vgg_cosine_similarity(vgg, "left_image_path", "right_image_path", "Title")
-
-    clip_similarity(clip_model, bp37_left_image, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Left Image Correct Text")
-    clip_similarity(clip_model, bp37_right_image, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Right Image Correct Text")
-
-    clip_similarity(clip_model, bp37_left_image, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Left Image Wrong Text")
-    clip_similarity(clip_model, bp37_right_image, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Right Image Wrong Text")
+    get_vgg_cosine_similarity(bp37_left_image_path, bp37_right_image_path, "BP37 Opposing Sides")
+    clip_similarity_two_images(bp37_left_image_path, bp37_right_image_path, "BP37 Opposing Sides")
+    clip_similarity(bp37_left_image_path, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Left Image Correct Text")
+    clip_similarity(bp37_right_image_path, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Right Image Correct Text")
+    clip_similarity(bp37_left_image_path, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Left Image Wrong Text")
+    clip_similarity(bp37_right_image_path, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Right Image Wrong Text")
 
 

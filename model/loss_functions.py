@@ -86,8 +86,6 @@ class CLIPLoss(nn.Module):
         
         scaler = self.clip_model.logit_scale.exp()
         cosine_similarities = scaler * (image_embeddings @ text_embeddings.t())
-
-        # cosine_similarities = image_embeddings @ text_embeddings.t() try without scaler
         
         targets = torch.arange(len(generated_images), device=generated_images.device)
         image_loss = nn.functional.cross_entropy(cosine_similarities, targets)

@@ -1,12 +1,17 @@
 import torch
 import torch.nn.functional as F
 import clip
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+
 
 import sys
 sys.path.append('../')
 
 from model.loss_functions import CLIPLoss, PerceptualLoss, normalize_images, convert_to_grayscale, CLIP_MEAN, CLIP_STD
 from data.dataset_loader import load_and_transform_image
+from expand_data import extract_folder_name
 
 IMAGE_SIZE = 128
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -25,12 +30,7 @@ def get_image_features_from_vgg(vgg, image):
             image_features.append(image.flatten())
 
     return torch.cat(image_features)
-    
-def get_cosine_similarity(features1, features2, title):
-    features1 = features1.unsqueeze(0)
-    features2 = features2.unsqueeze(0)
-    cosine_similarity = F.cosine_similarity(features1, features2).item()
-    print(f"VGG | {title} | Cosine Similarity: {cosine_similarity}")
+
 
 def clip_similarity(image_path, text, title):
     image = load_and_transform_image(IMAGE_SIZE, image_path).to(device)
@@ -47,7 +47,6 @@ def clip_similarity(image_path, text, title):
         text_embeddings = clip_model.encode_text(text_tokens)
         text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
 
-        # scaler = clip_model.logit_scale.exp()
         cosine_similarity = ((image_embeddings @ text_embeddings.t())).item()
         print(f"CLIP | {title} | Cosine Similarity: {cosine_similarity}")
 
@@ -71,27 +70,58 @@ def clip_similarity_two_images(image_path, image_2_path, title):
         image_2_embeddings = clip_model.encode_image(image_2)
         image_2_embeddings = image_2_embeddings / image_2_embeddings.norm(dim=-1, keepdim=True)
         
-        # scaler = clip_model.logit_scale.exp()
         cosine_similarity = ((image_embeddings @ image_2_embeddings.t())).item()
         print(f"CLIP | {title} | Cosine Similarity: {cosine_similarity}")
         
-def get_vgg_cosine_similarity(image_path, image_2_path, title):
+def get_vgg_cosine_similarity(image_path, image_2_path):
     image = load_and_transform_image(IMAGE_SIZE, image_path).to(device)
     image_2 = load_and_transform_image(IMAGE_SIZE, image_2_path).to(device)
     image_features = get_image_features_from_vgg(vgg, image)
     image_2_feautures = get_image_features_from_vgg(vgg, image_2)
-    get_cosine_similarity(image_features, image_2_feautures, title)
+    image_features = image_features.unsqueeze(0)
+    image_2_feautures = image_2_feautures.unsqueeze(0)
+    return F.cosine_similarity(image_features, image_2_feautures).item()
 
+def get_vgg_cosine_similarity_of_bongard_problem(bp_number):
+    bp_folder_name = extract_folder_name(bp_number)
+    image_paths_for_bp = [f"../bp_images/{bp_folder_name}/{i}.png" for i in range(12)]
+    image_pair_matrix = [[img_path, image_path2] for img_path in image_paths_for_bp for image_path2 in image_paths_for_bp]
+    flat_cosine_similarities = [get_vgg_cosine_similarity(pair[0], pair[1]) for pair in image_pair_matrix]
+    similarity_matrix = [flat_cosine_similarities[i * 12 : (i + 1) * 12] for i in range(12)]
+    return similarity_matrix
 
 if __name__ == "__main__":
     bp37_left_image_path = "../bp_images/p037/0.png"
     bp37_right_image_path = "../bp_images/p037/11.png" 
 
-    get_vgg_cosine_similarity(bp37_left_image_path, bp37_right_image_path, "BP37 Opposing Sides")
+    get_vgg_cosine_similarity(bp37_left_image_path, bp37_right_image_path)
     clip_similarity_two_images(bp37_left_image_path, bp37_right_image_path, "BP37 Opposing Sides")
     clip_similarity(bp37_left_image_path, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Left Image Correct Text")
     clip_similarity(bp37_right_image_path, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Right Image Correct Text")
     clip_similarity(bp37_left_image_path, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Left Image Wrong Text")
     clip_similarity(bp37_right_image_path, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Right Image Wrong Text")
 
-
+    similarity_matrix = get_vgg_cosine_similarity_of_bongard_problem(2)
+    image_labels = ["left1","left2","left3","left4","left5","left6","right1","right2","right3","right4","right5","right6"]
+    percentage_annotation_matrix = [[f"{cosine_similarity * 100:.0f}" for cosine_similarity in row] for row in similarity_matrix]
+    ax = sns.heatmap(
+        similarity_matrix, 
+        xticklabels=image_labels, 
+        yticklabels=image_labels,
+        annot=percentage_annotation_matrix,
+        fmt="",
+        square=True,
+        cmap="inferno",
+        vmin=0, 
+        vmax=1,
+        cbar_kws={'ticks': [0, 0.5, 1]},
+        annot_kws={'size': 9}
+        )
+    plt.xticks(rotation=45)
+    plt.title("VGG Similarity | Bongard Problem 2", fontsize=16, pad=20)
+    ax.tick_params(axis='both',labelsize=8)
+    ax.axvline(x=6, linewidth=1, color="white")
+    ax.axhline(y=6, linewidth=1, color="white")
+    plt.tight_layout()
+    plt.savefig('../cosine_similarity/VGG/similarity_heatmap.png', dpi=300)
+    plt.show()

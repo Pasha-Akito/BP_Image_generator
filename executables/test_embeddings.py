@@ -90,18 +90,8 @@ def get_vgg_cosine_similarity_of_bongard_problem(bp_number):
     similarity_matrix = [flat_cosine_similarities[i * 12 : (i + 1) * 12] for i in range(12)]
     return similarity_matrix
 
-if __name__ == "__main__":
-    bp37_left_image_path = "../bp_images/p037/0.png"
-    bp37_right_image_path = "../bp_images/p037/11.png" 
-
-    get_vgg_cosine_similarity(bp37_left_image_path, bp37_right_image_path)
-    clip_similarity_two_images(bp37_left_image_path, bp37_right_image_path, "BP37 Opposing Sides")
-    clip_similarity(bp37_left_image_path, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Left Image Correct Text")
-    clip_similarity(bp37_right_image_path, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Right Image Correct Text")
-    clip_similarity(bp37_left_image_path, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Left Image Wrong Text")
-    clip_similarity(bp37_right_image_path, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Right Image Wrong Text")
-
-    similarity_matrix = get_vgg_cosine_similarity_of_bongard_problem(2)
+def create_heatmap_of_cosine_matrix(similarity_matrix, bp_number):
+    plt.figure(figsize=(10, 8))
     image_labels = ["left1","left2","left3","left4","left5","left6","right1","right2","right3","right4","right5","right6"]
     percentage_annotation_matrix = [[f"{cosine_similarity * 100:.0f}" for cosine_similarity in row] for row in similarity_matrix]
     ax = sns.heatmap(
@@ -115,13 +105,35 @@ if __name__ == "__main__":
         vmin=0, 
         vmax=1,
         cbar_kws={'ticks': [0, 0.5, 1]},
-        annot_kws={'size': 9}
+        annot_kws={'size': 10}
         )
+    cbar = ax.collections[0].colorbar
+    cbar.set_ticklabels(['0%', '50%', '100%'])
     plt.xticks(rotation=45)
-    plt.title("VGG Similarity | Bongard Problem 2", fontsize=16, pad=20)
-    ax.tick_params(axis='both',labelsize=8)
+    plt.yticks(rotation=0)
+    plt.title(f"VGG Similarity | Bongard Problem {bp_number}", fontsize=16, pad=20)
+    ax.tick_params(axis='both',labelsize=10)
     ax.axvline(x=6, linewidth=1, color="white")
     ax.axhline(y=6, linewidth=1, color="white")
     plt.tight_layout()
-    plt.savefig('../cosine_similarity/VGG/similarity_heatmap.png', dpi=300)
-    plt.show()
+    plt.savefig(f'../cosine_similarity/VGG/similarity_heatmap_bongard_problem_{bp_number}.png', dpi=300)
+    print(f"Saved similarity_heatmap_bongard_problem_{bp_number}.png'")
+    plt.close()
+
+def save_cosine_similarity_of_first_100_bongard_problems():
+    for i in range(100):
+        similarity_matrix = get_vgg_cosine_similarity_of_bongard_problem(i + 1)
+        create_heatmap_of_cosine_matrix(similarity_matrix, i + 1)
+
+if __name__ == "__main__":
+    bp37_left_image_path = "../bp_images/p037/0.png"
+    bp37_right_image_path = "../bp_images/p037/11.png" 
+
+    get_vgg_cosine_similarity(bp37_left_image_path, bp37_right_image_path)
+    clip_similarity_two_images(bp37_left_image_path, bp37_right_image_path, "BP37 Opposing Sides")
+    clip_similarity(bp37_left_image_path, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Left Image Correct Text")
+    clip_similarity(bp37_right_image_path, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Right Image Correct Text")
+    clip_similarity(bp37_left_image_path, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Left Image Wrong Text")
+    clip_similarity(bp37_right_image_path, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Right Image Wrong Text")
+
+    save_cosine_similarity_of_first_100_bongard_problems()

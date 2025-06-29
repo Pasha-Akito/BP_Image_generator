@@ -126,13 +126,16 @@ def clip_similarity_between_image_and_text(image_path, text):
 
         return ((image_embeddings @ text_embeddings.t())).item()
 
-def save_text_clip_cosine_similarity_for_first_100_bongard_problems(sentence_s):
+def save_text_image_clip_cosine_similarity_for_first_100_bongard_problems():
     similarity_matrix = []
     simple_dataset = pd.read_csv('../data/simple_sentence_image_relationships.csv')
     unique_sentences = simple_dataset['sentence'].unique()
-    for sentence in unique_sentences:
-        similarity_matrix_of_bongard_problem = get_text_clip_cosine_similarity_of_bongard_problem(2, sentence)
-        similarity_matrix.append(similarity_matrix_of_bongard_problem)
+    for i in range(100):
+        for sentence in unique_sentences:
+            similarity_matrix_of_bongard_problem = get_text_clip_cosine_similarity_of_bongard_problem(i + 1, sentence)
+            similarity_matrix.append(similarity_matrix_of_bongard_problem)
+        create_heatmap_of_clip_text(similarity_matrix, unique_sentences, i + 1)
+        similarity_matrix = []
     return similarity_matrix
 
 def get_text_clip_cosine_similarity_of_bongard_problem(bp_number, sentence):
@@ -141,21 +144,10 @@ def get_text_clip_cosine_similarity_of_bongard_problem(bp_number, sentence):
     similarity_matrix = [clip_similarity_between_image_and_text(image, sentence) for image in image_paths_for_bp]
     return similarity_matrix
 
-def create_lineplot_of_cosine_matrix():
-    bp = "true"
-
-if __name__ == "__main__":
-    # save_vgg_cosine_similarity_of_first_100_bongard_problems()
-    # save_clip_cosine_similarity_of_first_100_bongard_problems()
-
-    sentence = "LEFT(EXISTS(BIG(FIGURES)))"
-    cosine_similarities = save_text_clip_cosine_similarity_for_first_100_bongard_problems(sentence)
-
+def create_heatmap_of_clip_text(cosine_similarities, unique_sentences, bp_number):
     fig, ax = plt.subplots(figsize=(6, 30))
 
     image_labels = ["left1","left2","left3","left4","left5","left6","right1","right2","right3","right4","right5","right6"]
-    simple_dataset = pd.read_csv('../data/simple_sentence_image_relationships.csv')
-    unique_sentences = simple_dataset['sentence'].unique()
     percentage_annotation_matrix = [[f"{cosine_similarity * 100:.0f}" for cosine_similarity in row] for row in cosine_similarities]
 
     sns.heatmap(
@@ -165,7 +157,7 @@ if __name__ == "__main__":
         cbar=True,
         vmin=0.0,
         vmax=1.0,
-        cmap="inferno",
+        cmap="cubehelix",
         xticklabels=image_labels,
         yticklabels=unique_sentences,
         annot=percentage_annotation_matrix,
@@ -176,11 +168,17 @@ if __name__ == "__main__":
     )
     cbar = ax.collections[0].colorbar
     cbar.set_ticklabels(['0%', '20%', '40%', '60%', '80%', '100%'])
-    ax.set_title("CLIP Text Cosine Similarity | Bongard Problem 2", fontsize=16)
+    ax.set_title(f"CLIP Text Image Cosine Similarity | Bongard Problem {bp_number}", fontsize=16)
     ax.tick_params(axis='both',labelsize=5)
     plt.xticks(rotation=45)
     plt.yticks(rotation=0)
 
     plt.tight_layout()
-    plt.savefig('clip_text_bongard_problem_2.png', dpi=300, bbox_inches='tight')
+    plt.savefig(f'../cosine_similarity/CLIP_TEXT_IMAGE/text_image_similarity_heatmap_bongard_problem_{bp_number}.png', dpi=300, bbox_inches='tight')
+    print(f"Saved similarity_heatmap_bongard_problem_{bp_number}.png")
     plt.close()
+
+if __name__ == "__main__":
+    save_vgg_cosine_similarity_of_first_100_bongard_problems()
+    save_clip_cosine_similarity_of_first_100_bongard_problems()
+    save_text_image_clip_cosine_similarity_for_first_100_bongard_problems()

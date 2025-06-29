@@ -4,7 +4,8 @@ import clip
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
-
+import pandas as pd
+from itertools import chain
 
 import sys
 sys.path.append('../')
@@ -30,25 +31,6 @@ def get_image_features_from_vgg(vgg, image):
             image_features.append(image.flatten())
 
     return torch.cat(image_features)
-
-
-def clip_similarity(image_path, text, title):
-    image = load_and_transform_image(IMAGE_SIZE, image_path).to(device)
-    image = image.unsqueeze(0)
-    resized = F.interpolate(image, size=(224, 224), mode='bilinear', align_corners=False)
-    gray_scale = convert_to_grayscale(resized)
-    norm_image = normalize_images(gray_scale, CLIP_MEAN, CLIP_STD)
-    
-    with torch.no_grad():
-        image_embeddings = clip_model.encode_image(norm_image)
-        image_embeddings = image_embeddings / image_embeddings.norm(dim=-1, keepdim=True)
-        
-        text_tokens = clip.tokenize([text], truncate=True).to(device)
-        text_embeddings = clip_model.encode_text(text_tokens)
-        text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
-
-        cosine_similarity = ((image_embeddings @ text_embeddings.t())).item()
-        print(f"CLIP | {title} | Cosine Similarity: {cosine_similarity}")
 
 def clip_similarity_two_images(image_path, image_2_path):
     image = load_and_transform_image(IMAGE_SIZE, image_path).to(device)
@@ -127,14 +109,78 @@ def save_vgg_cosine_similarity_of_first_100_bongard_problems():
         similarity_matrix = get_vgg_cosine_similarity_of_bongard_problem(i + 1)
         create_heatmap_of_cosine_matrix(similarity_matrix, i + 1, "VGG")
 
+def clip_similarity_between_image_and_text(image_path, text):
+    image = load_and_transform_image(IMAGE_SIZE, image_path).to(device)
+    image = image.unsqueeze(0)
+    resized = F.interpolate(image, size=(224, 224), mode='bilinear', align_corners=False)
+    gray_scale = convert_to_grayscale(resized)
+    norm_image = normalize_images(gray_scale, CLIP_MEAN, CLIP_STD)
+    
+    with torch.no_grad():
+        image_embeddings = clip_model.encode_image(norm_image)
+        image_embeddings = image_embeddings / image_embeddings.norm(dim=-1, keepdim=True)
+        
+        text_tokens = clip.tokenize([text], truncate=True).to(device)
+        text_embeddings = clip_model.encode_text(text_tokens)
+        text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
+
+        return ((image_embeddings @ text_embeddings.t())).item()
+
+def save_text_clip_cosine_similarity_for_first_100_bongard_problems(sentence_s):
+    similarity_matrix = []
+    simple_dataset = pd.read_csv('../data/simple_sentence_image_relationships.csv')
+    unique_sentences = simple_dataset['sentence'].unique()
+    for sentence in unique_sentences:
+        similarity_matrix_of_bongard_problem = get_text_clip_cosine_similarity_of_bongard_problem(2, sentence)
+        similarity_matrix.append(similarity_matrix_of_bongard_problem)
+    return similarity_matrix
+
+def get_text_clip_cosine_similarity_of_bongard_problem(bp_number, sentence):
+    bp_folder_name = extract_folder_name(bp_number)
+    image_paths_for_bp = [f"../bp_images/{bp_folder_name}/{i}.png" for i in range(12)]
+    similarity_matrix = [clip_similarity_between_image_and_text(image, sentence) for image in image_paths_for_bp]
+    return similarity_matrix
+
+def create_lineplot_of_cosine_matrix():
+    bp = "true"
+
 if __name__ == "__main__":
-    bp37_left_image_path = "../bp_images/p037/0.png"
-    bp37_right_image_path = "../bp_images/p037/11.png" 
-
-    clip_similarity(bp37_left_image_path, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Left Image Correct Text")
-    clip_similarity(bp37_right_image_path, "LEFT(GREATERLLA(TRIANGLES,CIRCLES,YPOS))", "BP37 Right Image Correct Text")
-    clip_similarity(bp37_left_image_path, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Left Image Wrong Text")
-    clip_similarity(bp37_right_image_path, "RIGHT(LESSSIMLA(FIGURES,SIZE))", "BP37 Right Image Wrong Text")
-
     # save_vgg_cosine_similarity_of_first_100_bongard_problems()
-    save_clip_cosine_similarity_of_first_100_bongard_problems()
+    # save_clip_cosine_similarity_of_first_100_bongard_problems()
+
+    sentence = "LEFT(EXISTS(BIG(FIGURES)))"
+    cosine_similarities = save_text_clip_cosine_similarity_for_first_100_bongard_problems(sentence)
+
+    fig, ax = plt.subplots(figsize=(6, 30))
+
+    image_labels = ["left1","left2","left3","left4","left5","left6","right1","right2","right3","right4","right5","right6"]
+    simple_dataset = pd.read_csv('../data/simple_sentence_image_relationships.csv')
+    unique_sentences = simple_dataset['sentence'].unique()
+    percentage_annotation_matrix = [[f"{cosine_similarity * 100:.0f}" for cosine_similarity in row] for row in cosine_similarities]
+
+    sns.heatmap(
+        cosine_similarities,
+        ax=ax,
+        square=True,
+        cbar=True,
+        vmin=0.0,
+        vmax=1.0,
+        cmap="inferno",
+        xticklabels=image_labels,
+        yticklabels=unique_sentences,
+        annot=percentage_annotation_matrix,
+        fmt="",
+        annot_kws={"size": 4},
+        cbar_kws={"shrink": 0.2}
+        
+    )
+    cbar = ax.collections[0].colorbar
+    cbar.set_ticklabels(['0%', '20%', '40%', '60%', '80%', '100%'])
+    ax.set_title("CLIP Text Cosine Similarity | Bongard Problem 2", fontsize=16)
+    ax.tick_params(axis='both',labelsize=5)
+    plt.xticks(rotation=45)
+    plt.yticks(rotation=0)
+
+    plt.tight_layout()
+    plt.savefig('clip_text_bongard_problem_2.png', dpi=300, bbox_inches='tight')
+    plt.close()

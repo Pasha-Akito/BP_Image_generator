@@ -178,7 +178,62 @@ def create_heatmap_of_clip_text(cosine_similarities, unique_sentences, bp_number
     print(f"Saved similarity_heatmap_bongard_problem_{bp_number}.png")
     plt.close()
 
+def clip_similarity_between_text_and_text(text, text_2):    
+    with torch.no_grad():
+        text_tokens = clip.tokenize([text], truncate=True).to(device)
+        text_embeddings = clip_model.encode_text(text_tokens)
+        text_embeddings = text_embeddings / text_embeddings.norm(dim=-1, keepdim=True)
+
+        text_2_tokens = clip.tokenize([text_2], truncate=True).to(device)
+        text_2_embeddings = clip_model.encode_text(text_2_tokens)
+        text_2_embeddings = text_2_embeddings / text_2_embeddings.norm(dim=-1, keepdim=True)
+
+        return ((text_embeddings @ text_2_embeddings.t())).item()
+    
+def save_text_to_text_cosine_similarity_for_all_sentences():
+    simple_dataset = pd.read_csv('../data/simple_sentence_image_relationships.csv')
+    unique_sentences = simple_dataset['sentence'].unique()
+    
+    chunk_size = 20
+    num_chunks = len(unique_sentences) // chunk_size
+    
+    for i in range(num_chunks):
+        start_index = i * chunk_size
+        end_index = start_index + chunk_size
+        sentence_chunk = unique_sentences[start_index:end_index]
+        
+        similarity_matrix = []
+        for sentence in sentence_chunk:
+            row = []
+            for sentence_2 in sentence_chunk:
+                cosine_similarity = clip_similarity_between_text_and_text(sentence, sentence_2)
+                row.append(cosine_similarity)
+            similarity_matrix.append(row)
+        
+        similarity_matrix = np.array(similarity_matrix)
+        create_heatmap_of_clip_text(similarity_matrix, sentence_chunk, i+1)
+
+def create_heatmap_of_clip_text(similarity_matrix, unique_sentences, chunk_number):
+    plt.figure(figsize=(16, 10))
+    percentage_annotation_matrix = [[f"{cosine_similarity * 100:.0f}" for cosine_similarity in row] for row in similarity_matrix]
+    ax = sns.heatmap(similarity_matrix, xticklabels=unique_sentences, yticklabels=unique_sentences,annot=percentage_annotation_matrix,
+        fmt="",square=True,cmap="inferno",vmin=0, vmax=1
+        ,annot_kws={'size': 8}
+        )
+    cbar = ax.collections[0].colorbar
+    cbar.set_ticklabels(['0%', '20%', '40%', '60%', '80%', '100%'])
+    plt.xticks(rotation=90)
+    plt.yticks(rotation=0)
+    plt.title(f"Text Similarity | Chunk {chunk_number}", fontsize=16, pad=20)
+    ax.tick_params(axis='both',labelsize=6)
+    plt.tight_layout()
+    plt.savefig(f'../cosine_similarity/CLIP_TEXT_TO_TEXT/similarity_heatmap_chunk_{chunk_number}.png', dpi=300,bbox_inches='tight')
+    print(f"Saved similarity_heatmap_chunk_{chunk_number}.png'")
+    plt.close()
+
+
 if __name__ == "__main__":
-    save_vgg_cosine_similarity_of_first_100_bongard_problems()
-    save_clip_cosine_similarity_of_first_100_bongard_problems()
-    save_text_image_clip_cosine_similarity_for_first_100_bongard_problems()
+    # save_vgg_cosine_similarity_of_first_100_bongard_problems()
+    # save_clip_cosine_similarity_of_first_100_bongard_problems()
+    # save_text_image_clip_cosine_similarity_for_first_100_bongard_problems()
+    save_text_to_text_cosine_similarity_for_all_sentences()

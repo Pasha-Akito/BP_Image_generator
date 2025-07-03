@@ -5,7 +5,6 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from itertools import chain
 
 import sys
 sys.path.append('../')
@@ -100,7 +99,7 @@ def create_heatmap_of_cosine_matrix(similarity_matrix, bp_number, title):
     ax.axvline(x=6, linewidth=1, color="white")
     ax.axhline(y=6, linewidth=1, color="white")
     plt.tight_layout()
-    plt.savefig(f'../cosine_similarity/{title}/similarity_heatmap_bongard_problem_{bp_number}.png', dpi=300)
+    plt.savefig(f'../cosine_similarity/{title}_[2,4,7,9,12]/similarity_heatmap_bongard_problem_{bp_number}.png', dpi=300)
     print(f"Saved similarity_heatmap_bongard_problem_{bp_number}.png'")
     plt.close()
 
@@ -128,7 +127,7 @@ def clip_similarity_between_image_and_text(image_path, text):
 
 def save_text_image_clip_cosine_similarity_for_first_100_bongard_problems():
     similarity_matrix = []
-    simple_dataset = pd.read_csv('../data/simple_sentence_image_relationships.csv')
+    simple_dataset = pd.read_csv('../data/english_words_image_relationships.csv')
     unique_sentences = simple_dataset['sentence'].unique()
     for i in range(100):
         for sentence in unique_sentences:
@@ -169,13 +168,13 @@ def create_heatmap_of_clip_text(cosine_similarities, unique_sentences, bp_number
     cbar = ax.collections[0].colorbar
     cbar.set_ticklabels(['0%', '20%', '40%', '60%', '80%', '100%'])
     ax.set_title(f"CLIP Text Image Cosine Similarity | Bongard Problem {bp_number}", fontsize=16)
-    ax.tick_params(axis='both',labelsize=5)
+    ax.tick_params(axis='both',labelsize=3.5)
     plt.xticks(rotation=45)
     plt.yticks(rotation=0)
 
     plt.tight_layout()
-    plt.savefig(f'../cosine_similarity/CLIP_TEXT_IMAGE/text_image_similarity_heatmap_bongard_problem_{bp_number}.png', dpi=300, bbox_inches='tight')
-    print(f"Saved similarity_heatmap_bongard_problem_{bp_number}.png")
+    plt.savefig(f'../cosine_similarity/CLIP_ENGLISH_TEXT_IMAGE/text_image_similarity_heatmap_bongard_problem_{bp_number}.png', dpi=300, bbox_inches='tight')
+    print(f"Saved text_image_similarity_heatmap_bongard_problem_{bp_number}.png")
     plt.close()
 
 def clip_similarity_between_text_and_text(text, text_2):    
@@ -191,7 +190,7 @@ def clip_similarity_between_text_and_text(text, text_2):
         return ((text_embeddings @ text_2_embeddings.t())).item()
     
 def save_text_to_text_cosine_similarity_for_all_sentences():
-    simple_dataset = pd.read_csv('../data/simple_sentence_image_relationships.csv')
+    simple_dataset = pd.read_csv('../data/english_words_image_relationships.csv')
     unique_sentences = simple_dataset['sentence'].unique()
     
     chunk_size = 20
@@ -211,9 +210,9 @@ def save_text_to_text_cosine_similarity_for_all_sentences():
             similarity_matrix.append(row)
         
         similarity_matrix = np.array(similarity_matrix)
-        create_heatmap_of_clip_text(similarity_matrix, sentence_chunk, i+1)
+        create_heatmap_of_clip_text_to_text(similarity_matrix, sentence_chunk, i+1)
 
-def create_heatmap_of_clip_text(similarity_matrix, unique_sentences, chunk_number):
+def create_heatmap_of_clip_text_to_text(similarity_matrix, unique_sentences, chunk_number):
     plt.figure(figsize=(16, 10))
     percentage_annotation_matrix = [[f"{cosine_similarity * 100:.0f}" for cosine_similarity in row] for row in similarity_matrix]
     ax = sns.heatmap(similarity_matrix, xticklabels=unique_sentences, yticklabels=unique_sentences,annot=percentage_annotation_matrix,
@@ -227,7 +226,7 @@ def create_heatmap_of_clip_text(similarity_matrix, unique_sentences, chunk_numbe
     plt.title(f"Text Similarity | Chunk {chunk_number}", fontsize=16, pad=20)
     ax.tick_params(axis='both',labelsize=6)
     plt.tight_layout()
-    plt.savefig(f'../cosine_similarity/CLIP_TEXT_TO_TEXT/similarity_heatmap_chunk_{chunk_number}.png', dpi=300,bbox_inches='tight')
+    plt.savefig(f'../cosine_similarity/CLIP_ENGLISH_TEXT_TO_TEXT/similarity_heatmap_chunk_{chunk_number}.png', dpi=300,bbox_inches='tight')
     print(f"Saved similarity_heatmap_chunk_{chunk_number}.png'")
     plt.close()
 
@@ -235,5 +234,5 @@ def create_heatmap_of_clip_text(similarity_matrix, unique_sentences, chunk_numbe
 if __name__ == "__main__":
     # save_vgg_cosine_similarity_of_first_100_bongard_problems()
     # save_clip_cosine_similarity_of_first_100_bongard_problems()
-    # save_text_image_clip_cosine_similarity_for_first_100_bongard_problems()
-    save_text_to_text_cosine_similarity_for_all_sentences()
+    save_text_image_clip_cosine_similarity_for_first_100_bongard_problems()
+    # save_text_to_text_cosine_similarity_for_all_sentences()

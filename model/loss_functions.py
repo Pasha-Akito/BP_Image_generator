@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 from torchvision import models
-from PIL import Image
 import clip
 
 CLIP_MEAN = [0.48145466, 0.4578275, 0.40821073]
@@ -18,7 +17,8 @@ def convert_to_grayscale(images):
 
 class PerceptualLoss(nn.Module):    
     # VGG layers for feature extraction
-    FEATURE_LAYERS = [2, 7, 12, 21, 30]
+    FEATURE_LAYERS = [2, 4, 7, 9, 12]
+
     # VGG normalization parameters print(torchvision.models.VGG19_Weights.DEFAULT.transforms())
     VGG_MEAN = [0.485, 0.456, 0.406]
     VGG_STD = [0.229, 0.224, 0.225]

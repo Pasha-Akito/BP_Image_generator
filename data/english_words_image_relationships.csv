@@ -1,100 +1,100 @@
 "sentence","bp_number"
-"Big vs. small.",2
-"Hollow outline vs. filled in solid.",3
-"Convex vs. concave.",4
-"Is polygon vs. is smooth without straight lines or corners.",5
-"Triangle vs. quadrilateral.",6
-"Taller than wide vs. wider than tall.",7
-"Positioned right vs. positioned left.",8
-"Non-wiggly outline vs. wiggly outline.",9
-"Approximately triangular outline vs. approximately convex quadrilateral outline.",10
-"Thin and elongated vs. compact.",11
-"Thin elongated convex hull vs. compact convex hull.",12
-"Tall rectangle OR wide ellipse vs. wide rectangle OR tall ellipse.",13
-"All big individual figures vs. all small individual figures.",14
-"Closed shape outline vs. non-closed curve.",15
-"Clockwise spiraling curve vs. counter-clockwise spiraling curve.",16
-"Shape with a reflex corner vs. shape without a reflex corner.",17
-"'Pinched' shape (drastically thinner somewhere in the middle than on the ends) vs. non-pinched shape.",18
-"Horizontal pinch vs. vertical pinch.",19
-"Both dots touching same bulb vs. dots on opposite bulbs.",20
-"Small shape present vs. all shapes large.",21
-"All shapes approximately the same size vs. shapes of different size.",22
-"One vs. two figures.",23
-"A circle vs. no circle.",24
-"Black figure is a triangle vs. black figure is a circle.",25
-"Solid black triangle vs. no solid black triangle.",26
-"More solid black figures vs. more outline figures.",27
-"More solid black circles vs. more outline circles.",28
-"There are more small circles inside the figure outline than outside vs. there are fewer small circles inside the figure outline than outside.",29
-"A curve with one self-crossing vs. a curve without a self-crossing.",30
-"One line vs. two lines.",31
-"A sharp projection vs. no sharp projection.",32
-"Acute angle vs. no acute angle.",33
-"A large hole vs. a small hole.",34
-"The axis of the hole is parallel to the figure axis vs. the axis of the hole is perpendicular to the figure axis.",35
-"Triangle above circle vs. circle above triangle.",36
-"Triangle above circle vs. circle above triangle.",37
-"Triangle larger than circle vs. triangle smaller than circle.",38
-"Segments approximately parallel to each other vs. large angles between segments.",39
-"Three points on a straight line vs. no three points on a straight line.",40
-"Outline circles on one straight line vs. outline circles not on one straight line.",41
-"Points inside the figure outline are on a straight line vs. points inside the figure outline are not on a straight line.",42
-"The vibration amplitude increases from left to right vs. the vibration amplitude decreases from left to right.",43
-"Small circles on different arcs vs. small circles on one arc.",44
-"Outline figure on top of solid black figure vs. black figure on top of outline figure.",45
-"Triangle on top of the circle vs. circle on top of the triangle.",46
-"Triangle inside of the circle vs. circle inside of the triangle.",47
-"Solid dark figures above the outline figures vs. outline figures above the solid dark figures.",48
-"Points inside the figure outline are grouped more densely than outside the contour vs. points outside the figure contour are grouped more densely than inside the contour.",49
-"Vertical axis of symmetry vs. no axis of symmetry.",50
-"Two circles close to each other vs. no two circles close to each other.",51
-"Arrows pointing in different directions vs. arrows pointing in the same direction.",52
-"Inside figure has fewer angles than outside figure vs. inside figure has more angles than outside figure.",53
-"A cross, circle, and triangle arranged counterclockwise vs. a cross, circle, and triangle arranged clockwise.",54
-"A circle is at the left of the cavity if you look from inside the figure vs. a circle is at the right of the cavity if you look from inside the figure.",55
-"All figures of the same color vs. figures of different colors.",56
-"Identical figures vs. figures not identical.",57
-"Solid dark quadrangles are identical vs. solid dark quadrangles are different.",58
-"Figures are similar vs. figures are not similar.",59
-"Some similar figures vs. no similar figures.",60
-"A line separates the crosses in half vs. a line does not separate the crosses in half.",61
-"Ends of the curve are far apart vs. ends of the curve are close together.",62
-"Shading thicker on the right side vs. shading thicker on the left side.",63
-"A cross is located on the extension of the ellipse axis vs. a circle is located on the extension of the ellipse axis.",64
-"A set of triangles elongated horizontally vs. a set of triangles elongated vertically.",65
-"Unconnected circles on a horizontal line vs. unconnected circles on a vertical line.",66
-"The right branch begins at a higher point than the left branch vs. the right branch begins at a lower point than the left branch.",67
-"The end of the right branch is higher than that of the left branch vs. the end of the right branch is lower than that of the left branch.",68
-"Large black dot on the main branch vs. large black dot on a side branch.",69
-"There are no side branches of the second order vs. there are side branches of the second order.",70
-"There are inside figures of the second order vs. there are no inside figures of the second order.",71
-"Ends of the curve are parallel vs. ends of the curve are perpendicular.",72
-"The long axes of the ellipse and rectangle are perpendicular vs. the long axes of the ellipse and rectangle are parallel.",73
-"A tail grows from the obtuse end vs. a tail grows from the acute end.",74
-"Triangle located at the concave side of an arc vs. triangle located at the convex side of an arc.",75
-"Long sides concave vs. long sides convex.",76
-"Angle divided in half vs. angle not divided in half.",77
-"Extensions of segments cross at one point vs. extensions of segments do not cross at one point.",78
-"A dark circle is closer to the outline circle than to the triangle vs. a dark circle is closer to the triangle than to the outline circle.",79
-"Points located at the same distances from a cross vs. points located at different distances from a cross.",80
-"Dark figures can be divided from outline figures by a straight line vs. convex hulls of filled and outlined figures overlap.",81
-"The convex hull of the crosses forms an equilateral triangle vs. the convex hull of the crosses does not form an equilateral triangle.",82
-"A circle is inside of a figure made by crosses vs. a circle is outside of figures made by crosses.",83
-"A quadrangle is outside of a figure made by circles vs. a quadrangle is inside of a figure made by circles.",84
-"Three parts vs. five parts.",85
-"Three parts vs. five parts.",86
-"Four parts vs. five parts.",87
-"Three parts vs. five parts.",88
-"Three parts vs. five parts.",89
-"Three parts vs. four parts.",90
-"Three identical elements vs. four identical elements.",91
-"The chain does not branch vs. the chain branches.",92
-"Branches at outlined circle vs. branches at solid dark circle.",93
-"Solid dark circle not at end vs. solid dark circle at end.",94
-"Vertical hatched lines vs. horizontal hatched lines.",95
-"Triangles vs. quadrangles.",96
-"Triangles vs. circles.",97
-"Triangles vs. quadrangles.",98
-"Outlines made by triangles and circles intersect vs. outlines made by triangles and circles do not intersect.",99
-"The letter A vs. the letter Б.",100
+"Big vs small",2
+"Hollow outline vs filled in solid",3
+"Convex vs concave",4
+"Is polygon vs is smooth without straight lines or corners",5
+"Triangle vs quadrilateral",6
+"Taller than wide vs wider than tall",7
+"Positioned right vs positioned left",8
+"Non-wiggly outline vs wiggly outline",9
+"Approximately triangular outline vs approximately convex quadrilateral outline",10
+"Thin and elongated vs compact",11
+"Thin elongated convex hull vs compact convex hull",12
+"Tall rectangle OR wide ellipse vs wide rectangle OR tall ellipse",13
+"All big individual figures vs all small individual figures",14
+"Closed shape outline vs non-closed curve",15
+"Clockwise spiraling curve vs counter-clockwise spiraling curve",16
+"Shape with a reflex corner vs shape without a reflex corner",17
+"'Pinched' shape (drastically thinner somewhere in the middle than on the ends) vs non-pinched shape",18
+"Horizontal pinch vs vertical pinch",19
+"Both dots touching same bulb vs dots on opposite bulbs",20
+"Small shape present vs all shapes large",21
+"All shapes approximately the same size vs shapes of different size",22
+"One vs two figures",23
+"A circle vs no circle",24
+"Black figure is a triangle vs black figure is a circle",25
+"Solid black triangle vs no solid black triangle",26
+"More solid black figures vs more outline figures",27
+"More solid black circles vs more outline circles",28
+"There are more small circles inside the figure outline than outside vs there are fewer small circles inside the figure outline than outside",29
+"A curve with one self-crossing vs a curve without a self-crossing",30
+"One line vs two lines",31
+"A sharp projection vs no sharp projection",32
+"Acute angle vs no acute angle",33
+"A large hole vs a small hole",34
+"The axis of the hole is parallel to the figure axis vs the axis of the hole is perpendicular to the figure axis",35
+"Triangle above circle vs circle above triangle",36
+"Triangle above circle vs circle above triangle",37
+"Triangle larger than circle vs triangle smaller than circle",38
+"Segments approximately parallel to each other vs large angles between segments",39
+"Three points on a straight line vs no three points on a straight line",40
+"Outline circles on one straight line vs outline circles not on one straight line",41
+"Points inside the figure outline are on a straight line vs points inside the figure outline are not on a straight line",42
+"The vibration amplitude increases from left to right vs the vibration amplitude decreases from left to right",43
+"Small circles on different arcs vs small circles on one arc",44
+"Outline figure on top of solid black figure vs black figure on top of outline figure",45
+"Triangle on top of the circle vs circle on top of the triangle",46
+"Triangle inside of the circle vs circle inside of the triangle",47
+"Solid dark figures above the outline figures vs outline figures above the solid dark figures",48
+"Points inside the figure outline are grouped more densely than outside the contour vs points outside the figure contour are grouped more densely than inside the contour",49
+"Vertical axis of symmetry vs no axis of symmetry",50
+"Two circles close to each other vs no two circles close to each other",51
+"Arrows pointing in different directions vs arrows pointing in the same direction",52
+"Inside figure has fewer angles than outside figure vs inside figure has more angles than outside figure",53
+"A cross, circle, and triangle arranged counterclockwise vs a cross, circle, and triangle arranged clockwise",54
+"A circle is at the left of the cavity if you look from inside the figure vs a circle is at the right of the cavity if you look from inside the figure",55
+"All figures of the same color vs figures of different colors",56
+"Identical figures vs figures not identical",57
+"Solid dark quadrangles are identical vs solid dark quadrangles are different",58
+"Figures are similar vs figures are not similar",59
+"Some similar figures vs no similar figures",60
+"A line separates the crosses in half vs a line does not separate the crosses in half",61
+"Ends of the curve are far apart vs ends of the curve are close together",62
+"Shading thicker on the right side vs shading thicker on the left side",63
+"A cross is located on the extension of the ellipse axis vs a circle is located on the extension of the ellipse axis",64
+"A set of triangles elongated horizontally vs a set of triangles elongated vertically",65
+"Unconnected circles on a horizontal line vs unconnected circles on a vertical line",66
+"The right branch begins at a higher point than the left branch vs the right branch begins at a lower point than the left branch",67
+"The end of the right branch is higher than that of the left branch vs the end of the right branch is lower than that of the left branch",68
+"Large black dot on the main branch vs large black dot on a side branch",69
+"There are no side branches of the second order vs there are side branches of the second order",70
+"There are inside figures of the second order vs there are no inside figures of the second order",71
+"Ends of the curve are parallel vs ends of the curve are perpendicular",72
+"The long axes of the ellipse and rectangle are perpendicular vs the long axes of the ellipse and rectangle are parallel",73
+"A tail grows from the obtuse end vs a tail grows from the acute end",74
+"Triangle located at the concave side of an arc vs triangle located at the convex side of an arc",75
+"Long sides concave vs long sides convex",76
+"Angle divided in half vs angle not divided in half",77
+"Extensions of segments cross at one point vs extensions of segments do not cross at one point",78
+"A dark circle is closer to the outline circle than to the triangle vs a dark circle is closer to the triangle than to the outline circle",79
+"Points located at the same distances from a cross vs points located at different distances from a cross",80
+"Dark figures can be divided from outline figures by a straight line vs convex hulls of filled and outlined figures overlap",81
+"The convex hull of the crosses forms an equilateral triangle vs the convex hull of the crosses does not form an equilateral triangle",82
+"A circle is inside of a figure made by crosses vs a circle is outside of figures made by crosses",83
+"A quadrangle is outside of a figure made by circles vs a quadrangle is inside of a figure made by circles",84
+"Three parts vs five parts",85
+"Three parts vs five parts",86
+"Four parts vs five parts",87
+"Three parts vs five parts",88
+"Three parts vs five parts",89
+"Three parts vs four parts",90
+"Three identical elements vs four identical elements",91
+"The chain does not branch vs the chain branches",92
+"Branches at outlined circle vs branches at solid dark circle",93
+"Solid dark circle not at end vs solid dark circle at end",94
+"Vertical hatched lines vs horizontal hatched lines",95
+"Triangles vs quadrangles",96
+"Triangles vs circles",97
+"Triangles vs quadrangles",98
+"Outlines made by triangles and circles intersect vs outlines made by triangles and circles do not intersect",99
+"The letter A vs the letter Б",100

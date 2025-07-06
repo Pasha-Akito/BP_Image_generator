@@ -17,6 +17,17 @@ TEST_GENERATOR = True
 # TEXT_TO_GENERATE = "LEFT(MORE(SOLID(FIGURES),OUTLINE(FIGURES)))"
 TEXT_TO_GENERATE = "RIGHT(EXISTS(SMALL(FIGURES)))"
 
+def force_binary_pixels(images, threshold=0.0):
+    # Images are in -1, 1, so threshold can be 0.0
+    binary_images = torch.where(images > threshold, torch.ones_like(images), -torch.ones_like(images))
+    return binary_images
+
+def adapative_binary_pixels(image):
+    # Using image mean as threshold
+    threshold = image.mean()
+    binary = torch.where(image > threshold, torch.ones_like(image), -torch.ones_like(image))
+    return binary
+
 def generate_and_save_images(model, tokeniser, text, device, output_dir="../outputs"):
     model.eval()
     tokens = tokeniser.encode(text)
@@ -26,8 +37,11 @@ def generate_and_save_images(model, tokeniser, text, device, output_dir="../outp
         left, right = model(text_tensor)
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    left_path = os.path.join(output_dir, f"left_[More_Noise_during_training]-3.png")
-    right_path = os.path.join(output_dir, f"right_[More_Noise_during_training]-3.png")
+    left_path = os.path.join(output_dir, f"left_[binary-adapative]-3.png")
+    right_path = os.path.join(output_dir, f"right_[binary-adapative]-3.png")
+
+    left = adapative_binary_pixels(left)
+    right = adapative_binary_pixels(right)
     
     save_image(left, left_path, normalize=True)
     save_image(right, right_path, normalize=True)

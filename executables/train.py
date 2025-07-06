@@ -13,7 +13,7 @@ sys.path.append('../')
 from data.dataset_loader import SentenceToImageDataset
 from data.tokeniser import Tokeniser
 from model.transformer_model import TextToImageTransformer
-from model.loss_functions import CLIPLoss, PerceptualLoss
+from model.loss_functions import PerceptualLoss
 
 TOTAL_EPOCHS = 50
 TRAIN_DEBUG = True
@@ -34,11 +34,8 @@ def main():
 
     optimizer = optim.Adam(model.parameters(), lr=0.0001) 
     perceptual_loss = PerceptualLoss().to(device)
-    clip_loss = CLIPLoss(device).to(device)
 
-    l1_weighting = 0.0 # L1 loss weighting 
     perceptual_loss_weighting = 1.0 # Perceptual loss weighting
-    clip_loss_weighting = 1.0 # Clip loss weighting
     
     config = {
         "vocab_size": len(tokeniser.vocab),
@@ -64,10 +61,8 @@ def main():
             raw_sentences_text = data_batch["raw_sentence"]
 
             predicted_left_image, predicted_right_image = model(tokenised_text)
-            l1 = nn.functional.l1_loss(predicted_left_image, real_left_image) + nn.functional.l1_loss(predicted_right_image, real_right_image)
             p_loss = perceptual_loss(predicted_left_image, real_left_image) + perceptual_loss(predicted_right_image, real_right_image)
-            c_loss = clip_loss(predicted_left_image, raw_sentences_text) + clip_loss(predicted_right_image, raw_sentences_text)
-            total_batch_loss = l1_weighting * l1 + perceptual_loss_weighting * p_loss + clip_loss_weighting * c_loss
+            total_batch_loss = perceptual_loss_weighting * p_loss
 
             optimizer.zero_grad()
             total_batch_loss.backward()

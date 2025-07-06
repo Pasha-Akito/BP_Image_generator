@@ -17,8 +17,6 @@ TEST_GENERATOR = True
 # TEXT_TO_GENERATE = "LEFT(MORE(SOLID(FIGURES),OUTLINE(FIGURES)))"
 TEXT_TO_GENERATE = "RIGHT(EXISTS(SMALL(FIGURES)))"
 
-TEXT_TO_GENERATE = "One vs two figures"
-
 def generate_and_save_images(model, tokeniser, text, device, output_dir="../outputs"):
     model.eval()
     tokens = tokeniser.encode(text)
@@ -28,8 +26,8 @@ def generate_and_save_images(model, tokeniser, text, device, output_dir="../outp
         left, right = model(text_tensor)
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    left_path = os.path.join(output_dir, f"left_[english]-1.png")
-    right_path = os.path.join(output_dir, f"right_[english]-1.png")
+    left_path = os.path.join(output_dir, f"left_[VGG_weight_layers]-3.png")
+    right_path = os.path.join(output_dir, f"right_[VGG_weight_layers]-3.png")
     
     save_image(left, left_path, normalize=True)
     save_image(right, right_path, normalize=True)

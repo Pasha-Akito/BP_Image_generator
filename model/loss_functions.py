@@ -17,7 +17,8 @@ def convert_to_grayscale(images):
 
 class PerceptualLoss(nn.Module):    
     # VGG layers for feature extraction
-    FEATURE_LAYERS = [2, 4, 7, 9, 12]
+    FEATURE_LAYERS = [2, 4, 7, 9, 12, 14, 16, 21]
+    LAYER_WEIGHTS = [1.0, 0.9, 0.7, 0.5, 0.3, 0.2, 0.15, 0.1]
 
     # VGG normalization parameters print(torchvision.models.VGG19_Weights.DEFAULT.transforms())
     VGG_MEAN = [0.485, 0.456, 0.406]
@@ -53,10 +54,10 @@ class PerceptualLoss(nn.Module):
         real = normalize_images(real, self.VGG_MEAN, self.VGG_STD)
         
         total_loss = 0.0
-        for feature_extractor in self.feature_blocks:
+        for i, feature_extractor in enumerate(self.feature_blocks):
             predicted = feature_extractor(predicted)
             real = feature_extractor(real)
-            total_loss += self.mse_loss(predicted, real)
+            total_loss += self.LAYER_WEIGHTS[i] * self.mse_loss(predicted, real)
             
         return total_loss
 

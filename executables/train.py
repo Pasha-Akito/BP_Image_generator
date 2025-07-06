@@ -43,7 +43,7 @@ def main():
         "total_attention_heads": 16,
         "total_encoder_layers": 8,
         "max_token_size": 64,
-        "latent_dim": 128
+        "latent_dimensions": 128
     }
 
     with open("../model/config.json", "w") as output:

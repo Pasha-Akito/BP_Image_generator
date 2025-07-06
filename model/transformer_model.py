@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class TextToImageTransformer(nn.Module):
-    def __init__(self, vocab_size, embedding_dimensions=512, total_attention_heads=16, total_encoder_layers=8, max_token_size=64, latent_dim=128):
+    def __init__(self, vocab_size, embedding_dimensions=512, total_attention_heads=16, total_encoder_layers=8, max_token_size=64, latent_dimensions=128):
         super().__init__()
 
         # Embedding 
@@ -19,8 +19,8 @@ class TextToImageTransformer(nn.Module):
         self.left_generator = self.build_generator(embedding_dimensions)
         self.right_generator = self.build_generator(embedding_dimensions)
 
-        self.noise_projection = nn.Linear(latent_dim, embedding_dimensions)
-        self.latent_dim = latent_dim
+        self.noise_projection = nn.Linear(latent_dimensions, embedding_dimensions)
+        self.latent_dimensions = latent_dimensions
 
     def build_generator(self, embedding_dimensions):
         return nn.Sequential(

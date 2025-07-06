@@ -1,4 +1,5 @@
 import re
+import torch
 
 class Tokeniser:
     def __init__(self):
@@ -30,3 +31,17 @@ class Tokeniser:
             token_ids = token_ids[:max_token_length]
 
         return token_ids
+    
+    def decode(self, token_ids):
+        if isinstance(token_ids, torch.Tensor):
+            token_ids = token_ids.cpu().numpy()
+        
+        tokens = []
+        for token_id in token_ids:
+            if token_id in self.idx_to_token:
+                token = self.idx_to_token[token_id]
+                if token not in ["<PAD>", "<UNK>"]:  # Skip padding and unknown tokens
+                    tokens.append(token)
+        
+        # Join tokens back into a sentence
+        return "".join(tokens)

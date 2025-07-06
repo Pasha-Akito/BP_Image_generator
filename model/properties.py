@@ -42,7 +42,7 @@ PROPERTY_VOCAB = {
     "MIDDLE": 53, "START": 54, "END": 55,
     "CLOCKWISE": 56, "COUNTERCLOCKWISE": 57,
     "OUTSIDE": 66,
-    "INCREASING": 68, "DECREASING": 69,
+    "INCREASING": 10, "DECREASING": 11,
     "ON": 65, # Something is on something
     "MOVING": 58 # Uses one of the above 
 

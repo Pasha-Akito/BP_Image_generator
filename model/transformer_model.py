@@ -62,7 +62,7 @@ class TextToImageTransformer(nn.Module):
 
         if self.training:
             batch_size = text.size(0)
-            noise = torch.randn(batch_size, self.latent_dim, device=text.device)
+            noise = torch.randn(batch_size, self.latent_dimensions, device=text.device)
             noise_embedding = self.noise_projection(noise)
             context_vector = context_vector + 0.1 * noise_embedding
 

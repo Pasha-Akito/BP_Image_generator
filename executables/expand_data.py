@@ -7,9 +7,6 @@ def extract_folder_name(bp_number):
 def get_image_pair_identifers():
     return [(left, right) for right in range(6, 12) for left in range(6)]
 
-def get_image_pair_identifers_for_only_three_images():
-    return [(left, right) for right in range(3, 6) for left in range(3)]
-
 def generate_data():
     simple_sentence_image_relationships_df = pd.read_csv("../data/simple_sentence_image_relationships.csv")
     expanded_sentence_image_relationships = []
@@ -18,12 +15,6 @@ def generate_data():
         sentence = row.sentence
         bp_number = row.bp_number
         folder_name = extract_folder_name(bp_number)
-
-        if (bp_number > 999): 
-            folder_name = f"p{bp_number}"
-        
-        if (bp_number == 1211 or bp_number == 1232): # 1211 & 1232 only have three images each
-            image_pair_identifiers = get_image_pair_identifers_for_only_three_images()
 
         for left_identifer, right_identifier in image_pair_identifiers:
             expanded_sentence_image_relationships.append({

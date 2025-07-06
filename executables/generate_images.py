@@ -5,6 +5,7 @@ from torchvision.utils import save_image
 import os
 from datetime import datetime
 from PIL import Image
+import pandas as pd
 
 import sys
 sys.path.append('../')
@@ -12,10 +13,13 @@ sys.path.append('../')
 from model.transformer_model import TextToImageTransformer
 from data.tokeniser import Tokeniser
 
-TEST_GENERATOR = True
+TEST_GENERATOR = False
 # TEXT_TO_GENERATE = "RIGHT(EXACTLY(2,FIGURES))"
 # TEXT_TO_GENERATE = "LEFT(MORE(SOLID(FIGURES),OUTLINE(FIGURES)))"
-TEXT_TO_GENERATE = "RIGHT(EXISTS(SMALL(FIGURES)))"
+# TEXT_TO_GENERATE = "RIGHT(EXISTS(SMALL(FIGURES)))"
+
+TEXT_TO_GENERATE = "RIGHT(EXISTS(VERTICAL(SYMMETRY)))" 
+BP_NUMBER = 152
 
 def force_binary_pixels(images, threshold=0.0):
     # Images are in -1, 1, so threshold can be 0.0
@@ -28,7 +32,7 @@ def adapative_binary_pixels(image):
     binary = torch.where(image > threshold, torch.ones_like(image), -torch.ones_like(image))
     return binary
 
-def generate_and_save_images(model, tokeniser, text, device, output_dir="../outputs"):
+def generate_and_save_images(model, tokeniser, text, device, output_dir="../model_answers"):
     model.eval()
     tokens = tokeniser.encode(text)
     
@@ -37,8 +41,8 @@ def generate_and_save_images(model, tokeniser, text, device, output_dir="../outp
         left, right = model(text_tensor)
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    left_path = os.path.join(output_dir, f"left_[binary-adapative]-3.png")
-    right_path = os.path.join(output_dir, f"right_[binary-adapative]-3.png")
+    left_path = os.path.join(output_dir, f"left_temp.png")
+    right_path = os.path.join(output_dir, f"right_temp.png")
 
     left = adapative_binary_pixels(left)
     right = adapative_binary_pixels(right)
@@ -61,6 +65,31 @@ def test_generator(generator, device):
     plt.title("Generator Test Output")
     plt.show()
 
+def generate_and_save_all_image_outputs(model, tokeniser, device):
+    bongard_problems_to_infer = pd.read_csv("../data/bongard_problems_to_test.csv")
+    for row in bongard_problems_to_infer.itertuples():
+        sentence = row.sentence
+        bp_number = row.bp_number
+        left_path, right_path = generate_and_save_images(model, tokeniser, sentence, device)    
+        create_and_save_plots(left_path, right_path, bp_number, sentence)
+
+def create_and_save_plots(left_path, right_path, bp_number, sentence):
+    left_img = Image.open(left_path)
+    right_img = Image.open(right_path)
+
+    fig, ax = plt.subplots(1, 2, figsize=(10, 5))
+
+    ax[0].imshow(left_img)
+    ax[0].set_title("Left Image")
+    ax[1].imshow(right_img)
+    ax[1].set_title("Right Image")
+    plt.suptitle(f'BP {bp_number} | "{sentence}"', fontsize=18)
+    ax[0].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
+    ax[1].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
+    plt.savefig(f'../model_answers/BP_{bp_number}_{sentence}.png', dpi=300, bbox_inches='tight')
+    print(f'Saved BP_{bp_number}_{sentence}.png')
+    plt.close()
+    
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -79,20 +108,12 @@ def main():
     tokeniser = Tokeniser()
     tokeniser.vocab = vocab
 
-    left_path, right_path = generate_and_save_images(model, tokeniser, TEXT_TO_GENERATE, device)    
+    # To create and save images for all data found in bongard_problems_to_test.csv
+    # generate_and_save_all_image_outputs(model, tokeniser, device)
 
-    fig, ax = plt.subplots(1, 2, figsize=(10, 5))
-
-    left_img = Image.open(left_path)
-    right_img = Image.open(right_path)
-    
-    ax[0].imshow(left_img)
-    ax[0].set_title("Left Image")
-    ax[1].imshow(right_img)
-    ax[1].set_title("Right Image")
-    plt.suptitle(f'Input: "{TEXT_TO_GENERATE}"')
-    plt.show()
-
+    # # To manually create images for a given text and bp 
+    left_path, right_path = generate_and_save_images(model, tokeniser, TEXT_TO_GENERATE, device)
+    create_and_save_plots(left_path, right_path, BP_NUMBER, TEXT_TO_GENERATE)
 
 if __name__ == "__main__":
     main()

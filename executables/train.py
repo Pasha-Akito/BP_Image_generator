@@ -42,10 +42,11 @@ def main():
         "embedding_dimensions": 512,
         "total_attention_heads": 16,
         "total_encoder_layers": 8,
-        "max_token_size": 64
+        "max_token_size": 64,
+        "latent_dim": 128
     }
 
-    with open("config.json", "w") as output:
+    with open("../model/config.json", "w") as output:
         json.dump(config, output)
 
     model.train()

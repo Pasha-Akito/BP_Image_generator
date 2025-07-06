@@ -26,8 +26,8 @@ def generate_and_save_images(model, tokeniser, text, device, output_dir="../outp
         left, right = model(text_tensor)
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    left_path = os.path.join(output_dir, f"left_[VGG_weight_layers]-3.png")
-    right_path = os.path.join(output_dir, f"right_[VGG_weight_layers]-3.png")
+    left_path = os.path.join(output_dir, f"left_[More_Noise_during_training]-3.png")
+    right_path = os.path.join(output_dir, f"right_[More_Noise_during_training]-3.png")
     
     save_image(left, left_path, normalize=True)
     save_image(right, right_path, normalize=True)

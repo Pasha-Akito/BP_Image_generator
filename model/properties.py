@@ -2,7 +2,7 @@ PROPERTY_VOCAB = {
     # Basic functions
     "LEFT": 0, "RIGHT": 1, "EXISTS": 2, "EXACTLY": 3, "GREATERLA": 4,
     "MORESIMLA": 5, "GREATERLLA": 6, "MORE": 7, "EQUALNUM": 8, "GET": 9,
-    "CAP": 10, "SETMINUS": 11, "CUP": 12, "INSIDE": 13,
+    "CUP": 12, "INSIDE": 13,
     "ALIGNED": 15, "HIGH": 16, "LOW": 17,
     # New Additions
     "CEASES": 41, # Opposite of EXISTS

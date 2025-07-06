@@ -14,6 +14,8 @@ PROPERTY_VOCAB = {
     "LESS",  # Opposite of MORE
     "CROSSES",  # something crossing something, or something crosses
     "LESSERLLA",  # Opposite of GREATERLLA
+    "IDENTICAL", # Something is the same
+    "OPPOSITE", # Something is the opposite
 
     # Shapes
     "CIRCLES", "FIGURES", "QUADRILATERALS", "TRIANGLES",

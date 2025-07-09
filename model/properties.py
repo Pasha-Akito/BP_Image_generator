@@ -1,19 +1,23 @@
 PROPERTY_VOCAB = {
     # Basic functions
-    "LEFT", "RIGHT", "EXISTS", "EXACTLY", "GREATERLA",
-    "MORESIMLA", "GREATERLLA", "MORE", "EQUALNUM", "GET",
+    "LEFT", "RIGHT", "EXISTS", "EXACTLY", 
+    "GREATER", # Shapes are of more greater of some attribute than shape/part of shape
+    "MORESIMILAR", # Shapes are more similar of some attirbute than shape/part of shape
+    "GREATERALL", # All shapes  
+    "MORE", #  
+    "EQUALNUM", "GET",
     "INSIDE", "ALIGNED", "HIGH", "LOW", 
     "REGULAR", # Regular is in the context of the images or images
     
     # New Additions
     "CEASES",  # Opposite of EXISTS
-    "LESSERLA",  # Opposite of GREATERLA
+    "LESSER",  # Opposite of GREATER
     "UNION",  # Together
     "DIFFNUM",  # almost opposite of equalnum, varying number of something
-    "LESSSIMLA",  # Opposite of MORESIMLA
+    "LESSSIMILAR",  # Opposite of MORESIMILAR
     "LESS",  # Opposite of MORE
     "CROSSES",  # something crossing something, or something crosses
-    "LESSERLLA",  # Opposite of GREATERLLA
+    "LESSERALL",  # Opposite of GREATERALL
     "IDENTICAL", # Something is the same
     "OPPOSITE", # Something is the opposite
 

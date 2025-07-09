@@ -1,0 +1,12 @@
+2 - Creates a mapping for what is big and what is small, and what exactly 1 figure means
+3 - Creates a mapping for what is solid and what is outline, and what exactly 1 figure means
+4 - defining CONVEXITY and CONCAVITY, which also means the middle area of a figure is greater than its start and end, which is short for
+EXISTS(HIGH(GET(FIGURES,MIDDLE),AREA)) and EXISTS(LOW(GET(FIGURES,MIDDLE),AREA)). Creating a mapping between high and low area for concavity and convexity 
+in this context
+5 - Creates a mapping for polygons vs non polygons. There are many mentions of NCORNERS and NSIDES which is relevant for the model 
+to understand basic shape composition
+6 - This is a great opportunity to map TRIANGLES to relevant NCORNERS and NSIDES, the same for QUADRILATERALS
+7 - Defining Orientation, high orientation means upright, can also be mapped as having high vertical, 
+same thing with high horizontal area and low orientation mapping
+8 - Mapping XPOS, this BP is also used as an opportunity to further map GREATER, LESSER with each other, and with HIGH and LOW of a given attribute
+10 - This is used to further map triangles and quadrilaterials from BP 6, there is noise here, but the general idea of a triangle and quadrilaterial exists

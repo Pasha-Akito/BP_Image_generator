@@ -1,9 +1,9 @@
 PROPERTY_VOCAB = {
     # Basic functions
     "LEFT", "RIGHT", "EXISTS", "EXACTLY", 
-    "GREATER", # Shapes are of more greater of some attribute than shape/part of shape
+    "GREATER", # Shapes are of more greater of some attribute than shape/part of shape in opposite side of images
     "MORESIMILAR", # Shapes are more similar of some attirbute than shape/part of shape
-    "GREATERALL", # All shapes  
+    "GREATERALL", # All shapes have something greater than other shapes/part of shape in the same sides of images
     "MORE", #  
     "EQUALNUM", "GET",
     "INSIDE", "ALIGNED", "HIGH", "LOW", 
@@ -28,14 +28,13 @@ PROPERTY_VOCAB = {
     "LINES",  # Lines are more specific figures which are not joined by the ends
 
     # Attributes
-    "AREA", "CONVEXITY", "CONCAVITY", "ORIENTATION", "XPOS", "NCORNERS",
+    "AREA", "CONVEXITY", "CONCAVITY", "ORIENTATION", "XPOS", "NCORNERS", "NSIDES",
     "YPOS", "COMPACTNESS", "ELONGATION", "DISTANCE",
     "HOLES", "HULLS", "BIG", "SMALL", "SOLID", "OUTLINE",
     
     # New Additions
-    "CURVATURE",  # How curvy something is
-    "VERTICAL",  # How much vertical height something is
-    "HORIZONTAL",  # How much horizontal height something is
+    "VERTICAL",  # Used to get a vertical aspect of a shape/part of shape
+    "HORIZONTAL",  # Used to get a horizontal aspect of shape/part of shape
     "ANGLES",  # Angles, HIGH angle means wide obtuse angle, LOW angle means sharp acute angle
     "SYMMETRY",  # The Symmetric properties of something, can be used with vertical, horizontal & exactly or exists
 

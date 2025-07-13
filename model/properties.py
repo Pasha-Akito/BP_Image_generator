@@ -12,11 +12,11 @@ PROPERTY_VOCAB = {
     # New Additions
     "CEASES",  # Opposite of EXISTS
     "LESSER",  # Opposite of GREATER
-    "UNION",  # Together
+    "AND",  # Both conditions are statisified
+    "OR", # Either condition is satisifed
     "DIFFNUM",  # almost opposite of equalnum, varying number of something
     "LESSSIMILAR",  # Opposite of MORESIMILAR
     "LESS",  # Opposite of MORE
-    "CROSSES",  # something crossing something, or something crosses
     "LESSERALL",  # Opposite of GREATERALL
     "IDENTICAL", # Something is the same
     "OPPOSITE", # Something is the opposite
@@ -28,15 +28,16 @@ PROPERTY_VOCAB = {
     "LINES",  # Lines are more specific figures which are not joined by the ends
 
     # Attributes
-    "AREA", "CONVEXITY", "CONCAVITY", "ORIENTATION", "XPOS", "NCORNERS", "NSIDES",
+    "SIZE", "CONVEXITY", "CONCAVITY", "ORIENTATION", "XPOS", "NCORNERS", "NSIDES",
     "YPOS", "COMPACTNESS", "ELONGATION", "DISTANCE",
-    "HOLES", "HULLS", "BIG", "SMALL", "SOLID", "OUTLINE",
+    "HOLES", "HULLS", "BIG", "SMALL", "SOLID",
     
     # New Additions
     "VERTICAL",  # Used to get a vertical aspect of a shape/part of shape
     "HORIZONTAL",  # Used to get a horizontal aspect of shape/part of shape
     "ANGLES",  # Angles, HIGH angle means wide obtuse angle, LOW angle means sharp acute angle
     "SYMMETRY",  # The Symmetric properties of something, can be used with vertical, horizontal & exactly or exists
+    "ASPECTR" # High aspect ration would equal thin and elongated, while low aspect ration equals compact
 
     # Quantifiers
     "ONE", "TWO", "THREE", "FOUR",
@@ -45,7 +46,7 @@ PROPERTY_VOCAB = {
     "LEFTD", "RIGHTD", "UP", "DOWN",  # Adding D to the end of LEFT and RIGHT to denote they are used for directions
     "MIDDLE", "START", "END",
     "CLOCKWISE", "COUNTERCLOCKWISE",
-    "OUTSIDE",
+    "OUTWARDS",
     "INCREASING", "DECREASING",
     "ON",  # Something is on something
     "MOVING"  # Uses one of the above

@@ -1,2 +1,2 @@
-0 - The White background images confuses the model image generation and little to gain from language mapping
+1 - The White background images confuses the model image generation and little to gain from language mapping
 9 - It is hard to conceptually frame what is a wiggly line or not without adding a unique identifier. It won't add much and will confuse the model

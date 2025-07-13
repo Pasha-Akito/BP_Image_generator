@@ -1,8 +1,10 @@
-2 - Creates a mapping for what is big and what is small, and what exactly 1 figure means
-3 - Creates a mapping for what is solid and what is outline, and what exactly 1 figure means
+2 - Creates a mapping for what is BIG and what is SMALL, and what exactly 1 figure means. Adding another attribute called SIZE, and attributring HIGH SIZE to BIG
+and LOW SIZE to SMALL
+3 - Creates a mapping for what is SOLID and what is OUTLINE, and what exactly 1 figure means
 4 - defining CONVEXITY and CONCAVITY, which also means the middle area of a figure is greater than its start and end, which is short for
 EXISTS(HIGH(GET(FIGURES,MIDDLE),AREA)) and EXISTS(LOW(GET(FIGURES,MIDDLE),AREA)). Creating a mapping between high and low area for concavity and convexity 
-in this context
+in this context. This is the first time that GET is used, and is used to extract an aspect of a figure. We are taking the MIDDLE of these shapes and comparing
+their area to the rest of the shape. As CONVEX shapes have bigger middle area as opposed to CONCAVE shapes
 5 - Creates a mapping for polygons vs non polygons. There are many mentions of NCORNERS and NSIDES which is relevant for the model 
 to understand basic shape composition
 6 - This is a great opportunity to map TRIANGLES to relevant NCORNERS and NSIDES, the same for QUADRILATERALS
@@ -10,3 +12,73 @@ to understand basic shape composition
 same thing with high horizontal area and low orientation mapping
 8 - Mapping XPOS, this BP is also used as an opportunity to further map GREATER, LESSER with each other, and with HIGH and LOW of a given attribute
 10 - This is used to further map triangles and quadrilaterials from BP 6, there is noise here, but the general idea of a triangle and quadrilaterial exists
+Can take a look at removing 10 and seeing the behaviour
+11 - Defining ASPECTR, high aspectr means thin and elongated while low aspectr means compact like polygons. This is used as an answer for this 11 and 
+creates a good mapping to understand thin and compact shapes. Defining ELONGATION, COMPACTNESS and creating a mapping between them and ASPECTR
+12 - This BP is the same as 11, but instead of comparing the shape we compare the outside of the shape which is defined by HULL. This is a great opportunity
+to reinforce the relationship between ASPECTR with ELONGATION and COMPACTNESS. As well as the mapping for GET and HULL
+13 - This BP is similar to 7 as its to do with the orientation of shapes, this time we introduce OR, which means either condition has to be satisified.
+We reinforce the mapping between orientation and high horizontal and high vertical area as well as two different OR answers with the conditions swapped, to 
+create a mapping that OR can take two conditions in any order.
+14 - This is a simple BIG vs SMALL BP. It reinforces the mapping between BIG and SMALL figures and HIGH and LOW SIZE.
+
+After BP14 is the point I decided to get rid of CEASES, as per the literature, we should describe what it is, not what its not, as this does not actually 
+give correct representations of the world space in bongard problems. We can make give almost infinite representations of what it is not which is not actually
+answering the Bongard Problem. The sole benefit of using CEASES, is giving us more data to work with. A duplicate csv was created from BP14 onwards with CEASES,
+so a test will be done at the end to see if adding CEASES, which could provide thousands of more rows of data can help with the image generation.
+
+15 - LINES is used for the first time, and here we are making a distinction between figures and lines
+16 - We have MOVING, and new directions, in this BP we have CLOCKWISE and COUNTERCLOCKWISE. We have MOVING used again, but not CLOCKWISE and COUNTERCLOCKWISE.
+This BP is mostly used to add image data but not really connecting any previous mapping with CLOCKWISE, COUNTERCLOCKWISE and MOVING yet. Might consider removing 
+this as it does not seem to add to mapping
+17 - Defining ANGLES and REGULAR. Here we have reflex vs no reflex, reflex can be considered a HIGH ANGLES. but since we are describing an attirbute, saying
+LOW ANGLES to oppose reflex is not necessarily correct in the right images. We just have figures with angles which are nothing special in their context, which
+is another way to make the distinction, so we have REGULAR to describe the angles.
+18 - Instead of describing Pinching as its own word, I used existing vocabulary to describe the middle of the shape as either low in area or a regular area.
+This will build upon the existing mappings.
+19 - This is similar to 19, but now the pinch is in a specific direction. I have extended the current GET function get more specific aspects of a shape. 
+This keeps the solution answers simple and further the mappings since we are using existing vocabulary.
+20 - Defining ON and IDENTICAL and OPPOSITE. ON is something that is used to describe if something is on top of something. I'm not sure on BP20 as there is no
+direct mapping of the previous vocabulary to OPPOSITE and IDENTICAL. 
+
+BPs which have new vocabulary which is not mapped to existing vocabulary (16,20) - Consider test with and without
+
+21 - Introducing MORESIMILAR and LESSSIMILAR, there already exists a few ways to properly describe this answer in the visual language so MORESIMILAR and LESSIMILAR
+can learn some mapping.
+22 - There is an equal number of shapes with the same size vs shapes with differing sizes. We add two new comparison tools EQUALNUM and DIFFNUM which are mapped
+with MORESIMILAR and LESSIMILAR
+23 - This BP is quite simple, we have EXACTLY 1 and EXACTLY 2 figures 
+24 - For this BP we only have one answer since we got rid of CEASES. While on OEBP.org the answer is said to be "A circle vs. no circle.", just saying that circles
+exists in the left side is enough to solve both sides. While if we focus on the right, we can say no circles exist, but many other shapes also don't exist. So its
+more correct as per the literature to just focus on what does exist.
+25 - Existing vocabulary is used to answer this BP, we are comparing the existence of solid shapes, there is a more exact answer where there is exactly 1 
+solid shape. This reinforces the mapping between EXACTLY and EXISTS, and the model should recognise SOLID compared to an outline shape as we have many other 
+BPs where EXACTLY and EXISTS is used but on outline shapes. I say outline here, but in answers they are not described as outline, only as shapes, so we can even
+assume that the baseline status of a shape is an outline shape when comparing all BPs so far.
+26 - Same situation as BP24, we only have one valid answer using our vocabulary. This will also help train the model on mapping solid shapes
+27 - This is the first time we are using MORE and LESS, it is used to compare within the images themselves. 
+
+After answering BP27, I choose to remove all existing OUTLINE from the vocabulary. This is largely due to BP25 realisation, there is no point in denoting specifically
+if a shape is an outline, because from how Mikhail Bongard has developed the BPs, the default attribute of a particular shape is a hollowed shape. Therefore,
+it would help the model and the mapping more going forward if we remove OUTLINE. On OEBP.org, BP27 is answered as "More solid black figures vs. more outline figures."
+so far OUTLINE has only been used for BP3, so the model has little mapping to go back on to understand what is an outlined shape. By removing OUTLINE, we increase 
+the robustness of the mapping and should allow the model to generate images with better understanding of solid vs standard shapes.
+
+28 - This is the same situation as 27 but instead of figures we are describing CIRCLES.
+29 - INSIDE is defined here for the first time, INSIDE is used to describe shapes or aspects of shapes which are inside of another figure. This attribute is loosely
+based as it does not define what it is inside, just what is inside. If a more specific mapping needs to be made for what it is inside then this will be refactored.
+Using existing vocabulary, there is no other way to describe this puzzle.
+30 - We can use ON to describe crossing lines. This will further map ON.
+31 - Existing vocabulary is used to answer this BP. On OBEP.org, the answer is "One line vs. two lines.", while a circle could be drawn by a single line, it would
+be incorrect to define this problem as EXACLTY(1,LINES) or EXACTLY(2,LINES), so the final answer would contain an OR statement where it is EXACTLY 1 LINES or EXACLTY
+1 CIRCLES.
+32 - Defining OUTWARDS as another direction. It was difficult to describe this problem in the vocabulary but we can define sharp corners as low angles which are 
+moving outwards
+33 - Can be described with existing vocabulary. Same situation as 28 and 27 where only one valid sentence exists
+34 - HOLES is defined as an aspect of a shape. We are comparing the holes instead of the figures with HIGH, LOW SIZE or BIG and SMALL
+35 - MORESIMILAR and LESSIMILAR are extended and used to describe a shape and aspect of shape in relation to an attribute. Here we can describe the hole inside the 
+figure as having more similar orientation compared to less similar orientation in the other images. This is a similar extension of GET with three arguments
+36 - GREATERALL and LESSERALL is introduced in this BP. This differs from GREATER/LESSER as GREATERALL/LESSERALL describes the image itself. In this context
+for BP36, something is happening in the image groups themselves. TRIANGLES over CIRCLES vs CIRCLES over TRIANGLES
+37 - Rare instance where the BP has the exact same answer as another BP (BP36). Only difference is the images contain a square, which is noisy as its meant
+to distract from the CIRCLES and TRIANGLES

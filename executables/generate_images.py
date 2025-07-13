@@ -109,11 +109,11 @@ def main():
     tokeniser.vocab = vocab
 
     # To create and save images for all data found in bongard_problems_to_test.csv
-    # generate_and_save_all_image_outputs(model, tokeniser, device)
+    generate_and_save_all_image_outputs(model, tokeniser, device)
 
     # # To manually create images for a given text and bp 
-    left_path, right_path = generate_and_save_images(model, tokeniser, TEXT_TO_GENERATE, device)
-    create_and_save_plots(left_path, right_path, BP_NUMBER, TEXT_TO_GENERATE)
+    # left_path, right_path = generate_and_save_images(model, tokeniser, TEXT_TO_GENERATE, device)
+    # create_and_save_plots(left_path, right_path, BP_NUMBER, TEXT_TO_GENERATE)
 
 if __name__ == "__main__":
     main()

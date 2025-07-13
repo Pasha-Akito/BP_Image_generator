@@ -38,10 +38,10 @@ is another way to make the distinction, so we have REGULAR to describe the angle
 This will build upon the existing mappings.
 19 - This is similar to 19, but now the pinch is in a specific direction. I have extended the current GET function get more specific aspects of a shape. 
 This keeps the solution answers simple and further the mappings since we are using existing vocabulary.
-20 - Defining ON and IDENTICAL and OPPOSITE. ON is something that is used to describe if something is on top of something. I'm not sure on BP20 as there is no
-direct mapping of the previous vocabulary to OPPOSITE and IDENTICAL. 
+20 - Defining ON and IDENTICAL and DIFFERENT. ON is something that is used to describe if something is on top of something. I'm not sure on BP20 as there is no
+direct mapping of the previous vocabulary to DIFFERENT and IDENTICAL. 
 
-BPs which have new vocabulary which is not mapped to existing vocabulary (16,20) - Consider test with and without
+BPs which have new vocabulary which is not mapped to existing vocabulary (16,20,57) - Consider test with and without
 
 21 - Introducing MORESIMILAR and LESSSIMILAR, there already exists a few ways to properly describe this answer in the visual language so MORESIMILAR and LESSIMILAR
 can learn some mapping.
@@ -82,3 +82,78 @@ figure as having more similar orientation compared to less similar orientation i
 for BP36, something is happening in the image groups themselves. TRIANGLES over CIRCLES vs CIRCLES over TRIANGLES
 37 - Rare instance where the BP has the exact same answer as another BP (BP36). Only difference is the images contain a square, which is noisy as its meant
 to distract from the CIRCLES and TRIANGLES
+38 - Same answer as BP37, BP36 but instead of YPOS, it is SIZE
+39 - Here we have LINES which have either the same orientation or opposite orientation. MORESIMILAR and LESSSIMILAR are used to compare the LINES ORIENTATION
+40 - Defining ALIGNED to describe figures that either have the same YPOS or XPOS. ALINGED is a more elegant way to describe this and maps to existing vocabulary.
+Like with many BPs so far, only the left is used to answer this question.
+
+Now we are starting to see the effect on the data by removing CEASES, as there are many bongard problems where we only have 1 solution, even if answering the 
+question is not necessarily correct by saying what is missing, it is a creative way to add more image data. So it is the case that the literature could be 
+wrong for this specific use case? The BP domain is characterised as lacking abundant data but this could be a way to introduce more data by answering the questions
+or world space by negatives.
+
+41 - This is the same answer as 40, and we don't need to denote OUTLINE since we know that the default state of a shape is an outlined shape
+42 - This BP is in the same idea as 40,41, but inside figures now.
+
+As I continue to add answers for BPs, I continue to dislike my decision for removing CEASES, as we are leaving a very large amount of data on the table. Tests
+will show if this was correct or not.
+
+43 - Adding Cardinal directions to the vocabulary, (EAST,WEST,NORTH,SOUTH) and answering with mostly existing vocabulary. The sentence becomes quite big 
+so adding in INCREASING and DECREASING. While no mapping exists for the cardinal directions, we can create a mapping with the existing vocabulary for INCREASING
+and DECREASING.
+45 - Removing OUTLINE as discussed before. We can answer this BP with existing vocabulary
+46 - Similar answer to BP45 but more descriptive shapes.
+47 - Using INSIDE to describe which shapes are inside of figures
+48 - This is a comaparison of distinct shapes in regards to their YPOS. Removing OUTLINE from this solution answer as discussed before. Using GREATERALL/LESSERALL
+as the comparison is done within the image groups.
+49 - DISTANCE is introduced here as a way to measure distance between figures or aspects of figures. 
+50 - SYMMETRY is introduced here. On OEBP.org the answer is "Vertical axis of symmetry vs. no axis of symmetry.", we give two answers here, one for SYMMETRY existing
+and a more specific VERTICAL SYMMETRY existing. This should help the model understand that SYMMETRY can exist and can happen in more directions.
+51 - This one is a little difficult to get specifically correct in the visual language but kept it in. On the images on the right, almost all of the circles are 
+the same distance apart. on OEBP.org the answer is "Two circles close to each other vs. no two circles close to each other." but the images show that the circles 
+are all apart equally in the right. There are also not always only two circles close to each other on the left, there exists circles with low distance apart
+on the left
+53 - We use the existing vocabulary to answer this BP. We use both NSIDES and NCORNERS to compare the shapes for differences based on if they are inside or not.
+56 - Previous answer had COLOR, its not used anywhere else in the data and we can make use of the OR and AND conditions. This scenario is perfect as the conditions
+are the same for both image groups, but differnt on if they are an OR, or AND condition.
+57 - We have IDENTICAL and DIFFERENT from BP20 which are used to answer this question. There is no other way to map this to the existing vocabulary
+58 - We can use IDENTICAL and DIFFERENT but this time in regards to SIZE. IDENTICAL and DIFFERENT are slowly starting to map to the existing vocabulary
+59 - This is the BP we can get good mapping of IDENTICAL and DIFFERENT. Therefore the previous BPs, 57 and 20 now have good mappings and should not be 
+ommitted.
+60 - This is the same answer as BP59
+62 - Introducing a new attribute called END. LINES can have ENDs, in this BP we are comparing the ends of the line. The only issue here is there is no direct
+mapping from what is an END of a line to the existing vocabulary
+63 - The hull on the right and left are bigger. The existing vocabulary is able to solve this BP, we reuse the extended GET function with three arguments to do so
+65 - Here is a comparison of YPOS and XPOS, we can use ALIGNED, but we have to give a specific condition saying its either VERTICAL or HORIZONTAL, this is because
+both images have ALIGNED TRIANGLES, but on a different axis.
+66 - This is the same answer as BP65 but with some noise and with CIRCLES instead of TRIANGLES
+71 - INSIDE is used to describe figures inside figures. Using INSIDE twice means there is a second order of figures inside figures. While OEBP.org describes the
+answer as "There are inside figures of the second order vs. there are no inside figures of the second order.", it would be more correct to say 
+"There are inside figures of the second order vs. There are inside figures of the first order.", this lets use add an existing answer describing the right.
+72 - This BP is similar to 62 where we are comparing the ENDs of LINES, but instead of DISTANCE apart we are comparing the ORIENTATION
+73 - The answer to this BP is comparing the ORIENTATION between the CIRCLES and QUADRILATERALS, the TRIANGLES is there for noise.
+76 - On OEBP.org the answer is "Long sides concave vs. long sides convex.", but this answer actually complicates the solution slightly, its the same answer as we have for 
+BP4, its really concave vs convex. The middle area of the figures determine concavity and convexity.
+77 - On OEBP.org the answer is "Angle divided in half vs. angle not divided in half.", but we can also answer this as a comparison of the ends and their distance. This 
+can be used to also map the symmetry to the existing vocabulary. As the uniform distance creates symmetry
+79 - Here we have to use an AND clause, since we care about all the shapes present. The upside of this, we can create multiple sentences with the same meaning.
+80 - On OEBP.org the answer is "Points located at the same distances from a cross vs. points located at different distances from a cross.", instead of defining a new shape
+called CROSS, we will use the existing vocabulary and define the cross as FIGURES. Since we have CIRCLES which is more specific, we can uniquely identify all shapes present.
+82 - We introduce a new function called COMPOSED. something is composed of something, and in this case we have crosses which can compose shapes. There is no direct mapping 
+to the existing vocabulary currently. COMPOSED works like INSIDE function
+83 - We can describe this by using both COMPOSED and INSIDE. Although we only have one correct answer, as its hard to conceptualise the circle being outside of the 
+composed figure
+84 - Same situation at 83, we can only describe the right side.
+85 - We use an OR clause to define either three lines or a shape with three sides. or for the right side, 5 lines and five sides.
+87 - This is the same answer as 85, but 4 vs 5 instead of 3 vs 5
+88 - This is the same answer as 85 and 87 but with CIRCLES instead of parts.
+89 - We can use COMPOSED to convey the point of three parts vs five parts. Which is really, 3 groups of circles vs 5 groups of circles
+90 - This is the same as BP89, we are composing groups of CIRCLES.
+92 - We have the tools in the vocabulary to describe the left side of the problem, but not the right side. We can image the left side as just one COMPOSED LINES
+94 - We can describe the ends of figures, here we say there exists SOLID CIRCLES on the ends of the figure
+95 - The overall figure in each image is noise, the key element is the vertical lines and horizontal lines.
+96 - This BP is the same answer as BP6 but the TRIANGLES and QUADRILATERALS are noisy.
+97 - We have COMPOSED to solve this problem, we can also finally map COMPOSED to existing vocabulary, as we can use the answers from BP6 which describes TRIANGLES and the
+answer from BP5 which describes CRICLES.
+99 - We have COMPOSED and ON to explain the LEFT side of images, which is good enough to answer the problem, but we don't have the vocabulary required to answer the right 
+side.

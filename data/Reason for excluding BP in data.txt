@@ -1,2 +1,30 @@
 1 - The White background images confuses the model image generation and little to gain from language mapping
 9 - It is hard to conceptually frame what is a wiggly line or not without adding a unique identifier. It won't add much and will confuse the model
+44 - It is hard to conceptually frame this in the visual language, it is similar to BP20 which we have an answer for, but a limitation of this language is 
+trying to discern different sides of the same figure or line which there is nothing particular unique about it. For BP20 we can take advantage of the pinch in
+the middle to discern where the balls are on, but here we just have a line which bents at some point.
+52 - It is hard to conceptually frame this problem in the visual language. Its the same issue as BP44, we don't have unique characteristics of the line
+to discern how the arrows are pointing
+54 - It is hard to conceptually frame this problem in the visual language. This visual language struggles to place objects in a certain direction.
+55 - It is hard to conceptually frame this problem in the visual language. This is a mix of an issue of BP44, where we can't identify anything unique from the 
+object and from BP54 where we struggle to place figures on a particular direction
+61 - I contemplated adding this BP or not. See in a sense there is symmetry in the left side images, but its not correct as an answer. The symmetry answers the visual space
+well but not perfectly
+64 - This problem has the same issues as other problems, where we need to conceptually keep track of the place of shapes in regards to other shapes. The 
+visual language is not currently equipped to do this.
+67,68,69,70 - These four BPs are a series of visual puzzles with branches. Like before, the visual language struggles when trying to geometrically place a shape
+in regards to another.
+74 - I had an answer to this problem, but after reviewing it further, I've choosen to not include it. This is because the sentence breaks some rules that we
+have been adhearing to in the existing solutions.
+75 - Same issue as BPs before, visual language cannot encapsulate position between shapes well.
+78 - This is very difficult to encapsulate in the visual language. There is no concept of extending shapes
+81 - We are being tasked with describing a line being placed between figures, this makes answering the problem quite difficult. As although we can attempt to define
+drawing shapes, its hard to define how to draw a line and where.
+86 - Although 86 seems the same as 85, its a little more complicated as we don't have a way to define "parts". on OEBP.org the answer is "Three parts vs. five parts." but 
+really I think this is an over simplified answer. The real answer should be, "three parts extending from a central point vs 5 parts extending from a central point"
+91 - This is hard to conceptualise in the visual language. There are too many different shapes where we don't have a catch all for unique elements
+93 - It is hard to explain this solution space in the visual language. There is not really a way to describe the central point and if there was, what shape it is.
+98 - I'm refraining from using 98 as test data, the noise in this image will mess with all existing mappings we have of TRIANGLES and QUADRILATERALS. 97 is almost the same case
+but with 97 we are actually creating the mapping for COMPOSED
+100 - This problem somewhat breaks even Mikhail Bongard's rules for visual logic puzzles, no specific culture is necessary for Bongard Problems but it is needed to answer
+the problem correctly as not all languages have A and Б

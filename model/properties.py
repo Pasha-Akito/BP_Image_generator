@@ -4,8 +4,8 @@ PROPERTY_VOCAB = {
     "GREATER", # Shapes are of more greater of some attribute than shape/part of shape in opposite side of images
     "MORESIMILAR", # Shapes are more similar of some attirbute than shape/part of shape
     "GREATERALL", # All shapes have something greater than other shapes/part of shape in the same sides of images
-    "MORE", #  
-    "EQUALNUM", "GET",
+    "MORE", #  More of somethign
+    "GET",
     "INSIDE", "ALIGNED", "HIGH", "LOW", 
     "REGULAR", # Regular is in the context of the images or images
     
@@ -14,12 +14,11 @@ PROPERTY_VOCAB = {
     "LESSER",  # Opposite of GREATER
     "AND",  # Both conditions are statisified
     "OR", # Either condition is satisifed
-    "DIFFNUM",  # almost opposite of equalnum, varying number of something
     "LESSSIMILAR",  # Opposite of MORESIMILAR
     "LESS",  # Opposite of MORE
     "LESSERALL",  # Opposite of GREATERALL
     "IDENTICAL", # Something is the same
-    "OPPOSITE", # Something is the opposite
+    "DIFFERENT", # Something is different
 
     # Shapes
     "CIRCLES", "FIGURES", "QUADRILATERALS", "TRIANGLES",
@@ -39,12 +38,9 @@ PROPERTY_VOCAB = {
     "SYMMETRY",  # The Symmetric properties of something, can be used with vertical, horizontal & exactly or exists
     "ASPECTR" # High aspect ration would equal thin and elongated, while low aspect ration equals compact
 
-    # Quantifiers
-    "ONE", "TWO", "THREE", "FOUR",
-
     # Directions (New addition)
-    "LEFTD", "RIGHTD", "UP", "DOWN",  # Adding D to the end of LEFT and RIGHT to denote they are used for directions
-    "MIDDLE", "START", "END",
+    "WEST", "EASE", "NORTH", "SOUTH",  # Changing directions to cardinal directions
+    "MIDDLE", "END",
     "CLOCKWISE", "COUNTERCLOCKWISE",
     "OUTWARDS",
     "INCREASING", "DECREASING",

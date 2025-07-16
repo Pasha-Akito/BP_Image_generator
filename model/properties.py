@@ -25,18 +25,24 @@ PROPERTY_VOCAB = {
     
     # New Additions
     "LINES",  # Lines are more specific figures which are not joined by the ends
+    "STARS" # New shape which is found in BP80
 
     # Attributes
     "SIZE", "CONVEXITY", "CONCAVITY", "ORIENTATION", "XPOS", "NCORNERS", "NSIDES",
     "YPOS", "COMPACTNESS", "ELONGATION", "DISTANCE",
-    "HOLES", "HULLS", "BIG", "SMALL", "SOLID",
+    "HOLES", "HULLS", "BIG", "SMALL", "SOLID", "OUTLINE",
     
     # New Additions
     "VERTICAL",  # Used to get a vertical aspect of a shape/part of shape
     "HORIZONTAL",  # Used to get a horizontal aspect of shape/part of shape
     "ANGLES",  # Angles, HIGH angle means wide obtuse angle, LOW angle means sharp acute angle
     "SYMMETRY",  # The Symmetric properties of something, can be used with vertical, horizontal & exactly or exists
-    "ASPECTR" # High aspect ration would equal thin and elongated, while low aspect ration equals compact
+    "ASPECTR", # High aspect ration would equal thin and elongated, while low aspect ration equals compact
+    "TALL", # High Vertical Size
+    "WIDE", # High Horizontal Size
+    "PINCHED", # an area that is very low compared to the immediate area 
+    "REFLEX", # Can use with ANGLE 
+    "ACUTE", # Can be used with ACUTE
 
     # Directions (New addition)
     "WEST", "EASE", "NORTH", "SOUTH",  # Changing directions to cardinal directions

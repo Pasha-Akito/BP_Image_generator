@@ -157,3 +157,40 @@ composed figure
 answer from BP5 which describes CRICLES.
 99 - We have COMPOSED and ON to explain the LEFT side of images, which is good enough to answer the problem, but we don't have the vocabulary required to answer the right 
 side.
+
+
+After training the model on 50 epochs and testing it, I received images which made little sense. This is because I tried to generate solutions with the least
+amount of words possible. I should be adding words which capture CONCEPTS and not trying to create a connection to existing vocabulary and new words. Now
+the data will be modified which will capture concepts. I expect the images generated to make more sense.
+
+For example, instead of using ALIGNED standalone, I tried to explain it by saying certain figures had the same YPOS or XPOS. These answers should be left
+as only ALIGNED as to not mess with the generation of figures where XPOS and YPOS is referenced.
+
+3 - Added back OUTLINE to shapes
+4 - Removed mention of high or low size in regards to the middle of shapes. Now only describing as greater and lesser convexity and concavity
+7 - Removed relating orientation to high vertical or horizontal size.
+13 - Creating TALL and WIDE to describe these shapes.
+17 - Creating REFLEX, to be used with ANGLE to denote reflex angles exist
+18 - Creating PINCHED to denote shapes which have low area followed immediately by high area
+19 - Using PINCHED but more specifically either horizontal pinch or vertical pinch
+20 - Getting rid of 20 as its very complicated to encapsulate in the visual language
+27 - Added back OUTLINE to shapes
+28 - Added back OUTLINE to shapes
+40,41,42 - Removed other sentences, only left sentences containing ALIGNED
+43 - Left only sentences with increasing, and decreasing
+45 - Added back OUTLINE to shapes
+48 - Added back OUTLINE to shapes
+56 - Added back OUTLINE to shapes
+63 - Making it more readable by using only BIG
+65 - Removing other sentences and only keeping ALIGNED
+66 - Fixed this data, considering not to include this in final data due to noise
+
+BPs with noise seem to really mess with the image generation, it might be best to exclude any noisy BPs
+
+76 - Left in answers with CONCAVITY and CONVEXITY
+
+Might consider removing any BPs with COMPOSED, as it might be too complicate to generate anything good (BPs 82,83,84,89,90,92,97,99)
+
+94 - Removed as it was no a good enough answer
+95 - This is too noisy to help image generation
+96,97 - Using same answers as non noisy shapes, which is causing the regular shapes to be generated as noise as these BPs are very noisy.

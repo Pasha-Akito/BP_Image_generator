@@ -25,7 +25,7 @@ PROPERTY_VOCAB = {
     
     # New Additions
     "LINES",  # Lines are more specific figures which are not joined by the ends
-    "STARS" # New shape which is found in BP80
+    "STARS", # New shape which is found in BP80
 
     # Attributes
     "SIZE", "CONVEXITY", "CONCAVITY", "ORIENTATION", "XPOS", "NCORNERS", "NSIDES",

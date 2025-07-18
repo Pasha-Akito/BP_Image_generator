@@ -1,1 +1,1 @@
-{"vocab_size": 65, "embedding_dimensions": 512, "total_attention_heads": 16, "total_encoder_layers": 8, "max_token_size": 64, "latent_dimensions": 128}
+{"vocab_size": 75, "embedding_dimensions": 512, "total_attention_heads": 16, "total_encoder_layers": 8, "max_token_size": 64, "latent_dimensions": 128}

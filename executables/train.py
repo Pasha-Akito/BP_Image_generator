@@ -6,6 +6,7 @@ import torch
 import json
 from torchvision.utils import save_image
 import time
+import matplotlib.pyplot as plt
 
 import sys
 sys.path.append('../')
@@ -17,6 +18,23 @@ from model.loss_functions import PerceptualLoss
 
 TOTAL_EPOCHS = 50
 TRAIN_DEBUG = True
+
+def plot_training_loss(losses):
+    epochs = range(1, len(losses) + 1)
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(epochs, losses, 'b-', linewidth=2, label='Training Loss')
+    plt.title('Training Loss Over Epochs', fontsize=16)
+    plt.xlabel('Epoch', fontsize=14)
+    plt.ylabel('Loss', fontsize=14)
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    
+    plt.tight_layout()
+    plt.savefig("Epoch_plot.png", dpi=300, bbox_inches='tight')
+    plt.close()
+
+
 
 def main():
     tokeniser = Tokeniser()
@@ -50,6 +68,7 @@ def main():
         json.dump(config, output)
 
     model.train()
+    model_losses = []
     for epoch in range(TOTAL_EPOCHS):
         print(f"====----Epoch {epoch + 1}----====")
         epoch_start_time = time.perf_counter()
@@ -83,7 +102,11 @@ def main():
         print(f"Epoch {epoch + 1}/{TOTAL_EPOCHS} | Average Loss: {average_epoch_loss:.4f} | Time Taken: {(time.perf_counter() - epoch_start_time):.4f} seconds")
         # scheduler.step()
         torch.save(model.state_dict(), "../model/model_weights.pth")
+        model_losses.append(average_epoch_loss)
         print("Model weights saved")
+        if epoch % 10 == 0:
+            plot_training_loss(model_losses)
+            print("Plot Saved")
     
 if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

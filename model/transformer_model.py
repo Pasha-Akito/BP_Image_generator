@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 
+ADD_NOISE = False
+
 class TextToImageTransformer(nn.Module):
     def __init__(self, vocab_size, embedding_dimensions=512, total_attention_heads=16, total_encoder_layers=8, max_token_size=64, latent_dimensions=128):
         super().__init__()
@@ -60,7 +62,7 @@ class TextToImageTransformer(nn.Module):
         attention_weights = torch.softmax(torch.sum(transformer_output, dim=-1), dim=1)
         context_vector = torch.sum(transformer_output * attention_weights.unsqueeze(-1), dim=1)
 
-        if self.training:
+        if self.training and ADD_NOISE:
             batch_size = text.size(0)
             noise = torch.randn(batch_size, self.latent_dimensions, device=text.device)
             noise_embedding = self.noise_projection(noise)

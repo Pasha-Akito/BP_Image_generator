@@ -194,3 +194,25 @@ Might consider removing any BPs with COMPOSED, as it might be too complicate to 
 94 - Removed as it was no a good enough answer
 95 - This is too noisy to help image generation
 96,97 - Using same answers as non noisy shapes, which is causing the regular shapes to be generated as noise as these BPs are very noisy.
+
+
+Trying another training without composed BP Data
+
+Removing 99, 92, 90, 89, 88, 87, 85, 84, 83, 82, 80
+Removed two answers from 59
+Removed 31, this confuses both the LINES and CIRCLE generation
+
+Left images were all black blobs when I trained without above data, increasing learning rate.
+
+Increased learning rate just generated noise
+
+Decreasing learning rate to 0.00005 has given good results, turning off the adaptive binary pixels
+Adding back previously removed BPs (99, 92, 90, 89, 88, 87, 85, 84, 83, 82, 80 and 31)
+
+Removing noise from training helps have more clear images now that we have more data. 
+Increased learning rate back to 0.0001 and excluding adaptive binary pixels
+
+Adding more bongard problems outside of 100 to test model
+Including 111,123,126,127,136,140,143,149,150,152,156,161,166,168,172,173,182,186,187
+Can find Bongard problems on OEBP.org
+

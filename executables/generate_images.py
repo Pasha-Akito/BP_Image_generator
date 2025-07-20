@@ -44,8 +44,8 @@ def generate_and_save_images(model, tokeniser, text, device, output_dir="../mode
     left_path = os.path.join(output_dir, f"left_temp.png")
     right_path = os.path.join(output_dir, f"right_temp.png")
 
-    left = adapative_binary_pixels(left)
-    right = adapative_binary_pixels(right)
+    # left = adapative_binary_pixels(left)
+    # right = adapative_binary_pixels(right)
     
     save_image(left, left_path, normalize=True)
     save_image(right, right_path, normalize=True)

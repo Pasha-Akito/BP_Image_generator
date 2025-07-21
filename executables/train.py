@@ -104,7 +104,7 @@ def main():
         torch.save(model.state_dict(), "../model/model_weights.pth")
         model_losses.append(average_epoch_loss)
         print("Model weights saved")
-        if epoch % 10 == 0:
+        if (epoch + 1) % 10 == 0:
             plot_training_loss(model_losses)
             print("Plot Saved")
     

@@ -2,7 +2,7 @@ import pandas as pd
 import csv
 
 def extract_folder_name(bp_number):
-    return f"p{bp_number:03d}"
+    return f"p{bp_number:04d}"
 
 def get_image_pair_identifers():
     return [(left, right) for right in range(6, 12) for left in range(6)]

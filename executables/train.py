@@ -16,7 +16,7 @@ from data.tokeniser import Tokeniser
 from model.transformer_model import TextToImageTransformer
 from model.loss_functions import PerceptualLoss
 
-TOTAL_EPOCHS = 50
+TOTAL_EPOCHS = 100
 TRAIN_DEBUG = True
 
 def plot_training_loss(losses):

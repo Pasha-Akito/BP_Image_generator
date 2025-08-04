@@ -216,3 +216,7 @@ Adding more bongard problems outside of 100 to test model
 Including 111,123,126,127,136,140,143,149,150,152,156,161,166,168,172,173,182,186,187
 Can find Bongard problems on OEBP.org
 
+Added NOISY for BP10, as triangles and quadrilaterials are getting generating with wiggly lines, maybe adding another vocab word
+specifically for noisy BPs can help generation
+
+Added BP9 with same NOISY identifier

@@ -18,8 +18,8 @@ TEST_GENERATOR = False
 # TEXT_TO_GENERATE = "LEFT(MORE(SOLID(FIGURES),OUTLINE(FIGURES)))"
 # TEXT_TO_GENERATE = "RIGHT(EXISTS(SMALL(FIGURES)))"
 
-TEXT_TO_GENERATE = "RIGHT(EXISTS(VERTICAL(SYMMETRY)))" 
-BP_NUMBER = 152
+TEXT_TO_GENERATE = "Big vs small" 
+BP_NUMBER = 2
 
 def force_binary_pixels(images, threshold=0.0):
     # Images are in -1, 1, so threshold can be 0.0
@@ -86,7 +86,7 @@ def create_and_save_plots(left_path, right_path, bp_number, sentence):
     plt.suptitle(f'BP {bp_number} | "{sentence}"', fontsize=18)
     ax[0].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
     ax[1].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
-    plt.savefig(f'../model_answers/BP_{bp_number}_{sentence}.png', dpi=300, bbox_inches='tight')
+    plt.savefig(f'../model_answers_english_sentences/BP_{bp_number}_{sentence}.png', dpi=300, bbox_inches='tight')
     print(f'Saved BP_{bp_number}_{sentence}.png')
     plt.close()
     
@@ -111,7 +111,7 @@ def main():
     # To create and save images for all data found in bongard_problems_to_test.csv
     generate_and_save_all_image_outputs(model, tokeniser, device)
 
-    # # To manually create images for a given text and bp 
+    # To manually create images for a given text and bp 
     # left_path, right_path = generate_and_save_images(model, tokeniser, TEXT_TO_GENERATE, device)
     # create_and_save_plots(left_path, right_path, BP_NUMBER, TEXT_TO_GENERATE)
 

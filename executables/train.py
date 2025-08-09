@@ -16,7 +16,7 @@ from data.tokeniser import Tokeniser
 from model.transformer_model import TextToImageTransformer
 from model.loss_functions import PerceptualLoss
 
-TOTAL_EPOCHS = 50
+TOTAL_EPOCHS = 100
 TRAIN_DEBUG = True
 
 def plot_training_loss(losses):
@@ -38,13 +38,19 @@ def plot_training_loss(losses):
 
 def main():
     tokeniser = Tokeniser()
-    train_df = pd.read_csv("../data/expanded_sentence_image_relationships.csv")
+    # train_df = pd.read_csv("../data/expanded_sentence_image_relationships.csv")
+    train_df = pd.read_csv("../data/english_words_data/expanded_english_words_image_relationships.csv")
+    # train_df = pd.read_csv("../data/european_words_data/expanded_european_words_image_relationships.csv")
     tokeniser.build_vocabulary(train_df["sentence"])
 
     with open("../data/tokeniser_vocab.json", "w") as output:
         json.dump(tokeniser.vocab, output)
 
-    dataset = SentenceToImageDataset("../data/expanded_sentence_image_relationships.csv", tokeniser)
+    # dataset = SentenceToImageDataset("../data/expanded_sentence_image_relationships.csv", tokeniser)
+    dataset = SentenceToImageDataset("../data/english_words_data/expanded_english_words_image_relationships.csv", tokeniser)
+    # dataset = SentenceToImageDataset("../data/european_words_data/expanded_european_words_image_relationships.csv", tokeniser)
+
+
     dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=6, pin_memory=True, persistent_workers=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

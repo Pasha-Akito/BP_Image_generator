@@ -19,7 +19,7 @@ class PerceptualLoss(nn.Module):
     # VGG layers for feature extraction
     FEATURE_LAYERS = [2, 4, 7, 9, 12, 14, 16, 21]
     # LAYER_WEIGHTS = [1.8, 1.4, 0.9, 0.7, 0.5, 0.35, 0.25, 0.15] # getting more accurate images for abstract concepts from this weighting
-    LAYER_WEIGHTS = [1.9, 1.5, 1.0, 0.8, 0.5, 0.35, 0.25, 0.15] 
+    LAYER_WEIGHTS = [1.9, 1.5, 1.0, 0.8, 0.5, 0.35, 0.25, 0.15] # Pretty good quality prototypes for all concepts
     # LAYER_WEIGHTS = [1.8, 1.6, 1.2, 1.0, 0.6, 0.4, 0.3, 0.2] # try this next 
     # LAYER_WEIGHTS = [2.0, 1.6, 1.1, 0.6, 0.45, 0.35, 0.25, 0.15] # Try decreasing the middle weights a little
 

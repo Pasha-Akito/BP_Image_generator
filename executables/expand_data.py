@@ -1,5 +1,6 @@
 import pandas as pd
 import csv
+from config import DATASET
 
 def extract_folder_name(bp_number):
     return f"p{bp_number:04d}"
@@ -8,8 +9,8 @@ def get_image_pair_identifers():
     return [(left, right) for right in range(6, 12) for left in range(6)]
 
 def generate_data():
-    # simple_sentence_image_relationships_df = pd.read_csv("../data/simple_sentence_image_relationships.csv")
-    simple_sentence_image_relationships_df = pd.read_csv("../data/european_words_data/european_words_image_relationships.csv")
+    print("Using dataset:", DATASET)
+    simple_sentence_image_relationships_df = pd.read_csv(f"../data/{DATASET}_words_data/{DATASET}_words_image_relationships.csv")
     expanded_sentence_image_relationships = []
     image_pair_identifiers = get_image_pair_identifers()
     for row in simple_sentence_image_relationships_df.itertuples():
@@ -25,8 +26,7 @@ def generate_data():
             })
 
     expanded_sentence_image_relationships_df = pd.DataFrame(expanded_sentence_image_relationships)
-    expanded_sentence_image_relationships_df.to_csv("../data/expanded_sentence_image_relationships.csv", index=False, quoting=csv.QUOTE_NONNUMERIC)
-    # expanded_sentence_image_relationships_df.to_csv("../data/european_words_data/expanded_european_words_image_relationships.csv", index=False, quoting=csv.QUOTE_NONNUMERIC)
+    expanded_sentence_image_relationships_df.to_csv(F"../data/{DATASET}_words_data/expanded_{DATASET}_words_image_relationships.csv", index=False, quoting=csv.QUOTE_NONNUMERIC)
 
 
 if __name__ == "__main__":

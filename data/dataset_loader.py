@@ -35,5 +35,4 @@ class SentenceToImageDataset(Dataset):
             "tokenised_text": torch.tensor(token_indices, dtype=torch.long),
             "left_image": left_image,
             "right_image": right_image,
-            "raw_sentence": row["sentence"]
         }    

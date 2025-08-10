@@ -3,7 +3,6 @@ import json
 import matplotlib.pyplot as plt
 from torchvision.utils import save_image
 import os
-from datetime import datetime
 from PIL import Image
 import pandas as pd
 
@@ -12,11 +11,6 @@ sys.path.append('../')
 
 from model.transformer_model import TextToImageTransformer
 from data.tokeniser import Tokeniser
-
-TEST_GENERATOR = False
-# TEXT_TO_GENERATE = "RIGHT(EXACTLY(2,FIGURES))"
-# TEXT_TO_GENERATE = "LEFT(MORE(SOLID(FIGURES),OUTLINE(FIGURES)))"
-# TEXT_TO_GENERATE = "RIGHT(EXISTS(SMALL(FIGURES)))"
 
 TEXT_TO_GENERATE = "Big vs small" 
 BP_NUMBER = 2
@@ -40,7 +34,6 @@ def generate_and_save_images(model, tokeniser, text, device, output_dir="../mode
         text_tensor = torch.tensor([tokens]).to(device)
         left, right = model(text_tensor)
     
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     left_path = os.path.join(output_dir, f"left_temp.png")
     right_path = os.path.join(output_dir, f"right_temp.png")
 
@@ -77,7 +70,7 @@ def create_and_save_plots(left_path, right_path, bp_number, sentence):
     left_img = Image.open(left_path)
     right_img = Image.open(right_path)
 
-    fig, ax = plt.subplots(1, 2, figsize=(10, 5))
+    _, ax = plt.subplots(1, 2, figsize=(10, 5))
 
     ax[0].imshow(left_img)
     ax[0].set_title("Left Image")
@@ -99,9 +92,6 @@ def main():
     
     model = TextToImageTransformer(**config).to(device)
     model.load_state_dict(torch.load("../model/model_weights.pth", map_location=device))
-
-    if TEST_GENERATOR:
-        test_generator(model.left_generator, device)
     
     with open("../data/tokeniser_vocab.json", "r") as f:
         vocab = json.load(f)

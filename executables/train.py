@@ -15,6 +15,7 @@ from data.dataset_loader import SentenceToImageDataset
 from data.tokeniser import Tokeniser
 from model.transformer_model import TextToImageTransformer
 from model.loss_functions import PerceptualLoss
+from config import DATASET
 
 TOTAL_EPOCHS = 100
 TRAIN_DEBUG = True
@@ -37,26 +38,23 @@ def plot_training_loss(losses):
 
 
 def main():
+    print("Using dataset:", DATASET)
     tokeniser = Tokeniser()
-    # train_df = pd.read_csv("../data/expanded_sentence_image_relationships.csv")
-    train_df = pd.read_csv("../data/english_words_data/expanded_english_words_image_relationships.csv")
-    # train_df = pd.read_csv("../data/european_words_data/expanded_european_words_image_relationships.csv")
+    train_df = pd.read_csv(f"../data/{DATASET}_words_data/expanded_{DATASET}_words_image_relationships.csv")
     tokeniser.build_vocabulary(train_df["sentence"])
 
     with open("../data/tokeniser_vocab.json", "w") as output:
         json.dump(tokeniser.vocab, output)
 
-    # dataset = SentenceToImageDataset("../data/expanded_sentence_image_relationships.csv", tokeniser)
-    dataset = SentenceToImageDataset("../data/english_words_data/expanded_english_words_image_relationships.csv", tokeniser)
-    # dataset = SentenceToImageDataset("../data/european_words_data/expanded_european_words_image_relationships.csv", tokeniser)
-
-
+    dataset = SentenceToImageDataset(f"../data/{DATASET}_words_data/expanded_{DATASET}_words_image_relationships.csv", tokeniser)
     dataloader = DataLoader(dataset, batch_size=32, shuffle=True, num_workers=6, pin_memory=True, persistent_workers=True)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = TextToImageTransformer(vocab_size=len(tokeniser.vocab)).to(device)
 
-    optimizer = optim.Adam(model.parameters(), lr=0.0001) 
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.0001, weight_decay=0.0001)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=TOTAL_EPOCHS, eta_min=0.00001)
+
     perceptual_loss = PerceptualLoss().to(device)
 
     perceptual_loss_weighting = 1.0 # Perceptual loss weighting
@@ -66,8 +64,7 @@ def main():
         "embedding_dimensions": 512,
         "total_attention_heads": 16,
         "total_encoder_layers": 8,
-        "max_token_size": 64,
-        "latent_dimensions": 128
+        "max_token_size": 64
     }
 
     with open("../model/config.json", "w") as output:
@@ -84,7 +81,6 @@ def main():
             tokenised_text = data_batch["tokenised_text"].to(device)
             real_left_image = data_batch["left_image"].to(device)
             real_right_image = data_batch["right_image"].to(device)
-            raw_sentences_text = data_batch["raw_sentence"]
 
             predicted_left_image, predicted_right_image = model(tokenised_text)
             p_loss = perceptual_loss(predicted_left_image, real_left_image) + perceptual_loss(predicted_right_image, real_right_image)
@@ -97,16 +93,16 @@ def main():
 
             if batch_index % 100 == 0:
                 print(f"Batch: {batch_index} | Total Batches: {len(dataloader)} | Time Taken for batch: {(time.perf_counter() - batch_start_time):.4f} seconds")
-
-            save_image(real_left_image[:4], "../training_debug/real_left.png", normalize=True)
-            save_image(predicted_left_image[:4], "../training_debug/predicted_left.png", normalize=True)
-            save_image(real_right_image[:4], "../training_debug/real_right.png", normalize=True)
-            save_image(predicted_right_image[:4], "../training_debug/predicted_right.png", normalize=True)            
+                save_image(real_left_image[:4], "../training_debug/real_left.png", normalize=True)
+                save_image(predicted_left_image[:4], "../training_debug/predicted_left.png", normalize=True)
+                save_image(real_right_image[:4], "../training_debug/real_right.png", normalize=True)
+                save_image(predicted_right_image[:4], "../training_debug/predicted_right.png", normalize=True)            
+            
             total_batch_losses.append(total_batch_loss.detach())
 
         average_epoch_loss = torch.stack(total_batch_losses).mean().item()
         print(f"Epoch {epoch + 1}/{TOTAL_EPOCHS} | Average Loss: {average_epoch_loss:.4f} | Time Taken: {(time.perf_counter() - epoch_start_time):.4f} seconds")
-        # scheduler.step()
+        scheduler.step()
         torch.save(model.state_dict(), "../model/model_weights.pth")
         model_losses.append(average_epoch_loss)
         print("Model weights saved")

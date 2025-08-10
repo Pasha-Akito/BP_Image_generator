@@ -1,10 +1,8 @@
 import torch
 import torch.nn as nn
 
-ADD_NOISE = False
-
 class TextToImageTransformer(nn.Module):
-    def __init__(self, vocab_size, embedding_dimensions=512, total_attention_heads=16, total_encoder_layers=8, max_token_size=64, latent_dimensions=128):
+    def __init__(self, vocab_size, embedding_dimensions=512, total_attention_heads=16, total_encoder_layers=8, max_token_size=64):
         super().__init__()
 
         # Embedding 
@@ -20,9 +18,6 @@ class TextToImageTransformer(nn.Module):
 
         self.left_generator = self.build_generator(embedding_dimensions)
         self.right_generator = self.build_generator(embedding_dimensions)
-
-        self.noise_projection = nn.Linear(latent_dimensions, embedding_dimensions)
-        self.latent_dimensions = latent_dimensions
 
     def build_generator(self, embedding_dimensions):
         return nn.Sequential(
@@ -61,12 +56,6 @@ class TextToImageTransformer(nn.Module):
         transformer_output = self.transformer_encoder(combined_embeddings)
         attention_weights = torch.softmax(torch.sum(transformer_output, dim=-1), dim=1)
         context_vector = torch.sum(transformer_output * attention_weights.unsqueeze(-1), dim=1)
-
-        if self.training and ADD_NOISE:
-            batch_size = text.size(0)
-            noise = torch.randn(batch_size, self.latent_dimensions, device=text.device)
-            noise_embedding = self.noise_projection(noise)
-            context_vector = context_vector + 0.1 * noise_embedding
 
         split_context_vector = self.split_embedding(context_vector)
         left_embedding, right_embedding = split_context_vector.chunk(2, dim=1)

@@ -1,5 +1,9 @@
 import re
 import torch
+import sys
+
+sys.path.append('../')
+from config import DATASET
 
 class Tokeniser:
     def __init__(self):
@@ -17,8 +21,9 @@ class Tokeniser:
                 self.vocab[token] = len(self.vocab)
 
     def tokenise_sentence(self, sentence):
+        if DATASET == "symbolic":
+            return re.findall(r"\\?[A-Z]+|\(|\)", sentence) # if using symbolic langauge
         return sentence.lower().split() # If using spoken language words
-        # return re.findall(r"\\?[A-Z]+|\(|\)", sentence) # if using visual langauge
     
     def encode(self, sentence, max_token_length=64):
         tokens = self.tokenise_sentence(sentence)
@@ -45,5 +50,6 @@ class Tokeniser:
                     tokens.append(token)
         
         # Join tokens back into a sentence
+        if DATASET == "symbolic":
+            return "".join(tokens) # if using symbolic langauge
         return " ".join(tokens) # If using spoken language words
-        # return "".join(tokens) # if using visual langauge

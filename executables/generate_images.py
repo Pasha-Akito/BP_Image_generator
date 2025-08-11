@@ -11,6 +11,7 @@ sys.path.append('../')
 
 from model.transformer_model import TextToImageTransformer
 from data.tokeniser import Tokeniser
+from config import DATASET
 
 TEXT_TO_GENERATE = "Big vs small" 
 BP_NUMBER = 2
@@ -34,8 +35,8 @@ def generate_and_save_images(model, tokeniser, text, device, output_dir="../mode
         text_tensor = torch.tensor([tokens]).to(device)
         left, right = model(text_tensor)
     
-    left_path = os.path.join(output_dir, f"left_temp.png")
-    right_path = os.path.join(output_dir, f"right_temp.png")
+    left_path = os.path.join(output_dir, "left_temp.png")
+    right_path = os.path.join(output_dir, "right_temp.png")
 
     # left = adapative_binary_pixels(left)
     # right = adapative_binary_pixels(right)
@@ -59,7 +60,7 @@ def test_generator(generator, device):
     plt.show()
 
 def generate_and_save_all_image_outputs(model, tokeniser, device):
-    bongard_problems_to_infer = pd.read_csv("../data/bongard_problems_to_test.csv")
+    bongard_problems_to_infer = pd.read_csv(f"../data/{DATASET}_words_data/bongard_problems_to_test.csv")
     for row in bongard_problems_to_infer.itertuples():
         sentence = row.sentence
         bp_number = row.bp_number
@@ -79,12 +80,13 @@ def create_and_save_plots(left_path, right_path, bp_number, sentence):
     plt.suptitle(f'BP {bp_number} | "{sentence}"', fontsize=18)
     ax[0].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
     ax[1].tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
-    plt.savefig(f'../model_answers_english_sentences/BP_{bp_number}_{sentence}.png', dpi=300, bbox_inches='tight')
+    plt.savefig(f'../model_answers_{DATASET}_sentences/BP_{bp_number}_{sentence}.png', dpi=300, bbox_inches='tight')
     print(f'Saved BP_{bp_number}_{sentence}.png')
     plt.close()
     
 
 def main():
+    print("Using dataset:", DATASET)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     with open("../model/config.json", "r") as f:

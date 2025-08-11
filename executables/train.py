@@ -1,7 +1,6 @@
 import pandas as pd
 from torch.utils.data import DataLoader
 import torch.nn as nn
-import torch.optim as optim
 import torch
 import json
 from torchvision.utils import save_image
@@ -35,8 +34,6 @@ def plot_training_loss(losses):
     plt.savefig("Epoch_plot.png", dpi=300, bbox_inches='tight')
     plt.close()
 
-
-
 def main():
     print("Using dataset:", DATASET)
     tokeniser = Tokeniser()
@@ -52,9 +49,11 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = TextToImageTransformer(vocab_size=len(tokeniser.vocab)).to(device)
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=0.0001, weight_decay=0.0001)
-    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=TOTAL_EPOCHS, eta_min=0.00001)
-
+    optimizer = torch.optim.AdamW(
+        model.parameters(), 
+        lr=0.00002,
+        weight_decay=0.1
+    )
     perceptual_loss = PerceptualLoss().to(device)
 
     perceptual_loss_weighting = 1.0 # Perceptual loss weighting
@@ -82,7 +81,7 @@ def main():
             real_left_image = data_batch["left_image"].to(device)
             real_right_image = data_batch["right_image"].to(device)
 
-            predicted_left_image, predicted_right_image = model(tokenised_text)
+            predicted_left_image, predicted_right_image, kl_loss = model(tokenised_text)
             p_loss = perceptual_loss(predicted_left_image, real_left_image) + perceptual_loss(predicted_right_image, real_right_image)
             total_batch_loss = perceptual_loss_weighting * p_loss
 
@@ -97,12 +96,11 @@ def main():
                 save_image(predicted_left_image[:4], "../training_debug/predicted_left.png", normalize=True)
                 save_image(real_right_image[:4], "../training_debug/real_right.png", normalize=True)
                 save_image(predicted_right_image[:4], "../training_debug/predicted_right.png", normalize=True)            
-            
+    
             total_batch_losses.append(total_batch_loss.detach())
 
         average_epoch_loss = torch.stack(total_batch_losses).mean().item()
         print(f"Epoch {epoch + 1}/{TOTAL_EPOCHS} | Average Loss: {average_epoch_loss:.4f} | Time Taken: {(time.perf_counter() - epoch_start_time):.4f} seconds")
-        scheduler.step()
         torch.save(model.state_dict(), "../model/model_weights.pth")
         model_losses.append(average_epoch_loss)
         print("Model weights saved")

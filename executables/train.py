@@ -49,10 +49,9 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = TextToImageTransformer(vocab_size=len(tokeniser.vocab)).to(device)
 
-    optimizer = torch.optim.AdamW(
+    optimizer = torch.optim.Adam(
         model.parameters(), 
-        lr=0.00002,
-        weight_decay=0.1
+        lr=0.00005
     )
     perceptual_loss = PerceptualLoss().to(device)
 
@@ -81,7 +80,7 @@ def main():
             real_left_image = data_batch["left_image"].to(device)
             real_right_image = data_batch["right_image"].to(device)
 
-            predicted_left_image, predicted_right_image, kl_loss = model(tokenised_text)
+            predicted_left_image, predicted_right_image = model(tokenised_text)
             p_loss = perceptual_loss(predicted_left_image, real_left_image) + perceptual_loss(predicted_right_image, real_right_image)
             total_batch_loss = perceptual_loss_weighting * p_loss
 

@@ -27,7 +27,7 @@ def adapative_binary_pixels(image):
     binary = torch.where(image > threshold, torch.ones_like(image), -torch.ones_like(image))
     return binary
 
-def generate_and_save_images(model, tokeniser, text, device, output_dir="../model_answers"):
+def generate_and_save_images(model, tokeniser, text, device, output_dir="../old_outputs"):
     model.eval()
     tokens = tokeniser.encode(text)
     

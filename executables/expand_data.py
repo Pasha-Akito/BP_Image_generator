@@ -1,5 +1,8 @@
 import pandas as pd
 import csv
+
+import sys
+sys.path.append('../')
 from config import DATASET
 
 def extract_folder_name(bp_number):

@@ -1,3 +1,3 @@
-DATASET = 'english'
-# DATASET = 'symbolic'
+# DATASET = 'english'
+DATASET = 'symbolic'
 # DATASET = 'minimal'

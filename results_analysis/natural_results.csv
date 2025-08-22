@@ -20,3 +20,22 @@ bp_number,text_input,concept_type,left_image,right_image,comment
 19,"Horizontal pinch vs. vertical pinch","neck_narrowing",CLEAR,CLEAR,
 20,"Both dots touching same bulb vs. dots on opposite bulbs","near_far",FAILED,FAILED,"The model not only failed to generate the large shape, it also failed to put circles on reasonable parts of the large shape"
 21,"Small shape present vs. all shapes large","size",CLEAR,CLEAR,
+22,"All shapes approximately the same size vs. shapes of different size","size",PARTIAL,CLEAR,"On the left there are two distinct shapes with similar size, but it seems like shapes are superimposed, so its partially correct"
+23,"One vs. two figures","number",FAILED,FAILED,"If the answer was, left side has less figures than right, then it would be correct. But the model has multiple shapes in both sides when it specifies 1 or 2"
+24,"A circle vs. no circle","existence ",CLEAR,CLEAR,
+25,"Black figure is a triangle vs. black figure is a circle","existence,texture",PARTIAL,FAILED,"On the left is a partially filled Triangle, on the right no figure is black"
+26,"Solid black triangle vs. no solid black triangle","existence,texture",FAILED,PARTIAL,"No solid black Triangles present in either image, but black noisy shapes on the right makes it a PARTIAL"
+27,"More solid black figures vs more outline figures","texture,number",CLEAR,CLEAR,
+28,"More solid black circles vs more outline circles","texture,number",FAILED,CLEAR,"Only one black circle compared to many outline circles present in left side"
+29,"There are more small circles inside the figure outline than outside vs. there are fewer small circles inside the figure outline than outside","shape,number",FAILED,FAILED,"Both sides fail to create an image where there is an 'inside' shape"
+30,"A curve with one self-crossing vs. a curve without a self-crossing","existence",FAILED,FAILED,"Both sides generated noise"
+31,"One line vs. two lines","number",FAILED,FAILED,"Both sides generated noise"
+32,"A sharp projection vs no sharp projection","angle,existence",PARTIAL,CLEAR,"Left side has a sharp shape towards the bottom, but generally a bit all over the place, right side has no sharp projection"
+33,"Acute angle vs. no acute angle","angle,existence",CLEAR,CLEAR,
+34,"A large hole vs a small hole","size,texture,existence",CLEAR,CLEAR,
+35,"The axis of the hole is parallel to the figure axis vs the axis of the hole is perpendicular to the figure axis","slope,texture",FAILED,FAILED,"Both generate a shape with a hole, but no real clear direction of the orientation"
+36,"Triangle above circle vs circle above triangle","existence,above_below",CLEAR,CLEAR,
+37,"Triangle above circle vs circle above triangle","existence,above_below",CLEAR,CLEAR,"Actually the same output for BP36, but correct for both"
+38,"Triangle larger than circle vs. triangle smaller than circle","quantity_comparison,size",PARTIAL,FAILED,"Left side has a small circle, other than that, no discernable shapes present for both images"
+39,"Segments approximately parallel to each other vs large angles between segments","slope",PARTIAL,PARTIAL,"It seems like there is more lines with the same orientation on the left vs the lines with the opposite orientation, not perfect but some resemblence of the concept"
+40,"Three points on a straight line vs no three points on a straight line","collinear",PARTIAL,FAILED,"Left side does have three points on a straight line, but it does have many points. The right side just has so many points in a straight line"

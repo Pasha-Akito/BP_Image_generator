@@ -1,0 +1,22 @@
+bp_number,text_input,concept_type,left_image,right_image,comment
+1,"Empty image vs. non-empty image","existence",CLEAR,CLEAR,
+2,"Big vs small","size",CLEAR,CLEAR,
+3,"Hollow outline vs. filled in solid","outlined_filled",CLEAR,FAILED,"Looks like the right side struggled to generate anything"
+4,"Convex vs concave","concave_convex",FAILED,FAILED,"looks like both sides were trying to generate some shapes, but ended up looking like almost just circles"
+5,"Is polygon vs. is smooth without straight lines or corners.","curved_straight",CLEAR,PARTIAL,"The left side has a clear polygon, the right side looks to be trying to generate circular shapes, but nontheless, seems to grasp that curvy lines with no corners is the approach"
+6,"Triangle vs quadrilateral","shape",PARTIAL,CLEAR,"On the left, it looks like if you extended the lines it would become a triangle, the right side has a figure resembling a quadrilateral"
+7,"Taller than wide vs wider than tall","horizontal_vertical",PARTIAL,CLEAR,"The left looks to be slightly taller than wide"
+8,"Positioned right vs positioned left","left_right",CLEAR,CLEAR,"While no shapes are generated, the model only places pixels where the concept dicates. So while no clear shape emerges, the concept is clear."
+9,"Non-wiggly outline vs wiggly outline","texture",CLEAR,CLEAR,
+10,"Approximately triangular outline vs approximately convex quadrilateral outline","shape",CLEAR,CLEAR,
+11,"Thin and elongated vs compact","elongated_compact",FAILED,CLEAR,"elongated image has noise that is elongated, so best case scenario it could be PARTIAL, but keeping it on the FAILED side"
+12,"Thin elongated convex hull vs compact convex hull","elongated_compact",CLEAR,CLEAR,"Both images show shapes which could be considered passing the concept, if you place a rubber band around the shapes generated, it would create an elongated vs compact shape"
+13,"Tall rectangle OR wide ellipse vs. wide rectangle OR tall ellipse","shape",FAILED,FAILED,"In my opinion, this is somewhat of a unique BP compared to others in the first 100 as it contains an OR, nontheless, the model just struggles to generate good representations for the concept"
+14,"All big individual figures vs. all small individual figures","size",CLEAR,CLEAR,
+15,"Closed shape outline vs. non-closed curve","closed_open",CLEAR,FAILED,"On the left we have a regular shape genearted, on the right, a perfect circle which is not opened. I think the model fails to see the small openings and just create a closed shape"
+16,"Clockwise spiraling curve vs. counter-clockwise spiraling curve","rotation_direction",FAILED,CLEAR,"The left side just fails to have a clear clockwise line, whereas the right side, has a line that moves counter-clickwise"
+17,"Shape with a reflex corner vs. shape without a reflex corner","angle",CLEAR,CLEAR,
+18,"'Pinched' shape (drastically thinner somewhere in the middle than on the ends) vs. non-pinched shape","neck_narrowing",PARTIAL,PARTIAL,"On the left, exists a figure with a pinched middle, but is quite noisy, I think the model partially understood the concept, but without the noise could become CLEAR. On the right, a very confusing shape has been generated, no pinched shape persay, so keeping at PARTAL"
+19,"Horizontal pinch vs. vertical pinch","neck_narrowing",CLEAR,CLEAR,
+20,"Both dots touching same bulb vs. dots on opposite bulbs","near_far",FAILED,FAILED,"The model not only failed to generate the large shape, it also failed to put circles on reasonable parts of the large shape"
+21,"Small shape present vs. all shapes large","size",CLEAR,CLEAR,

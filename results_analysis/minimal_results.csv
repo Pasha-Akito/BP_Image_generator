@@ -83,20 +83,19 @@ bp_number,text_input,concept_type,left_image,right_image,comment
 82,"BP82","spatial_relationship",FAILED,CLEAR,"The crosses on the right do not make an equilateral triangle, it seems for specific spatial_relation, the non-existence of the right image is usually a pass"
 83,"BP83","spatial_relationship",CLEAR,CLEAR,
 84,"BP84","spatial_relationship",CLEAR,CLEAR,
-
-85,"BP85","numerosity",FAILED,FAILED,"Generated noisy outputs"
+85,"BP85","numerosity",FAILED,FAILED,"Generated npoisy oututs"
 86,"BP86","numerosity",FAILED,FAILED,"Generated noisy outputs"
 87,"BP87","numerosity",FAILED,FAILED,"Generated noisy outputs"
-88,"BP88","numerosity",FAILED,FAILED,"Generated noisy outputs, since the text is the same as BP85,BP86, the same output is being produced for all three BPs"
-89,"BP89","numerosity",FAILED,FAILED,"Generated noisy outputs, same as BP88"
-90,"BP90","numerosity",PARTIAL,PARTIAL,"Distinct groups are present according to the number, just less noise inbetween groups to be clear"
+88,"BP88","numerosity",CLEAR,FAILED,"There are three distinct pieces of noise on the left"
+89,"BP89","numerosity",FAILED,CLEAR,"five distinct circle groups on the right"
+90,"BP90","numerosity",PARTIAL,FAILED,"The left image has three distinct groups, but two of the groups are connected by a faint piece of noise, so leaving as PARTIAL"
 91,"BP91","numerosity",FAILED,FAILED,"Generated noisy outputs"
-92,"BP92","shape_geometry",PARTIAL,PARTIAL,"The left side has a clear single branch with circles around, whereas the right side has clearly many branches together"
-93,"BP93","visual_properties",CLEAR,CLEAR,"the middle spot where branches form is either outline circle, or black circle"
-94,"BP94","visual_properties",CLEAR,CLEAR,"Only one black circle exists in both images, same as training data, and is placed in the correct spot in relation to other circles"
+92,"BP92","shape_geometry",CLEAR,CLEAR,
+93,"BP93","visual_properties",CLEAR,CLEAR,"The middle spot where branches form is either outline circle, or black circle"
+94,"BP94","visual_properties",CLEAR,FAILED,"The right side failed to generate a black circle"
 95,"BP95","visual_properties",CLEAR,CLEAR,
 96,"BP96","shape_geometry",FAILED,FAILED,"Very noisy training images, model struggles to generate good representations"
 97,"BP97","shape_geometry",CLEAR,CLEAR,
-98,"BP98","shape_geometry",FAILED,FAILED,"Very noisy training images,this is the same output for BP96"
+98,"BP98","shape_geometry",FAILED,FAILED,"Very noisy training images"
 99,"BP99","spatial_relationship",FAILED,PARTIAL,"The left has noisy outputs so its hard to tell anything in terms of concept understanding, on the right, there are two distinct lines which don't intersect, but these lines are not distinct of triangles or circles"
 100,"BP100","shape_geometry",CLEAR,CLEAR,

@@ -90,7 +90,7 @@ bp_number,text_input,concept_type,left_image,right_image,comment
 89,"Three parts vs five parts","numerosity",FAILED,FAILED,"Generated noisy outputs, same as BP88"
 90,"Three parts vs four parts","numerosity",PARTIAL,PARTIAL,"Distinct groups are present according to the number, just less noise inbetween groups to be clear"
 91,"Three identical elements vs four identical elements","numerosity",FAILED,FAILED,"Generated noisy outputs"
-92,"The chain does not branch vs the chain branches","shape_geometry",PARTIAL,PARTIAL,"The left side has a clear single branch with circles around, whereas the right side has clearly many branches together"
+92,"The chain does not branch vs the chain branches","shape_geometry",CLEAR,CLEAR,
 93,"Branches at outlined circle vs. branches at solid dark circle","visual_properties",CLEAR,CLEAR,"the middle spot where branches form is either outline circle, or black circle"
 94,"Solid dark circle not at end vs solid dark circle at end","visual_properties",CLEAR,CLEAR,"Only one black circle exists in both images, same as training data, and is placed in the correct spot in relation to other circles"
 95,"Vertical hatched lines vs horizontal hatched lines","visual_properties",CLEAR,CLEAR,

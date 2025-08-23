@@ -1,1 +1,102 @@
-bp_number,text_input,concept_type,left_image,right_image
+bp_number,text_input,concept_type,left_image,right_image,comment
+1,"BP1","visual_properties",CLEAR,CLEAR,
+2,"BP2","size",CLEAR,CLEAR,
+3,"BP3","visual_properties",FAILED,FAILED,
+4,"BP4","shape_geometry",FAILED,FAILED,"looks like both sides were trying to generate some shapes, but ended up looking like almost just circles"
+5,"BP5","shape_geometry",CLEAR,PARTIAL,"The left side has a clear polygon, the right side looks to be trying to generate circular shapes, but nontheless, seems to grasp that curvy lines with no corners is the approach"
+6,"BP6","shape_geometry",FAILED,PARTIAL,"Failed to create a triangle, and quadrilateral is almost complete"
+7,"BP7","size",CLEAR,CLEAR,
+8,"BP8","spatial_relationship",CLEAR,CLEAR,"While no shapes are generated, the model only places pixels where the concept dicates. So while no clear shape emerges, the concept is clear."
+9,"BP9","visual_properties",CLEAR,CLEAR,
+10,"BP10","shape_geometry",CLEAR,PARTIAL,"The quadrilateral fails to completely generate"
+11,"BP11","shape_geometry",CLEAR,CLEAR,
+12,"BP12","shape_geometry",CLEAR,CLEAR,"Both images show shapes which could be considered passing the concept, if you place a rubber band around the shapes generated, it would create an elongated vs compact shape"
+13,"BP13","shape_geometry",FAILED,FAILED,"In my opinion, this is somewhat of a unique BP compared to others in the first 100 as it contains an OR, nontheless, the model just struggles to generate good representations for the concept"
+14,"BP14","size",CLEAR,CLEAR,
+15,"BP15","shape_geometry",CLEAR,FAILED,"On the left we have a regular shape genearted, on the right, a perfect circle which is not opened. I think the model fails to see the small openings and just create a closed shape"
+16,"BP16","shape_geometry",FAILED,CLEAR,"The left side just fails to have a clear clockwise line, whereas the right side, has a line that moves counter-clickwise"
+17,"BP17","shape_geometry",CLEAR,CLEAR,
+18,"BP18","shape_geometry",FAILED,PARTIAL,"On the right, a very confusing shape has been generated, no pinched shape persay, so keeping at PARTAL"
+19,"BP19","shape_geometry",CLEAR,CLEAR,
+20,"BP20","spatial_relationship",FAILED,PARTIAL,"The model seemed to have placed two circles on seperate bulbs, the bulbs are not connected but it does pass the concept. Only PARTIAL as the second circle is hard to see"
+21,"BP21","size",CLEAR,CLEAR,
+22,"BP22","size",FAILED,CLEAR,
+23,"BP23","numerosity",CLEAR,FAILED,"Left side has one figure, while the right side has many"
+24,"BP24","numerosity",CLEAR,CLEAR,
+25,"BP25","visual_properties",FAILED,FAILED,"No black figures are present in either image"
+26,"BP26","numerosity",FAILED,PARTIAL,"No solid black Triangles present in either image, but black noisy shapes on the right makes it a PARTIAL"
+27,"BP27","numerosity",FAILED,CLEAR,"Equal amount of black and outline shapes on the left, the right has a black shape so more quantity concept works"
+28,"BP28","numerosity",FAILED,FAILED,
+29,"BP29","numerosity",FAILED,FAILED,"Both sides fail to create an image where there is an 'inside' shape"
+30,"BP30","shape_geometry",FAILED,CLEAR,"Left side has no crossing lines"
+31,"BP31","numerosity",FAILED,FAILED,"There is mostly a shape, vs almost two distinct shapes. but no lines present"
+32,"BP32","shape_geometry",FAILED,CLEAR,"right side has no sharp projection"
+33,"BP33","shape_geometry",CLEAR,CLEAR,
+34,"BP34","size",CLEAR,FAILED,"No hole exists on the right side"
+35,"BP35","spatial_relationship",FAILED,FAILED,"Both generate a shape with a hole, but no real clear direction of the orientation"
+36,"BP36","spatial_relationship",FAILED,FAILED,"Both sides fail to generate a second shape"
+37,"BP37","spatial_relationship",CLEAR,CLEAR,"Both sides generate shapes that comply with the concept"
+38,"BP38","size",PARTIAL,FAILED,"Left side has a small circle, other than that, no discernable shapes present for both images"
+39,"BP39","spatial_relationship",PARTIAL,PARTIAL,"It seems like there is more lines with the same orientation on the left vs the lines with the opposite orientation, not perfect but some resemblence of the concept"
+40,"BP40","spatial_relationship",PARTIAL,FAILED,"Left side does have three points on a straight line, but it does have many points. The right side just has so many points in a straight line"
+41,"BP41","spatial_relationship",FAILED,FAILED,
+42,"BP42","spatial_relationship",FAILED,FAILED,"Left side has no aligned circles, the right side has no inside object, therefore both failed"
+43,"BP43","size",CLEAR,CLEAR
+44,"BP44","spatial_relationship",FAILED,PARTIAL,"Although there are many points on the right side, they are all on the same arc"
+45,"BP45","spatial_relationship",FAILED,FAILED,"hard to make out anything from the generated images"
+46,"BP46","spatial_relationship",FAILED,FAILED,
+47,"BP47","spatial_relationship",FAILED,CLEAR,"A circle is trapped inside of a triangle on the right side"
+48,"BP48","spatial_relationship",CLEAR,CLEAR,
+49,"BP49","spatial_relationship",PARTIAL,FAILED,"On the left, circles inside of the shape are closely packed, but so are a few outside of the circle"
+50,"BP50","shape_geometry",FAILED,FAILED,"Both images are on the verge of symmetry and no symmetry, hard to say, think its better to leave as FAILED"
+51,"BP51","spatial_relationship",CLEAR,CLEAR,"there is a bunch of two cirlces together, with the right side having adequte distance in comparison"
+52,"BP52","spatial_relationship",FAILED,FAILED,"failed to genenerate anything resembling an arrow"
+53,"BP53","numerosity",CLEAR,FAILED,"Right side struggles to decide on an inside and outside shape"
+54,"BP54","spatial_relationship",FAILED,FAILED,""
+55,"BP55","spatial_relationship",CLEAR,FAILED,"The left side does generate a cavity, and the circles are on the left side of the cavity"
+56,"BP56","visual_properties",FAILED,CLEAR,"Left side has a black shape"
+57,"BP57","visual_properties",FAILED,FAILED,"left side generates no real shapes, while the right side has too noisy shapes, some resemblence of two distinct shapes, but not enough to give a PARTIAL"
+58,"BP58","visual_properties",FAILED,CLEAR,"on the right, there are two solid quadrilateral of different size"
+59,"BP59","visual_properties",CLEAR,PARTIAL,"The left has two shapes with similar size, whereas on the right, three shapes exist, two similar size, but all three together do not, so it is a PARTIAL"
+60,"BP60","visual_properties",FAILED,FAILED,
+61,"BP61","spatial_relationship",FAILED,FAILED,"No line to seperate the crosses exists in both images"
+62,"BP62","spatial_relationship",FAILED,FAILED,"No distinct ends exist in both images"
+63,"BP63","size",CLEAR,CLEAR,
+64,"BP64","spatial_relationship",CLEAR,FAILED,
+65,"BP65","spatial_relationship",CLEAR,CLEAR,"A clear horizontal and vertical line of triangles emerge"
+66,"BP66","spatial_relationship",FAILED,FAILED,"Too much noise generated to tell anything apart"
+67,"BP67","spatial_relationship",CLEAR,CLEAR,
+68,"BP68","spatial_relationship",CLEAR,CLEAR,
+69,"BP69","spatial_relationship",FAILED,CLEAR,"The ball is on the correct branch on the right"
+70,"BP70","spatial_relationship",FAILED,FAILED,"Its both so close to being PARTIAL, or even CLEAR, its just hard to really conceptualise if the outputs are correct at all"
+71,"BP71","spatial_relationship",FAILED,FAILED,
+72,"BP72","shape_geometry",FAILED,FAILED,
+73,"BP73","spatial_relationship",FAILED,FAILED,"Outputs are too noisy to tell any concept"
+74,"BP74","shape_geometry",CLEAR,CLEAR,
+75,"BP75","spatial_relationship",PARTIAL,CLEAR,"On the left, shapes are generated on the correct side of the arc, but end up being noisy instead of complete shapes, so moving to PARTIAL"
+76,"BP76","shape_geometry",FAILED,FAILED,
+77,"BP77","shape_geometry",FAILED,FAILED,
+78,"BP78","spatial_relationship",FAILED,FAILED,
+79,"BP79","spatial_relationship",FAILED,FAILED,
+80,"BP80","spatial_relationship",CLEAR,FAILED,"The circles are spaced equally enough from the single cross"
+81,"BP81","spatial_relationship",FAILED,FAILED,
+82,"BP82","spatial_relationship",FAILED,CLEAR,"The crosses on the right do not make an equilateral triangle, it seems for specific spatial_relation, the non-existence of the right image is usually a pass"
+83,"BP83","spatial_relationship",CLEAR,CLEAR,
+84,"BP84","spatial_relationship",CLEAR,CLEAR,
+
+85,"BP85","numerosity",FAILED,FAILED,"Generated noisy outputs"
+86,"BP86","numerosity",FAILED,FAILED,"Generated noisy outputs"
+87,"BP87","numerosity",FAILED,FAILED,"Generated noisy outputs"
+88,"BP88","numerosity",FAILED,FAILED,"Generated noisy outputs, since the text is the same as BP85,BP86, the same output is being produced for all three BPs"
+89,"BP89","numerosity",FAILED,FAILED,"Generated noisy outputs, same as BP88"
+90,"BP90","numerosity",PARTIAL,PARTIAL,"Distinct groups are present according to the number, just less noise inbetween groups to be clear"
+91,"BP91","numerosity",FAILED,FAILED,"Generated noisy outputs"
+92,"BP92","shape_geometry",PARTIAL,PARTIAL,"The left side has a clear single branch with circles around, whereas the right side has clearly many branches together"
+93,"BP93","visual_properties",CLEAR,CLEAR,"the middle spot where branches form is either outline circle, or black circle"
+94,"BP94","visual_properties",CLEAR,CLEAR,"Only one black circle exists in both images, same as training data, and is placed in the correct spot in relation to other circles"
+95,"BP95","visual_properties",CLEAR,CLEAR,
+96,"BP96","shape_geometry",FAILED,FAILED,"Very noisy training images, model struggles to generate good representations"
+97,"BP97","shape_geometry",CLEAR,CLEAR,
+98,"BP98","shape_geometry",FAILED,FAILED,"Very noisy training images,this is the same output for BP96"
+99,"BP99","spatial_relationship",FAILED,PARTIAL,"The left has noisy outputs so its hard to tell anything in terms of concept understanding, on the right, there are two distinct lines which don't intersect, but these lines are not distinct of triangles or circles"
+100,"BP100","shape_geometry",CLEAR,CLEAR,

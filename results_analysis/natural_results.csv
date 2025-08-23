@@ -25,7 +25,7 @@ bp_number,text_input,concept_type,left_image,right_image,comment
 24,"A circle vs. no circle","numerosity",CLEAR,CLEAR,
 25,"Black figure is a triangle vs. black figure is a circle","visual_properties",PARTIAL,FAILED,"On the left is a partially filled Triangle, on the right no figure is black"
 26,"Solid black triangle vs. no solid black triangle","numerosity",FAILED,PARTIAL,"No solid black Triangles present in either image, but black noisy shapes on the right makes it a PARTIAL"
-27,"More solid black figures vs more outline figures","numerosity",CLEAR,CLEAR,
+27,"More solid black figures vs more outline figures","numerosity",CLEAR,PARTIAL,"No black shapes present, so nothing to be 'more' of"
 28,"More solid black circles vs more outline circles","numerosity",FAILED,CLEAR,"Only one black circle compared to many outline circles present in left side"
 29,"There are more small circles inside the figure outline than outside vs. there are fewer small circles inside the figure outline than outside","numerosity",FAILED,FAILED,"Both sides fail to create an image where there is an 'inside' shape"
 30,"A curve with one self-crossing vs. a curve without a self-crossing","shape_geometry",FAILED,FAILED,"Both sides generated noise"
@@ -72,7 +72,7 @@ bp_number,text_input,concept_type,left_image,right_image,comment
 71,"There are inside figures of the second order vs there are no inside figures of the second order","spatial_relationship",FAILED,CLEAR,"Model seems to do fine at one level of recursion, two levels and it struggles"
 72,"Ends of the curve are parallel vs ends of the curve are perpendicular","shape_geometry",FAILED,FAILED,
 73,"The long axes of the ellipse and rectangle are perpendicular vs the long axes of the ellipse and rectangle are parallel","spatial_relationship",FAILED,FAILED,"Outputs are too noisy to tell any concept"
-74,"A tail grows from the obtuse end vs a tail grows from the acute end","shape_geometry",FAILED,FAILED,
+74,"A tail grows from the obtuse end vs a tail grows from the acute end","shape_geometry",FAILED,CLEAR,"On the right, a tail does grow from a sharp part of the circlular shape"
 75,"Triangle located at the concave side of an arc vs triangle located at the convex side of an arc","spatial_relationship",FAILED,FAILED,
 76,"Long sides concave vs long sides convex","shape_geometry",FAILED,PARTIAL,"The shape on the right is almost perfect, but some the right side makes it partial"
 77,"Angle divided in half vs angle not divided in half","shape_geometry",FAILED,FAILED,
@@ -82,7 +82,7 @@ bp_number,text_input,concept_type,left_image,right_image,comment
 81,"Dark figures can be divided from outline figures by a straight line vs convex hulls of filled and outlined figures overlap","spatial_relationship",FAILED,FAILED,
 82,"The convex hull of the crosses forms an equilateral triangle vs the convex hull of the crosses does not form an equilateral triangle","spatial_relationship",FAILED,CLEAR,"The crosses on the right do not make an equilateral triangle, it seems for specific spatial_relation, the non-existence of the right image is usually a pass"
 83,"A circle is inside of a figure made by crosses vs a circle is outside of figures made by crosses","spatial_relationship",CLEAR,CLEAR,
-84,"A quadrangle is outside of a figure made by circles vs a quadrangle is inside of a figure made by circles","spatial_relationship",PARTIAL,CLEAR,"on the left, there is a shape resembling a square, But its a bit too round to be sure, so leaving at PARTIAL"
+84,"A quadrangle is outside of a figure made by circles vs a quadrangle is inside of a figure made by circles","spatial_relationship",CLEAR,CLEAR,
 85,"Three parts vs five parts","numerosity",FAILED,FAILED,"Generated noisy outputs"
 86,"Three parts vs five parts","numerosity",FAILED,FAILED,"Generated noisy outputs"
 87,"Four parts vs five parts","numerosity",FAILED,FAILED,"Generated noisy outputs"

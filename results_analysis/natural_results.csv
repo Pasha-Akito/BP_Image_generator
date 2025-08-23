@@ -21,15 +21,15 @@ bp_number,text_input,concept_type,left_image,right_image,comment
 20,"Both dots touching same bulb vs. dots on opposite bulbs","near_far",FAILED,FAILED,"The model not only failed to generate the large shape, it also failed to put circles on reasonable parts of the large shape"
 21,"Small shape present vs. all shapes large","size",CLEAR,CLEAR,
 22,"All shapes approximately the same size vs. shapes of different size","size",PARTIAL,CLEAR,"On the left there are two distinct shapes with similar size, but it seems like shapes are superimposed, so its partially correct"
-23,"One vs. two figures","number",FAILED,FAILED,"If the answer was, left side has less figures than right, then it would be correct. But the model has multiple shapes in both sides when it specifies 1 or 2"
+23,"One vs. two figures","numerosity",FAILED,FAILED,"If the answer was, left side has less figures than right, then it would be correct. But the model has multiple shapes in both sides when it specifies 1 or 2"
 24,"A circle vs. no circle","existence ",CLEAR,CLEAR,
 25,"Black figure is a triangle vs. black figure is a circle","existence,texture",PARTIAL,FAILED,"On the left is a partially filled Triangle, on the right no figure is black"
 26,"Solid black triangle vs. no solid black triangle","existence,texture",FAILED,PARTIAL,"No solid black Triangles present in either image, but black noisy shapes on the right makes it a PARTIAL"
-27,"More solid black figures vs more outline figures","texture,number",CLEAR,CLEAR,
-28,"More solid black circles vs more outline circles","texture,number",FAILED,CLEAR,"Only one black circle compared to many outline circles present in left side"
-29,"There are more small circles inside the figure outline than outside vs. there are fewer small circles inside the figure outline than outside","shape,number",FAILED,FAILED,"Both sides fail to create an image where there is an 'inside' shape"
+27,"More solid black figures vs more outline figures","texture,numerosity",CLEAR,CLEAR,
+28,"More solid black circles vs more outline circles","texture,numerosity",FAILED,CLEAR,"Only one black circle compared to many outline circles present in left side"
+29,"There are more small circles inside the figure outline than outside vs. there are fewer small circles inside the figure outline than outside","shape,numerosity",FAILED,FAILED,"Both sides fail to create an image where there is an 'inside' shape"
 30,"A curve with one self-crossing vs. a curve without a self-crossing","existence",FAILED,FAILED,"Both sides generated noise"
-31,"One line vs. two lines","number",FAILED,FAILED,"Both sides generated noise"
+31,"One line vs. two lines","numerosity",FAILED,FAILED,"Both sides generated noise"
 32,"A sharp projection vs no sharp projection","angle,existence",PARTIAL,CLEAR,"Left side has a sharp shape towards the bottom, but generally a bit all over the place, right side has no sharp projection"
 33,"Acute angle vs. no acute angle","angle,existence",CLEAR,CLEAR,
 34,"A large hole vs a small hole","size,texture,existence",CLEAR,CLEAR,
@@ -63,3 +63,39 @@ bp_number,text_input,concept_type,left_image,right_image,comment
 62,"Ends of the curve are far apart vs ends of the curve are close together","near_far",FAILED,FAILED,"No distinct ends exist in both images"
 63,"Shading thicker on the right side vs shading thicker on the left side","texture,size",CLEAR,CLEAR,
 64,"A cross is located on the extension of the ellipse axis vs a circle is located on the extension of the ellipse axis","spatial_relation",PARTIAL,PARTIAL,"If the eclipse being generated was clearer it could be easier to assign CLEAR, but the circle shape on the left has crosses in front, and on the right, the circle shape seems to point north or south, where a circle resides"
+65,"A set of triangles elongated horizontally vs a set of triangles elongated vertically","collinear",CLEAR,CLEAR,"A clear horizontal and vertical line of triangles emerge"
+66,"Unconnected circles on a horizontal line vs unconnected circles on a vertical line","collinear",FAILED,FAILED,"Too much noise generated to tell anything apart"
+67,"The right branch begins at a higher point than the left branch vs the right branch begins at a lower point than the left branch","spatial_relation",CLEAR,PARTIAL,"Just slightly noisy to tell clearly if the concept is present on the right"
+68,"The end of the right branch is higher than that of the left branch vs. the end of the right branch is lower than that of the left branch","spatial_relation",CLEAR,CLEAR,
+69,"Large black dot on the main branch vs large black dot on a side branch","spatial_relation",FAILED,CLEAR,"The ball is on the correct branch on the right"
+70,"There are no side branches of the second order vs there are side branches of the second order","recursion,existence",FAILED,FAILED,
+71,"There are inside figures of the second order vs there are no inside figures of the second order","recursion,existence",FAILED,CLEAR,"Model seems to do fine at one level of recursion, two levels and it struggles"
+72,"Ends of the curve are parallel vs ends of the curve are perpendicular","slope",FAILED,FAILED,
+73,"The long axes of the ellipse and rectangle are perpendicular vs the long axes of the ellipse and rectangle are parallel","spatial_relation,slope",FAILED,FAILED,"Outputs are too noisy to tell any concept"
+74,"A tail grows from the obtuse end vs a tail grows from the acute end","spatial_relation",FAILED,FAILED,
+75,"Triangle located at the concave side of an arc vs triangle located at the convex side of an arc","spatial_relation",FAILED,FAILED,
+76,"Long sides concave vs long sides convex","shape",FAILED,PARTIAL,"The shape on the right is almost perfect, but some the right side makes it partial"
+77,"Angle divided in half vs angle not divided in half","angle",FAILED,FAILED,
+78,"Extensions of segments cross at one point vs. extensions of segments do not cross at one point","spatial_relation",FAILED,CLEAR,"The lines do not cross at one point on the right side, key feature is the parrallel lines"
+79,"A dark circle is closer to the outline circle than to the triangle vs a dark circle is closer to the triangle than to the outline circle","spatial_relation",PARTIAL,FAILED,"On the left all shapes are generated, but its hard to tell which shape is further from teh black circle"
+80,"Points located at the same distances from a cross vs points located at different distances from a cross","spatial_relation",FAILED,FAILED,
+81,"Dark figures can be divided from outline figures by a straight line vs convex hulls of filled and outlined figures overlap","spatial_relation",FAILED,FAILED,
+82,"The convex hull of the crosses forms an equilateral triangle vs the convex hull of the crosses does not form an equilateral triangle","spatial_relation",FAILED,CLEAR,"The crosses on the right do not make an equilateral triangle, it seems for specific spatial_relation, the non-existence of the right image is usually a pass"
+83,"A circle is inside of a figure made by crosses vs a circle is outside of figures made by crosses","spatial_relation",CLEAR,CLEAR,
+84,"A quadrangle is outside of a figure made by circles vs a quadrangle is inside of a figure made by circles","spatial_relation",PARTIAL,CLEAR,"on the left, there is a shape resembling a square, But its a bit too round to be sure, so leaving at PARTIAL"
+85,"Three parts vs five parts","numerosity",FAILED,FAILED,"Generated noisy outputs"
+86,"Three parts vs five parts","numerosity",FAILED,FAILED,"Generated noisy outputs"
+87,"Four parts vs five parts","numerosity",FAILED,FAILED,"Generated noisy outputs"
+88,"Three parts vs five parts","numerosity",FAILED,FAILED,"Generated noisy outputs, since the text is the same as BP85,BP86, the same output is being produced for all three BPs"
+89,"Three parts vs five parts","numerosity",FAILED,FAILED,"Generated noisy outputs, same as BP88"
+90,"Three parts vs four parts","numerosity",PARTIAL,PARTIAL,"Distinct groups are present according to the number, just less noise inbetween groups to be clear"
+91,"Three identical elements vs four identical elements","numerosity",FAILED,FAILED,"Generated noisy outputs"
+92,"The chain does not branch vs the chain branches","collinear",PARTIAL,PARTIAL,"The left side has a clear single branch with circles around, whereas the right side has clearly many branches together"
+93,"Branches at outlined circle vs. branches at solid dark circle","spatial_relation",CLEAR,CLEAR,"the middle spot where branches form is either outline circle, or black circle"
+94,"Solid dark circle not at end vs solid dark circle at end","spatial_relation",CLEAR,CLEAR,"Only one black circle exists in both images, same as training data, and is placed in the correct spot in relation to other circles"
+95,"Vertical hatched lines vs horizontal hatched lines","shape,slope",CLEAR,CLEAR,
+96,"Triangles vs quadrangles","shape",FAILED,FAILED,"Very noisy training images, model struggles to generate good representations"
+97,"Triangles vs circles","shape",CLEAR,CLEAR,
+98,"Triangles vs quadrangles","shape",FAILED,FAILED,"Very noisy training images,this is the same output for BP96"
+99,"Outlines made by triangles and circles intersect vs outlines made by triangles and circles do not intersect","spatial_relation",FAILED,PARTIAL,"The left has noisy outputs so its hard to tell anything in terms of concept understanding, on the right, there are two distinct lines which don't intersect, but these lines are not distinct of triangles or circles"
+100,"The letter A vs the letter Б","shape",CLEAR,CLEAR,

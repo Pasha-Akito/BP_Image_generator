@@ -1,0 +1,118 @@
+\begin{longtable}{|p{0.6cm}|p{4.5cm}|p{3.3cm}|p{1.8cm}|p{1.8cm}|}
+\caption{minimal Analysis Results} \label{tab:minimal_analysis_results} \\
+\toprule
+BP# & Text Input & Concept Type & Left Image Result & Right Image Result \\
+\midrule
+\endfirsthead
+\caption[]{minimal Analysis Results} \\
+\toprule
+BP# & Text Input & Concept Type & Left Image Result & Right Image Result \\
+\midrule
+\endhead
+\midrule
+\multicolumn{5}{r}{Continued on next page} \\
+\midrule
+\endfoot
+\bottomrule
+\endlastfoot
+1 & BP1 & visual\_properties & CLEAR & CLEAR \\
+2 & BP2 & size & CLEAR & CLEAR \\
+3 & BP3 & visual\_properties & FAILED & FAILED \\
+4 & BP4 & shape\_geometry & FAILED & FAILED \\
+5 & BP5 & shape\_geometry & CLEAR & PARTIAL \\
+6 & BP6 & shape\_geometry & FAILED & PARTIAL \\
+7 & BP7 & size & CLEAR & CLEAR \\
+8 & BP8 & spatial\_relationship & CLEAR & CLEAR \\
+9 & BP9 & visual\_properties & CLEAR & CLEAR \\
+10 & BP10 & shape\_geometry & CLEAR & PARTIAL \\
+11 & BP11 & shape\_geometry & CLEAR & CLEAR \\
+12 & BP12 & shape\_geometry & CLEAR & CLEAR \\
+13 & BP13 & shape\_geometry & FAILED & FAILED \\
+14 & BP14 & size & CLEAR & CLEAR \\
+15 & BP15 & shape\_geometry & CLEAR & FAILED \\
+16 & BP16 & shape\_geometry & FAILED & CLEAR \\
+17 & BP17 & shape\_geometry & CLEAR & CLEAR \\
+18 & BP18 & shape\_geometry & FAILED & PARTIAL \\
+19 & BP19 & shape\_geometry & CLEAR & CLEAR \\
+20 & BP20 & spatial\_relationship & FAILED & PARTIAL \\
+21 & BP21 & size & CLEAR & CLEAR \\
+22 & BP22 & size & FAILED & CLEAR \\
+23 & BP23 & numerosity & CLEAR & FAILED \\
+24 & BP24 & numerosity & CLEAR & CLEAR \\
+25 & BP25 & visual\_properties & FAILED & FAILED \\
+26 & BP26 & numerosity & FAILED & PARTIAL \\
+27 & BP27 & numerosity & FAILED & CLEAR \\
+28 & BP28 & numerosity & FAILED & FAILED \\
+29 & BP29 & numerosity & FAILED & FAILED \\
+30 & BP30 & shape\_geometry & FAILED & CLEAR \\
+31 & BP31 & numerosity & FAILED & FAILED \\
+32 & BP32 & shape\_geometry & FAILED & CLEAR \\
+33 & BP33 & shape\_geometry & CLEAR & CLEAR \\
+34 & BP34 & size & CLEAR & FAILED \\
+35 & BP35 & spatial\_relationship & FAILED & FAILED \\
+36 & BP36 & spatial\_relationship & FAILED & FAILED \\
+37 & BP37 & spatial\_relationship & CLEAR & CLEAR \\
+38 & BP38 & size & PARTIAL & FAILED \\
+39 & BP39 & spatial\_relationship & PARTIAL & PARTIAL \\
+40 & BP40 & spatial\_relationship & PARTIAL & FAILED \\
+41 & BP41 & spatial\_relationship & FAILED & FAILED \\
+42 & BP42 & spatial\_relationship & FAILED & FAILED \\
+43 & BP43 & size & CLEAR & CLEAR \\
+44 & BP44 & spatial\_relationship & FAILED & PARTIAL \\
+45 & BP45 & spatial\_relationship & FAILED & FAILED \\
+46 & BP46 & spatial\_relationship & FAILED & FAILED \\
+47 & BP47 & spatial\_relationship & FAILED & CLEAR \\
+48 & BP48 & spatial\_relationship & CLEAR & CLEAR \\
+49 & BP49 & spatial\_relationship & PARTIAL & FAILED \\
+50 & BP50 & shape\_geometry & FAILED & FAILED \\
+51 & BP51 & spatial\_relationship & CLEAR & CLEAR \\
+52 & BP52 & spatial\_relationship & FAILED & FAILED \\
+53 & BP53 & numerosity & CLEAR & FAILED \\
+54 & BP54 & spatial\_relationship & FAILED & FAILED \\
+55 & BP55 & spatial\_relationship & CLEAR & FAILED \\
+56 & BP56 & visual\_properties & FAILED & CLEAR \\
+57 & BP57 & visual\_properties & FAILED & FAILED \\
+58 & BP58 & visual\_properties & FAILED & CLEAR \\
+59 & BP59 & visual\_properties & CLEAR & PARTIAL \\
+60 & BP60 & visual\_properties & FAILED & FAILED \\
+61 & BP61 & spatial\_relationship & FAILED & FAILED \\
+62 & BP62 & spatial\_relationship & FAILED & FAILED \\
+63 & BP63 & size & CLEAR & CLEAR \\
+64 & BP64 & spatial\_relationship & CLEAR & FAILED \\
+65 & BP65 & spatial\_relationship & CLEAR & CLEAR \\
+66 & BP66 & spatial\_relationship & FAILED & FAILED \\
+67 & BP67 & spatial\_relationship & CLEAR & CLEAR \\
+68 & BP68 & spatial\_relationship & CLEAR & CLEAR \\
+69 & BP69 & spatial\_relationship & FAILED & CLEAR \\
+70 & BP70 & spatial\_relationship & FAILED & FAILED \\
+71 & BP71 & spatial\_relationship & FAILED & FAILED \\
+72 & BP72 & shape\_geometry & FAILED & FAILED \\
+73 & BP73 & spatial\_relationship & FAILED & FAILED \\
+74 & BP74 & shape\_geometry & CLEAR & CLEAR \\
+75 & BP75 & spatial\_relationship & PARTIAL & CLEAR \\
+76 & BP76 & shape\_geometry & FAILED & FAILED \\
+77 & BP77 & shape\_geometry & FAILED & FAILED \\
+78 & BP78 & spatial\_relationship & FAILED & FAILED \\
+79 & BP79 & spatial\_relationship & FAILED & FAILED \\
+80 & BP80 & spatial\_relationship & CLEAR & FAILED \\
+81 & BP81 & spatial\_relationship & FAILED & FAILED \\
+82 & BP82 & spatial\_relationship & FAILED & CLEAR \\
+83 & BP83 & spatial\_relationship & CLEAR & CLEAR \\
+84 & BP84 & spatial\_relationship & CLEAR & CLEAR \\
+85 & BP85 & numerosity & FAILED & FAILED \\
+86 & BP86 & numerosity & FAILED & FAILED \\
+87 & BP87 & numerosity & FAILED & FAILED \\
+88 & BP88 & numerosity & CLEAR & FAILED \\
+89 & BP89 & numerosity & FAILED & CLEAR \\
+90 & BP90 & numerosity & PARTIAL & FAILED \\
+91 & BP91 & numerosity & FAILED & FAILED \\
+92 & BP92 & shape\_geometry & CLEAR & CLEAR \\
+93 & BP93 & visual\_properties & CLEAR & CLEAR \\
+94 & BP94 & visual\_properties & CLEAR & FAILED \\
+95 & BP95 & visual\_properties & CLEAR & CLEAR \\
+96 & BP96 & shape\_geometry & FAILED & FAILED \\
+97 & BP97 & shape\_geometry & CLEAR & CLEAR \\
+98 & BP98 & shape\_geometry & FAILED & FAILED \\
+99 & BP99 & spatial\_relationship & FAILED & PARTIAL \\
+100 & BP100 & shape\_geometry & CLEAR & CLEAR \\
+\end{longtable}

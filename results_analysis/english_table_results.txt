@@ -1,0 +1,118 @@
+\begin{longtable}{|p{0.6cm}|p{4.5cm}|p{3.3cm}|p{1.8cm}|p{1.8cm}|}
+\caption{english Analysis Results} \label{tab:english_analysis_results} \\
+\toprule
+BP# & Text Input & Concept Type & Left Image Result & Right Image Result \\
+\midrule
+\endfirsthead
+\caption[]{english Analysis Results} \\
+\toprule
+BP# & Text Input & Concept Type & Left Image Result & Right Image Result \\
+\midrule
+\endhead
+\midrule
+\multicolumn{5}{r}{Continued on next page} \\
+\midrule
+\endfoot
+\bottomrule
+\endlastfoot
+1 & Empty image vs. non-empty image & visual\_properties & CLEAR & CLEAR \\
+2 & Big vs small & size & CLEAR & CLEAR \\
+3 & Hollow outline vs. filled in solid & visual\_properties & CLEAR & FAILED \\
+4 & Convex vs concave & shape\_geometry & FAILED & FAILED \\
+5 & Is polygon vs. is smooth without straight lines or corners. & shape\_geometry & CLEAR & PARTIAL \\
+6 & Triangle vs quadrilateral & shape\_geometry & PARTIAL & CLEAR \\
+7 & Taller than wide vs wider than tall & size & PARTIAL & CLEAR \\
+8 & Positioned right vs positioned left & spatial\_relationship & CLEAR & CLEAR \\
+9 & Non-wiggly outline vs wiggly outline & visual\_properties & CLEAR & CLEAR \\
+10 & Approximately triangular outline vs approximately convex quadrilateral outline & shape\_geometry & CLEAR & CLEAR \\
+11 & Thin and elongated vs compact & shape\_geometry & FAILED & CLEAR \\
+12 & Thin elongated convex hull vs compact convex hull & shape\_geometry & CLEAR & CLEAR \\
+13 & Tall rectangle OR wide ellipse vs. wide rectangle OR tall ellipse & shape\_geometry & FAILED & FAILED \\
+14 & All big individual figures vs. all small individual figures & size & CLEAR & CLEAR \\
+15 & Closed shape outline vs. non-closed curve & shape\_geometry & CLEAR & FAILED \\
+16 & Clockwise spiraling curve vs. counter-clockwise spiraling curve & shape\_geometry & FAILED & CLEAR \\
+17 & Shape with a reflex corner vs. shape without a reflex corner & shape\_geometry & CLEAR & CLEAR \\
+18 & 'Pinched' shape (drastically thinner somewhere in the middle than on the ends) vs. non-pinched shape & shape\_geometry & PARTIAL & PARTIAL \\
+19 & Horizontal pinch vs. vertical pinch & shape\_geometry & CLEAR & CLEAR \\
+20 & Both dots touching same bulb vs. dots on opposite bulbs & spatial\_relationship & FAILED & FAILED \\
+21 & Small shape present vs. all shapes large & size & CLEAR & CLEAR \\
+22 & All shapes approximately the same size vs. shapes of different size & size & PARTIAL & CLEAR \\
+23 & One vs. two figures & numerosity & FAILED & FAILED \\
+24 & A circle vs. no circle & numerosity & CLEAR & CLEAR \\
+25 & Black figure is a triangle vs. black figure is a circle & visual\_properties & PARTIAL & FAILED \\
+26 & Solid black triangle vs. no solid black triangle & numerosity & FAILED & PARTIAL \\
+27 & More solid black figures vs more outline figures & numerosity & CLEAR & PARTIAL \\
+28 & More solid black circles vs more outline circles & numerosity & FAILED & CLEAR \\
+29 & There are more small circles inside the figure outline than outside vs. there are fewer small circles inside the figure outline than outside & numerosity & FAILED & FAILED \\
+30 & A curve with one self-crossing vs. a curve without a self-crossing & shape\_geometry & FAILED & FAILED \\
+31 & One line vs. two lines & numerosity & FAILED & FAILED \\
+32 & A sharp projection vs no sharp projection & shape\_geometry & PARTIAL & CLEAR \\
+33 & Acute angle vs. no acute angle & shape\_geometry & CLEAR & CLEAR \\
+34 & A large hole vs a small hole & size & CLEAR & CLEAR \\
+35 & The axis of the hole is parallel to the figure axis vs the axis of the hole is perpendicular to the figure axis & spatial\_relationship & FAILED & FAILED \\
+36 & Triangle above circle vs circle above triangle & spatial\_relationship & CLEAR & CLEAR \\
+37 & Triangle above circle vs circle above triangle & spatial\_relationship & CLEAR & CLEAR \\
+38 & Triangle larger than circle vs. triangle smaller than circle & size & PARTIAL & FAILED \\
+39 & Segments approximately parallel to each other vs large angles between segments & spatial\_relationship & PARTIAL & PARTIAL \\
+40 & Three points on a straight line vs no three points on a straight line & spatial\_relationship & PARTIAL & FAILED \\
+41 & Outline circles on one straight line vs outline circles not on one straight line & spatial\_relationship & FAILED & FAILED \\
+42 & Points inside the figure outline are on a straight line vs points inside the figure outline are not on a straight line & spatial\_relationship & CLEAR & CLEAR \\
+43 & The vibration amplitude increases from left to right vs the vibration amplitude decreases from left to right & size & CLEAR & CLEAR \\
+44 & Small circles on different arcs vs small circles on one arc & spatial\_relationship & FAILED & PARTIAL \\
+45 & Outline figure on top of solid black figure vs black figure on top of outline figure & spatial\_relationship & FAILED & FAILED \\
+46 & Triangle on top of the circle vs circle on top of the triangle & spatial\_relationship & CLEAR & CLEAR \\
+47 & Triangle inside of the circle vs circle inside of the triangle & spatial\_relationship & FAILED & PARTIAL \\
+48 & Solid dark figures above the outline figures vs. outline figures above the solid dark figures & spatial\_relationship & CLEAR & CLEAR \\
+49 & Points inside the figure outline are grouped more densely than outside the contour vs. points outside the figure contour are grouped more densely than inside the contour & spatial\_relationship & PARTIAL & FAILED \\
+50 & Vertical axis of symmetry vs no axis of symmetry & shape\_geometry & FAILED & FAILED \\
+51 & Two circles close to each other vs no two circles close to each other & spatial\_relationship & FAILED & FAILED \\
+52 & Arrows pointing in different directions vs arrows pointing in the same direction & spatial\_relationship & FAILED & FAILED \\
+53 & Inside figure has fewer angles than outside figure vs inside figure has more angles than outside figure & numerosity & CLEAR & FAILED \\
+54 & A cross, circle, and triangle arranged counterclockwise vs a cross, circle, and triangle arranged clockwise & spatial\_relationship & FAILED & FAILED \\
+55 & A circle is at the left of the cavity if you look from inside the figure vs a circle is at the right of the cavity if you look from inside the figure & spatial\_relationship & FAILED & FAILED \\
+56 & All figures of the same color vs figures of different colors & visual\_properties & CLEAR & CLEAR \\
+57 & Identical figures vs figures not identical & visual\_properties & FAILED & FAILED \\
+58 & Solid dark quadrangles are identical vs solid dark quadrangles are different & visual\_properties & FAILED & PARTIAL \\
+59 & Figures are similar vs figures are not similar & visual\_properties & PARTIAL & PARTIAL \\
+60 & Some similar figures vs no similar figures & visual\_properties & FAILED & FAILED \\
+61 & A line separates the crosses in half vs a line does not separate the crosses in half & spatial\_relationship & FAILED & FAILED \\
+62 & Ends of the curve are far apart vs ends of the curve are close together & spatial\_relationship & FAILED & FAILED \\
+63 & Shading thicker on the right side vs shading thicker on the left side & size & CLEAR & CLEAR \\
+64 & A cross is located on the extension of the ellipse axis vs a circle is located on the extension of the ellipse axis & spatial\_relationship & PARTIAL & PARTIAL \\
+65 & A set of triangles elongated horizontally vs a set of triangles elongated vertically & spatial\_relationship & CLEAR & CLEAR \\
+66 & Unconnected circles on a horizontal line vs unconnected circles on a vertical line & spatial\_relationship & FAILED & FAILED \\
+67 & The right branch begins at a higher point than the left branch vs the right branch begins at a lower point than the left branch & spatial\_relationship & CLEAR & PARTIAL \\
+68 & The end of the right branch is higher than that of the left branch vs. the end of the right branch is lower than that of the left branch & spatial\_relationship & CLEAR & CLEAR \\
+69 & Large black dot on the main branch vs large black dot on a side branch & spatial\_relationship & FAILED & CLEAR \\
+70 & There are no side branches of the second order vs there are side branches of the second order & spatial\_relationship & FAILED & FAILED \\
+71 & There are inside figures of the second order vs there are no inside figures of the second order & spatial\_relationship & FAILED & CLEAR \\
+72 & Ends of the curve are parallel vs ends of the curve are perpendicular & shape\_geometry & FAILED & FAILED \\
+73 & The long axes of the ellipse and rectangle are perpendicular vs the long axes of the ellipse and rectangle are parallel & spatial\_relationship & FAILED & FAILED \\
+74 & A tail grows from the obtuse end vs a tail grows from the acute end & shape\_geometry & FAILED & CLEAR \\
+75 & Triangle located at the concave side of an arc vs triangle located at the convex side of an arc & spatial\_relationship & FAILED & FAILED \\
+76 & Long sides concave vs long sides convex & shape\_geometry & FAILED & PARTIAL \\
+77 & Angle divided in half vs angle not divided in half & shape\_geometry & FAILED & FAILED \\
+78 & Extensions of segments cross at one point vs. extensions of segments do not cross at one point & spatial\_relationship & FAILED & CLEAR \\
+79 & A dark circle is closer to the outline circle than to the triangle vs a dark circle is closer to the triangle than to the outline circle & spatial\_relationship & PARTIAL & FAILED \\
+80 & Points located at the same distances from a cross vs points located at different distances from a cross & spatial\_relationship & FAILED & FAILED \\
+81 & Dark figures can be divided from outline figures by a straight line vs convex hulls of filled and outlined figures overlap & spatial\_relationship & FAILED & FAILED \\
+82 & The convex hull of the crosses forms an equilateral triangle vs the convex hull of the crosses does not form an equilateral triangle & spatial\_relationship & FAILED & CLEAR \\
+83 & A circle is inside of a figure made by crosses vs a circle is outside of figures made by crosses & spatial\_relationship & CLEAR & CLEAR \\
+84 & A quadrangle is outside of a figure made by circles vs a quadrangle is inside of a figure made by circles & spatial\_relationship & CLEAR & CLEAR \\
+85 & Three parts vs five parts & numerosity & FAILED & FAILED \\
+86 & Three parts vs five parts & numerosity & FAILED & FAILED \\
+87 & Four parts vs five parts & numerosity & FAILED & FAILED \\
+88 & Three parts vs five parts & numerosity & FAILED & FAILED \\
+89 & Three parts vs five parts & numerosity & FAILED & FAILED \\
+90 & Three parts vs four parts & numerosity & PARTIAL & PARTIAL \\
+91 & Three identical elements vs four identical elements & numerosity & FAILED & FAILED \\
+92 & The chain does not branch vs the chain branches & shape\_geometry & CLEAR & CLEAR \\
+93 & Branches at outlined circle vs. branches at solid dark circle & visual\_properties & CLEAR & CLEAR \\
+94 & Solid dark circle not at end vs solid dark circle at end & visual\_properties & CLEAR & CLEAR \\
+95 & Vertical hatched lines vs horizontal hatched lines & visual\_properties & CLEAR & CLEAR \\
+96 & Triangles vs quadrangles & shape\_geometry & FAILED & FAILED \\
+97 & Triangles vs circles & shape\_geometry & CLEAR & CLEAR \\
+98 & Triangles vs quadrangles & shape\_geometry & FAILED & FAILED \\
+99 & Outlines made by triangles and circles intersect vs outlines made by triangles and circles do not intersect & spatial\_relationship & FAILED & PARTIAL \\
+100 & The letter A vs the letter Б & shape\_geometry & CLEAR & CLEAR \\
+\end{longtable}

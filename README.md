@@ -66,8 +66,8 @@ cd executables
 python train.py
 ```
 
-- Checkpoints, training loss logs, and debug image previews will be written to the output directory call training_debug.  
-- Training defaults to **100 epochs**, but can be stopped early if loss plateaus.  
+- debug image previews will be written to the output directory call training_debug.  
+- Training defaults to **100 epochs**, but can be stopped early if loss plateaus.
 
 ---
 

@@ -3,6 +3,8 @@ import torch.nn as nn
 from torchvision import models
 import clip
 
+from config import FEATURE_LAYERS, LAYER_WEIGHTS
+
 CLIP_MEAN = [0.48145466, 0.4578275, 0.40821073]
 CLIP_STD = [0.26862954, 0.26130258, 0.27577711]
 
@@ -16,9 +18,6 @@ def convert_to_grayscale(images):
     return images.repeat(1, 3, 1, 1)
 
 class PerceptualLoss(nn.Module):    
-
-    FEATURE_LAYERS = [2, 7, 12, 14, 16, 21]
-    LAYER_WEIGHTS = [1.9, 1.0, 0.5, 0.35, 0.25, 0.15]
 
     # VGG normalization parameters print(torchvision.models.VGG19_Weights.DEFAULT.transforms())
     VGG_MEAN = [0.485, 0.456, 0.406]
@@ -39,7 +38,7 @@ class PerceptualLoss(nn.Module):
         # Extract feature blocks at specified layers
         self.feature_blocks = nn.ModuleList()
         start_idx = 0
-        for end_idx in self.FEATURE_LAYERS:
+        for end_idx in FEATURE_LAYERS:
             block = nn.Sequential(*vgg[start_idx:end_idx + 1])
             self.feature_blocks.append(block.eval())
             start_idx = end_idx + 1
@@ -61,7 +60,7 @@ class PerceptualLoss(nn.Module):
         for i, feature_extractor in enumerate(self.feature_blocks):
             predicted = feature_extractor(predicted)
             real = feature_extractor(real)
-            total_loss += self.LAYER_WEIGHTS[i] * self.mse_loss(predicted, real)
+            total_loss += LAYER_WEIGHTS[i] * self.mse_loss(predicted, real)
             
         return total_loss
 

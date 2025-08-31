@@ -14,10 +14,8 @@ from data.dataset_loader import SentenceToImageDataset
 from data.tokeniser import Tokeniser
 from model.transformer_model import TextToImageTransformer
 from model.loss_functions import PerceptualLoss
-from config import DATASET
+from config import DATASET, LEARNING_RATE, TOTAL_EPOCHS
 
-TOTAL_EPOCHS = 100
-TRAIN_DEBUG = True
 
 def plot_training_loss(losses):
     epochs = range(1, len(losses) + 1)
@@ -51,11 +49,9 @@ def main():
 
     optimizer = torch.optim.Adam(
         model.parameters(), 
-        lr=0.00005
+        lr=LEARNING_RATE
     )
     perceptual_loss = PerceptualLoss().to(device)
-
-    perceptual_loss_weighting = 1.0 # Perceptual loss weighting
     
     config = {
         "vocab_size": len(tokeniser.vocab),
@@ -81,8 +77,7 @@ def main():
             real_right_image = data_batch["right_image"].to(device)
 
             predicted_left_image, predicted_right_image = model(tokenised_text)
-            p_loss = perceptual_loss(predicted_left_image, real_left_image) + perceptual_loss(predicted_right_image, real_right_image)
-            total_batch_loss = perceptual_loss_weighting * p_loss
+            total_batch_loss = perceptual_loss(predicted_left_image, real_left_image) + perceptual_loss(predicted_right_image, real_right_image)
 
             optimizer.zero_grad()
             total_batch_loss.backward()

@@ -1,7 +1,14 @@
 # Bongard Problem Image Generator
 
+**Thinking in Images: Analysing Concept Learning in Neural Networks by Generating Bongard Problems**
+
+
 This repository implements a **text-to-image transformer** for generating Bongard Problem pairs.  
+
 Experiments were conducted with **Python 3.9.13**. All library versions are pinned in [`requirements.txt`](./requirements.txt) for reproducibility.
+
+The full thesis paper is available as `Thinking_in_Images__Analysing_Concept_Learning_in_Neural_Networks_by_Generating_Bongard_Problems.pdf` in this repository.
+
 
 ---
 
@@ -84,3 +91,17 @@ python generate_images.py
 - You may freely edit this CSV to add or remove prompts for evaluation.  
 
 ---
+
+## Citation
+
+To cite this work:
+
+```bibtex
+@mastersthesis{Antonov2025,
+  title={Thinking in Images: Analysing Concept Learning in Neural Networks by Generating Bongard Problems},
+  author={Pavel Antonov},
+  year={2025},
+  school={University of Galway},
+  url={https://github.com/Pasha-Akito/BP_Image_generator}
+}
+```
